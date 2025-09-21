@@ -215,31 +215,48 @@
 		}
 	}
 
-	function get_logs_string() {
-		let output = '';
+function get_logs_string() {
+	const current_utc_hour = new Date().getUTCHours();
+	const use_wor_format = current_utc_hour < 18; // Before 6pm UTC = War of the Roses format
 
-		for (const log of logs) {
-			let characters = '';
+	let output = '';
 
-			const player_one_name = get_name(player_one_index, log);
-			const player_two_name = get_name(player_two_index, log);
-			const guild_name = get_name(guild_index, log);
-			if (config.include_characters) {
-				const remaining_indicies = [0, 1, 2, 3, 4].filter(
-					(i) => i !== player_one_index && i !== player_two_index && i !== guild_index
-				);
-				const remaining_names = remaining_indicies.map((i) => get_name(i, log));
-				characters = ` (${remaining_names.join(',')})`;
-			}
+	for (const log of logs) {
+		let characters = '';
 
-			if (log.hex[possible_kill_offsets[kill_index]] === '1')
-				output += `[${log.time}] ${player_one_name} has killed ${player_two_name} from ${guild_name}${characters}\n`;
-			else
-				output += `[${log.time}] ${player_one_name} died to ${player_two_name} from ${guild_name}${characters}\n`;
+		const player_one_name = get_name(player_one_index, log);
+		const player_two_name = get_name(player_two_index, log);
+		const guild_name = get_name(guild_index, log);
+		
+		if (config.include_characters) {
+			const remaining_indicies = [0, 1, 2, 3, 4].filter(
+				(i) => i !== player_one_index && i !== player_two_index && i !== guild_index
+			);
+			const remaining_names = remaining_indicies.map((i) => get_name(i, log));
+			characters = ` (${remaining_names.join(',')})`;
 		}
 
-		return output;
+		const is_kill = log.hex[possible_kill_offsets[kill_index]] === '1';
+		
+		if (use_wor_format) {
+			// War of the Roses format (before 6pm UTC)
+			if (is_kill) {
+				output += `[${log.time}] ${player_one_name} killed ${player_two_name} from the ${guild_name}${characters}\n`;
+			} else {
+				output += `[${log.time}] ${player_one_name} was slain by ${player_two_name} of the ${guild_name}${characters}\n`;
+			}
+		} else {
+			// Nodewar/Siege format (6pm+ UTC)
+			if (is_kill) {
+				output += `[${log.time}] ${player_one_name} has killed ${player_two_name} from ${guild_name}${characters}\n`;
+			} else {
+				output += `[${log.time}] ${player_one_name} died to ${player_two_name} from ${guild_name}${characters}\n`;
+			}
+		}
 	}
+
+	return output;
+}
 
 	async function save_logs() {
 		const path = await open_save_location(get_formatted_date(get_date()) + '.log');

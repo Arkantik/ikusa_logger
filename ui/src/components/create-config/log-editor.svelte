@@ -60,19 +60,33 @@
 	}
 
 	function get_logs_string() {
-		return logs
-			.map((log) => {
-				const remaining_indicies = [0, 1, 2, 3, 4].filter(
-					(i) => i !== player_one_index && i !== player_two_index && i !== guild_index
-				);
-				const remaining_names = remaining_indicies.map((i) => log.names[i]);
-				const characters = ` (${remaining_names.join(',')})`;
+	const current_utc_hour = new Date().getUTCHours();
+	const use_new_format = current_utc_hour < 18; // Before 6pm UTC = War of the Roses format
+
+	return logs
+		.map((log) => {
+			const remaining_indicies = [0, 1, 2, 3, 4].filter(
+				(i) => i !== player_one_index && i !== player_two_index && i !== guild_index
+			);
+			const remaining_names = remaining_indicies.map((i) => log.names[i]);
+			const characters = ` (${remaining_names.join(',')})`;
+			
+			if (use_new_format) {
+				// War of the Roses format (before 6pm UTC)
+				return `[${log.time}] ${log.names[player_one_index]} ${
+					log.kill ? 'killed' : 'was slain by'
+				} ${log.names[player_two_index]} ${
+					log.kill ? 'from the' : 'of the'
+				} ${log.names[guild_index]}${characters}`;
+			} else {
+				// Nodewar/Siege format (6pm+ UTC)
 				return `[${log.time}] ${log.names[player_one_index]} ${
 					log.kill ? 'has killed' : 'died to'
 				} ${log.names[player_two_index]} from ${log.names[guild_index]}${characters}`;
-			})
-			.join('\n');
-	}
+			}
+		})
+		.join('\n');
+}
 
 	async function save_logs() {
 		const path = await open_save_location(get_formatted_date(get_date()) + '.log');

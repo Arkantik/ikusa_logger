@@ -22,6 +22,16 @@ def extract_string(hex, offset, length):
         print(e, flush=True)
         return -1
 
+def select_format(guild, player_one, player_two):
+    """
+    Automatically select between the two formats based on UTC time.
+    Returns True for new format (before 6pm UTC - for War of the Roses), False for original format (6pm+ UTC - for Nodewar).
+    """
+    from datetime import datetime, timezone
+    
+    current_utc_hour = datetime.now(timezone.utc).hour
+    # Before 6pm UTC (0-17) = new format, 6pm+ UTC (18-23) = original format
+    return current_utc_hour < 18
 
 last_payload = ""
 
@@ -74,11 +84,21 @@ def package_handler(package, output, record=False):
                 payload, config.config.player_two_offset, config.config.name_length)
             is_kill = payload[config.config.kill_offset: config.config.kill_offset+1] == "1"
 
-            log = ""
-            if(is_kill):
-                log = f"[{timestamp}] {player_one} has killed {player_two} from {guild}"
+            # Automatically select format based on data
+            use_wor_format = select_format(guild, player_one, player_two)
+
+            if use_wor_format:
+                # War of the Roses formats
+                if is_kill:
+                    log = f"[{timestamp}] {player_one} killed {player_two} from the {guild}"
+                else:
+                    log = f"[{timestamp}] {player_one} was slain by {player_two} of the {guild}"
             else:
-                log = f"[{timestamp}] {player_one} died to {player_two} from {guild}"
+                # Nodewar/Siege formats
+                if is_kill:
+                    log = f"[{timestamp}] {player_one} has killed {player_two} from {guild}"
+                else:
+                    log = f"[{timestamp}] {player_one} died to {player_two} from {guild}"
 
             print(log, flush=True)
             directory = os.path.dirname(output)
