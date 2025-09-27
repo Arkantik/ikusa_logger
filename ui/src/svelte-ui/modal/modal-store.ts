@@ -1,6 +1,6 @@
 import { bind } from 'svelte-simple-modal';
 import { get, writable } from 'svelte/store';
-import type { Component } from '../util';
+import type { Component } from '../../logic/util';
 
 const CurrentModal = writable<Component | null>(null);
 

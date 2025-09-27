@@ -19,7 +19,7 @@
 			$$props.disabled ? '!bg-gray-700 text-gray-400' : 'border-gold'
 		}`}
 	{$$props.color === 'secondary' &&
-		'bg-background  focus:ring-gray-400 border border-foreground-secondary'}
+		'bg-background focus:ring-gray-400 border border-foreground-secondary'}
 	text-center font-medium focus:ring-4 focus:outline-none flex items-center justify-center rounded-lg {$$props.class}
 	{($$props.size === 'md' || !$$props.size) && 'h-10 px-5 text-sm'}
 	{$$props.size === 'sm' && 'h-8 px-4 text-xs'}

@@ -1,7 +1,7 @@
 ## packages
 
 ``` bash
-npm i -D svelte-french-toast generate-unique-id flowbite tailwindcss flowbite flowbite-svelte classnames autoprefixer @popperjs/core svelte-icons svelte-simple-modal apexcharts @sveltejs/svelte-virtual-list
+npm i -D generate-unique-id flowbite tailwindcss flowbite flowbite-svelte classnames autoprefixer @popperjs/core svelte-icons svelte-simple-modal  @sveltejs/svelte-virtual-list
 ```
 
 ## tailwind.config.cjs

@@ -3,7 +3,7 @@
 	import { open_save_location } from '../../logic/file';
 	import LoadingIndicator from '../../svelte-ui/elements/loading-indicator.svelte';
 	import IoMdSettings from 'svelte-icons/io/IoMdSettings.svelte';
-	import { find_all_indicies } from '../../svelte-ui/util';
+	import { find_all_indicies } from '../../logic/util';
 	import Button from '../../svelte-ui/elements/button.svelte';
 	import Checkbox from '../../svelte-ui/elements/checkbox.svelte';
 	import ConfigModal from './config.modal.svelte';

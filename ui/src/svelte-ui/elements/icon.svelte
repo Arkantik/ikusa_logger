@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Component } from "../util";
+	import type { Component } from "../../logic/util";
 
 	export let icon: Component;
 	interface $$Props {

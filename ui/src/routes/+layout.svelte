@@ -3,8 +3,7 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import Modal from '../svelte-ui/modal/modal.svelte';
-	import { Toaster } from 'svelte-french-toast';
-	import { get_remaining_height } from '../svelte-ui/util';
+	import { get_remaining_height } from '../logic/util';
 	import Header from '../components/header.svelte';
 	import LoadingIndicator from '../svelte-ui/elements/loading-indicator.svelte';
 
@@ -37,7 +36,6 @@
 			</div>
 		</div>
 		<Modal />
-		<Toaster />
 	</div>
 {:else}
 	<div class="h-screen w-screen flex items-center justify-center">

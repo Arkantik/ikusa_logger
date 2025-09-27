@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { app, events, os, updater } from '@neutralinojs/lib';
-	import { Toggle } from 'flowbite-svelte';
-	import Button from '../svelte-ui/elements/button.svelte';
 	import { goto } from '$app/navigation';
+	import { app, os, updater } from '@neutralinojs/lib';
 	import { onMount } from 'svelte';
-	import LoadingIndicator from '../svelte-ui/elements/loading-indicator.svelte';
 	import { check_status, type LoggerStatus } from '../logic/logger-status';
-	import GoMarkGithub from 'svelte-icons/go/GoMarkGithub.svelte';
+	import Button from '../svelte-ui/elements/button.svelte';
 	import Icon from '../svelte-ui/elements/icon.svelte';
+	import LoadingIndicator from '../svelte-ui/elements/loading-indicator.svelte';
+	import GoMarkGithub from 'svelte-icons/go/GoMarkGithub.svelte';
 	import FaDiscord from 'svelte-icons/fa/FaDiscord.svelte';
 
 	let loading = false;
