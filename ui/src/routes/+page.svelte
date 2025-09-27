@@ -71,7 +71,6 @@
 
 <div class="flex flex-col items-center justify-center gap-2">
 	<Button class="w-32" on:click={() => goto('/record')}>Record</Button>
-	<Button class="w-32" on:click={() => goto('/open')}>Open</Button>
 	<Button class="w-32" on:click={() => goto('/settings')} color="secondary">Settings</Button>
 	<Button
 		class="w-32"
@@ -100,9 +99,10 @@
 				<p class="text-submarine-500">Npcap found</p>
 			{:else}
 				<p class="text-red-500 flex justify-center flex-col">
-					Npcap is not installed. <a href="https://npcap.com/dist/npcap-1.78.exe" class="underline"
-						>Download</a
-					>
+					Npcap is not installed. 
+					<a href="https://npcap.com/dist/npcap-1.78.exe" class="underline">
+						Download
+					</a>
 				</p>
 			{/if}
 		{/if}
@@ -110,14 +110,14 @@
 </div>
 
 <div class="w-full flex justify-between absolute bottom-0 p-2 text-sm z-0">
-	<p>Made by <b>ORACLE#7672</b></p>
+	<p>Made by <b>ORACLE#7672</b>, updated by <b>ArkantiK</b></p>
 
 	<div class="flex gap-2">
-		<button on:click={() => os.open('https://discord.gg/nXSYGnxXJ5')}
-			><Icon icon={FaDiscord} /></button
-		>
-		<button on:click={() => os.open('https://github.com/sch-28/ikusa')}
-			><Icon icon={GoMarkGithub} /></button
-		>
+		<button on:click={() => os.open('https://discord.gg/CUc38nKyDU')}>
+			<Icon icon={FaDiscord} />
+		</button>
+		<button on:click={() => os.open('https://github.com/Arkantik/ikusa_logger')}>
+			<Icon icon={GoMarkGithub} />
+		</button>
 	</div>
 </div>

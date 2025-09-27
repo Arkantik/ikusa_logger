@@ -1,25 +1,16 @@
 <script lang="ts">
+	import { dev } from '$app/environment';
+	import { filesystem, os } from '@neutralinojs/lib';
 	import VirtualList from '@sveltejs/svelte-virtual-list';
 	import { open_save_location } from '../../logic/file';
+	import Button from '../../svelte-ui/elements/button.svelte';
 	import LoadingIndicator from '../../svelte-ui/elements/loading-indicator.svelte';
-	import Checkbox from '../../svelte-ui/elements/checkbox.svelte';
 	import {
-		update_config,
-		type Config,
-		type LogType,
 		get_date,
 		get_formatted_date,
-		get_config,
-		hexToString,
 		type Log
 	} from './config';
-	import { filesystem, os } from '@neutralinojs/lib';
-	import { onMount } from 'svelte';
-	import { ModalManager } from '../../svelte-ui/modal/modal-store';
-	import Icon from '../../svelte-ui/elements/icon.svelte';
 	import Select from './select.svelte';
-	import { dev } from '$app/environment';
-	import Button from '../../svelte-ui/elements/button.svelte';
 
 	export let logs: Log[];
 	export let height: number = 155;

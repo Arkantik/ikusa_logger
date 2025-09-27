@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { Label, Toggle } from 'flowbite-svelte';
-	import Select from '../../components/create-config/select.svelte';
-	import { onMount } from 'svelte';
-	import { get_config, type Config, update_config } from '../../components/create-config/config';
-	import Button from '../../svelte-ui/elements/button.svelte';
-	import { app, os } from '@neutralinojs/lib';
 	import { dev } from '$app/environment';
+	import { app, os } from '@neutralinojs/lib';
+	import { Label, Toggle } from 'flowbite-svelte';
+	import { onMount } from 'svelte';
+	import { get_config, update_config, type Config } from '../../components/create-config/config';
+	import Select from '../../components/create-config/select.svelte';
+	import Button from '../../svelte-ui/elements/button.svelte';
 
 	let config: Config;
 
@@ -43,14 +43,6 @@
 		});
 		app.exit();
 	}
-
-	async function restart_browser() {
-		if (dev) return;
-		await os.execCommand(`ikusa-logger-win_x64.exe --mode=browser`, {
-			background: true
-		});
-		app.exit();
-	}
 </script>
 
 <div class="h-full flex flex-col gap-2">
@@ -69,6 +61,5 @@
 
 	<div class="mt-auto flex flex-col gap-2">
 		<Button on:click={restart_dev}>Dev Mode</Button>
-		<Button on:click={restart_browser}>Browser Mode</Button>
 	</div>
 </div>

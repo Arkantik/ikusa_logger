@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Modal from 'svelte-simple-modal';
-	import { get } from 'svelte/store';
 	import { ModalManager } from './modal-store';
 
 	let content: any = null;

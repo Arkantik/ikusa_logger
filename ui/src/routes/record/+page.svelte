@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { type LoggerCallback, start_logger } from '../../logic/logger-wrapper';
 	import { onDestroy, onMount } from 'svelte';
-	import Logger from '../../components/create-config/logger.svelte';
 	import { get_config, type Config, type LogType } from '../../components/create-config/config';
+	import Logger from '../../components/create-config/logger.svelte';
+	import { start_logger, type LoggerCallback } from '../../logic/logger-wrapper';
 
 	let logs: LogType[] = [];
 	let is_destroyed = false;
