@@ -16,7 +16,7 @@
 					<Icon icon={IoMdArrowRoundBack} />
 				</div>
 			{/if}
-			Ikusa
+			Ikusa x NodewarGG
 			<span class="text-xs font-light">Logger <span class="text-xs">{version}</span></span>
 		</a>
 	</div>

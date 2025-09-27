@@ -18,7 +18,7 @@
 
 	async function check_for_updates() {
 		let url =
-			'https://raw.githubusercontent.com/sch-28/ikusa_logger/main/version/version-manifest.json';
+			'https://raw.githubusercontent.com/Arkantik/ikusa_logger/blob/main/version/version-manifest.json';
 		let manifest = await updater.checkForUpdates(url);
 		if (manifest.version != NL_APPVERSION) {
 			// check if it is a minor or major update
