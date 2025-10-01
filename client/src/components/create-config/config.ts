@@ -34,7 +34,7 @@ export function get_date() {
 
 export function get_formatted_date(date_string: string) {
   const date = new Date(date_string);
-  const formatter = new Intl.DateTimeFormat("de", {
+  const formatter = new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
