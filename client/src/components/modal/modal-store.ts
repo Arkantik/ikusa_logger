@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { ComponentType } from "react";
+import type { ComponentType } from "react";
 
 interface ModalState {
   component: ComponentType<any> | null;
