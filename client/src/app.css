@@ -1,13 +1,57 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+
+  --color-background: #121212;
+  --color-background-secondary: #1f1f1f;
+
+  --color-foreground: rgb(255, 255, 255, 0.9);
+  --color-foreground-secondary: rgb(255, 255, 255, 0.65);
+
+  --color-gold-50: #fbfaf3;
+  --color-gold-100: #f9efb8;
+  --color-gold-200: #f1dc7b;
+  --color-gold-300: #f5cd40;
+  --color-gold-400: #bd8e28;
+  --color-gold-500: #9e6f14;
+  --color-gold-600: #81560d;
+  --color-gold-700: #63400c;
+  --color-gold-800: #442c0b;
+  --color-gold-900: #2e1c08;
+  --color-gold: #f5cd40;
+  --color-gold-muted: #bd8e28;
+
+  --color-submarine-50: #eff5f5;
+  --color-submarine-100: #d0eff3;
+  --color-submarine-200: #9ae5e4;
+  --color-submarine-300: #61cbc4;
+  --color-submarine-400: #27ac9d;
+  --color-submarine-500: #1c9177;
+  --color-submarine-600: #197a5e;
+  --color-submarine-700: #185e4a;
+  --color-submarine-800: #124037;
+  --color-submarine-900: #0c2829;
+
+  --color-cta-50: oklch(0.97 0.02 41.83);
+  --color-cta-100: oklch(0.93 0.04 41.83);
+  --color-cta-200: oklch(0.86 0.08 41.83);
+  --color-cta-300: oklch(0.78 0.12 41.83);
+  --color-cta-400: oklch(0.73 0.14 41.83);
+  --color-cta-500: oklch(0.68 0.1583 41.83);
+  --color-cta-600: oklch(0.58 0.14 41.83);
+  --color-cta-700: oklch(0.48 0.12 41.83);
+  --color-cta-800: oklch(0.38 0.09 41.83);
+  --color-cta-900: oklch(0.28 0.06 41.83);
+  --color-cta-950: oklch(0.18 0.03 41.83);
+  --color-cta: oklch(0.68 0.1583 41.83);
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  @apply bg-white dark:bg-background;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
