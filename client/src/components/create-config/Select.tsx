@@ -8,7 +8,7 @@ function Select({ selectedValue, options, onChange }: SelectProps) {
     return (
         <select
             value={selectedValue}
-            className="!w-32 p-1 rounded-lg !ring-gold truncate"
+            className="!w-20 p-1 rounded-md !ring-cta truncate bg-background-secondary text-white border border-gray-600"
             onChange={(e) => onChange(Number(e.target.value))}
         >
             {options.map((option, i) => (

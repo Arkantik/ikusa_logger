@@ -73,7 +73,7 @@ function HomePage() {
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center gap-2">
+            <div className="flex flex-col items-center justify-center gap-2 mt-4">
                 <Button className="w-32" onClick={() => navigate('/record')}>
                     Record
                 </Button>
@@ -82,7 +82,7 @@ function HomePage() {
                 </Button>
                 <Button
                     className="w-32"
-                    onClick={() => os.open('https://ikusa.site/docs/introduction')}
+                    onClick={() => os.open('https://github.com/Arkantik/ikusa_logger/blob/main/README.md')}
                     color="secondary"
                 >
                     Help
@@ -120,10 +120,10 @@ function HomePage() {
                 </p>
 
                 <div className="flex gap-2">
-                    <button onClick={() => os.open('https://discord.gg/CUc38nKyDU')}>
+                    <button onClick={() => os.open('https://discord.gg/CUc38nKyDU')} className='cursor-pointer'>
                         <Icon icon={FaDiscord} />
                     </button>
-                    <button onClick={() => os.open('https://github.com/Arkantik/ikusa_logger')}>
+                    <button onClick={() => os.open('https://github.com/Arkantik/ikusa_logger')} className='cursor-pointer'>
                         <Icon icon={LuGithub} />
                     </button>
                 </div>

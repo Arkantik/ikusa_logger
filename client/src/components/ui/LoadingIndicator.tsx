@@ -5,7 +5,7 @@ export function LoadingIndicator({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' })
         <div className={sizeClasses}>
             <svg
                 aria-hidden="true"
-                className="text-gold-800 animate-spin fill-gold"
+                className="text-cta-800 animate-spin fill-cta"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"

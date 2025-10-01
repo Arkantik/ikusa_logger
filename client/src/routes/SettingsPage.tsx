@@ -32,7 +32,7 @@ function SettingsPage() {
 
     return (
         <div className="h-full flex flex-col gap-2">
-            <div>
+            <div className="flex items-center gap-2">
                 <Label>Network Interface</Label>
                 <Select
                     options={['All', 'Default']}
@@ -40,9 +40,9 @@ function SettingsPage() {
                     onChange={updateInterface}
                 />
             </div>
-            <div>
+            <div className="flex items-center gap-2">
                 <Label>Enable IP Filter</Label>
-                <ToggleSwitch checked={ipFilter} onChange={(checked) => setIpFilter(checked)} />
+                <ToggleSwitch checked={ipFilter} onChange={(checked) => setIpFilter(checked)} className='bg-cta' />
             </div>
         </div>
     );

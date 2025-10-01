@@ -42,7 +42,7 @@ function ConfigModal({ config, options, onChange }: ConfigModalProps) {
         <div>
             <div className="flex justify-between">
                 <h3 className="font-bold">Config</h3>
-                <button onClick={() => copy_to_clipboard(config)}>
+                <button onClick={() => copy_to_clipboard(config)} className='cursor-pointer'>
                     <Icon icon={IoMdClipboard} />
                 </button>
             </div>
@@ -53,7 +53,7 @@ function ConfigModal({ config, options, onChange }: ConfigModalProps) {
                 />
                 <span>Characters</span>
             </div>
-            <pre className="text-sm mt-2">
+            <pre className="text-xs mt-1">
                 {`[GENERAL]
 patch\t\t= \t${config.patch}
 [IP]
