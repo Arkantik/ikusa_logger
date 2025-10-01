@@ -1,7 +1,7 @@
 {
     "applicationId": "ikusa.logger",
     "version": "1.8.4",
-    "resourcesURL": "https://raw.githubusercontent.com/sch-28/ikusa_logger/main/version/resources.neu",
+    "resourcesURL": "raw.githubusercontent.com/Arkantik/ikusa_logger/blob/main/version/resources.neu",
     "data": {
     }
 }
