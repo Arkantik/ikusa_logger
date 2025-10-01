@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FixedSizeList as List } from 'react-window';
+import { List } from 'react-window';
 import { filesystem, os } from '@neutralinojs/lib';
 import { open_save_location } from '../../logic/file';
 import Button from '../ui/Button';
@@ -351,13 +351,10 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
                     ) : (
                         <List
                             className="react-window-list"
-                            height={height}
-                            itemCount={logs.length}
-                            itemSize={40}
-                            width="100%"
-                        >
-                            {Row}
-                        </List>
+                            rowHeight={height}
+                            rowCount={logs.length}
+                            rowComponent={Row}
+                        />
                     )}
                 </div>
                 <div className="flex gap-2">
