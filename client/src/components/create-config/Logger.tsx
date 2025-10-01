@@ -21,13 +21,13 @@ import { find_all_indicies } from '../../logic/util';
 import { ModalManager } from '../modal/modal-store';
 import ConfigModal from './ConfigModal';
 
-interface LoggerProps {
+export interface LoggerProps {
     logs: LogType[];
     height?: number;
     loading?: boolean;
 }
 
-interface LoggerRowProps {
+export interface LoggerRowProps {
     logs: LogType[];
     possibleKillOffsets: number[];
     killIndex: number;
@@ -328,11 +328,9 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
                         />
                     )}
                 </div>
-                <div className="flex gap-2">
-                    <Button className="w-32" onClick={saveLogs} disabled={disabled}>
-                        Save
-                    </Button>
-                </div>
+                <Button className="w-32" onClick={saveLogs} disabled={disabled}>
+                    Save
+                </Button>
             </div>
         </>
     );
