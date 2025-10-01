@@ -1,6 +1,6 @@
 import { app, events, init, os } from '@neutralinojs/lib';
 import { useEffect, useRef, useState } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Modal from './components/modal/Modal';
 import LoadingIndicator from './components/ui/LoadingIndicator';
@@ -50,13 +50,13 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="h-full w-full">
         <div className="h-screen p-4 w-full max-w-7xl mx-auto">
           <Header />
           <div
             ref={containerRef}
-            className="mt-8 flex flex-col items-center"
+            className="flex flex-col items-center"
             style={{ height: `${containerHeight}px` }}
           >
             <Routes>
@@ -68,7 +68,7 @@ function App() {
         </div>
         <Modal />
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
