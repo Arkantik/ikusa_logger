@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { List } from 'react-window';
+import { List, type RowComponentProps } from 'react-window';
 import { filesystem, os } from '@neutralinojs/lib';
 import { open_save_location } from '../../logic/file';
 import Button from '../ui/Button';
@@ -25,6 +25,17 @@ interface LoggerProps {
     logs: LogType[];
     height?: number;
     loading?: boolean;
+}
+
+interface LoggerRowProps {
+    logs: LogType[];
+    possibleKillOffsets: number[];
+    killIndex: number;
+    playerOneIndex: number;
+    playerTwoIndex: number;
+    guildIndex: number;
+    updateNames: (target: 'player_one' | 'player_two' | 'guild', value: number) => void;
+    getNameOptions: (i: number, log: LogType) => string[];
 }
 
 function Logger({ logs, height = 155, loading = false }: LoggerProps) {
@@ -241,56 +252,6 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
         await filesystem.writeFile(path, getLogsString());
     }
 
-    async function upload() {
-        const website = import.meta.env.DEV ? 'http://localhost:5174' : 'https://ikusa.site';
-        const result = await fetch(website + '/api/create', {
-            method: 'POST',
-            body: getLogsString(),
-            headers: {
-                'Content-Type': 'text/plain'
-            }
-        });
-
-        if (result.status === 200) {
-            const data = await result.json();
-            os.open(`${website}/wars?id=${data.id}`);
-        } else {
-            console.error(result);
-        }
-    }
-
-    const Row = ({ index, style }: { index: number; style: React.CSSProperties }) => {
-        const log = logs[index];
-        return (
-            <div style={style} className="flex gap-2 group py-1 items-center px-1">
-                <p className="text-sm text-gray-400">{log.time}</p>
-                <Select
-                    options={getNameOptions(playerOneIndex, log)}
-                    selectedValue={playerOneIndex}
-                    onChange={(value) => updateNames('player_one', value)}
-                />
-                <div className="flex justify-center items-center w-16">
-                    {log.hex[possibleKillOffsets[killIndex]] === '1' ? (
-                        <p className="self-center text-submarine-500">killed</p>
-                    ) : (
-                        <p className="self-center text-red-500">died to</p>
-                    )}
-                </div>
-                <Select
-                    options={getNameOptions(playerTwoIndex, log)}
-                    selectedValue={playerTwoIndex}
-                    onChange={(value) => updateNames('player_two', value)}
-                />
-                <p className="text-sm text-gray-400">from</p>
-                <Select
-                    options={getNameOptions(guildIndex, log)}
-                    selectedValue={guildIndex}
-                    onChange={(value) => updateNames('guild', value)}
-                />
-            </div>
-        );
-    };
-
     const disabled = logs.length === 0 || loading;
 
     return (
@@ -338,7 +299,7 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
                             })
                         }
                     >
-                        <Icon icon={IoMdSettings} />
+                        <Icon icon={IoMdSettings} className='cursor-pointer' />
                     </button>
                 </div>
                 <div className="w-full overflow-auto flex flex-col" style={{ height: `${height}px` }}>
@@ -351,22 +312,72 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
                     ) : (
                         <List
                             className="react-window-list"
-                            rowHeight={height}
+                            rowComponent={LoggerRowComponent}
                             rowCount={logs.length}
-                            rowComponent={Row}
+                            rowHeight={40}
+                            rowProps={{
+                                logs,
+                                possibleKillOffsets,
+                                killIndex,
+                                playerOneIndex,
+                                playerTwoIndex,
+                                guildIndex,
+                                updateNames,
+                                getNameOptions
+                            }}
                         />
                     )}
                 </div>
                 <div className="flex gap-2">
-                    <Button className="w-32" onClick={upload} disabled={disabled}>
-                        Upload
-                    </Button>
-                    <Button className="w-32" onClick={saveLogs} color="secondary" disabled={disabled}>
+                    <Button className="w-32" onClick={saveLogs} disabled={disabled}>
                         Save
                     </Button>
                 </div>
             </div>
         </>
+    );
+}
+
+function LoggerRowComponent({
+    index,
+    style,
+    logs,
+    possibleKillOffsets,
+    killIndex,
+    playerOneIndex,
+    playerTwoIndex,
+    guildIndex,
+    updateNames,
+    getNameOptions
+}: RowComponentProps<LoggerRowProps>) {
+    const log = logs[index];
+    return (
+        <div style={style} className="flex gap-2 group py-1 items-center px-1">
+            <p className="text-sm text-gray-400">{log.time}</p>
+            <Select
+                options={getNameOptions(playerOneIndex, log)}
+                selectedValue={playerOneIndex}
+                onChange={(value) => updateNames('player_one', value)}
+            />
+            <div className="flex justify-center items-center w-16">
+                {log.hex[possibleKillOffsets[killIndex]] === '1' ? (
+                    <p className="self-center text-submarine-500">killed</p>
+                ) : (
+                    <p className="self-center text-red-500">died to</p>
+                )}
+            </div>
+            <Select
+                options={getNameOptions(playerTwoIndex, log)}
+                selectedValue={playerTwoIndex}
+                onChange={(value) => updateNames('player_two', value)}
+            />
+            <p className="text-sm text-gray-400">from</p>
+            <Select
+                options={getNameOptions(guildIndex, log)}
+                selectedValue={guildIndex}
+                onChange={(value) => updateNames('guild', value)}
+            />
+        </div>
     );
 }
 
