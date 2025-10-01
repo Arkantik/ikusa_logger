@@ -114,10 +114,10 @@ function HomePage() {
                 </div>
             </div>
 
-            <div className="w-full flex justify-between absolute bottom-0 p-2 text-sm z-0">
-                <p>
+            <div className="w-full flex justify-between absolute bottom-0 p-2 text-sm text-gray-300">
+                <span className="text-xs">
                     Made by <b>ORACLE#7672</b>, updated by <b>ArkantiK</b>
-                </p>
+                </span>
 
                 <div className="flex gap-2">
                     <button onClick={() => os.open('https://discord.gg/CUc38nKyDU')} className='cursor-pointer'>

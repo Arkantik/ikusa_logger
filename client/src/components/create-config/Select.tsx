@@ -1,14 +1,21 @@
+import classNames from "classnames";
+
 interface SelectProps {
     selectedValue: number | string;
     options: (string | number)[];
+    className?: string;
     onChange: (value: number) => void;
 }
 
-function Select({ selectedValue, options, onChange }: SelectProps) {
+function Select({ selectedValue, className, options, onChange }: SelectProps) {
+    const selectClasses = classNames(
+        'w-20 p-1 rounded-md ring-cta truncate bg-background-secondary text-white border border-gray-600',
+        className
+    );
     return (
         <select
             value={selectedValue}
-            className="!w-20 p-1 rounded-md !ring-cta truncate bg-background-secondary text-white border border-gray-600"
+            className={selectClasses}
             onChange={(e) => onChange(Number(e.target.value))}
         >
             {options.map((option, i) => (

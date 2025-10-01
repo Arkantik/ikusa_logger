@@ -19,7 +19,7 @@ function Button({
         {
             'bg-cta-300 focus:ring-cta-400 text-black border-cta': color === 'primary' && !disabled,
             '!bg-gray-700 text-gray-400': color === 'primary' && disabled,
-            'bg-background focus:ring-gray-400 border border-foreground-secondary': color === 'secondary',
+            'bg-background focus:ring-gray-400 border border-foreground-secondary hover:bg-gray-600/30': color === 'secondary',
             'h-8 px-4 text-xs': size === 'sm',
             'h-10 px-5 text-sm': size === 'md',
             'h-12 px-6 text-lg': size === 'lg'

@@ -17,9 +17,7 @@ function Header() {
                 </Link>
             )}
             NodewarGG x Ikusa
-            <span className="text-xs font-light">
-                v {version}
-            </span>
+            <span className="text-xs">v {version}</span>
         </header>
     );
 }

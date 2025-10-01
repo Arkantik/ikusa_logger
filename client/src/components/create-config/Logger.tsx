@@ -257,8 +257,8 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
     return (
         <>
             {logs.length > 0 && (
-                <span className="absolute top-2 left-0 right-0 text-center text-gray-400 text-sm">
-                    Adjust the Logs to: <b>Family-Name-1</b> kills/died to <b>Family-Name-2</b> from <b>Guild</b>
+                <span className="absolute top-2 left-0 right-0 text-center text-gray-400 text-xs">
+                    Adjust the Logs to: <b>FamilyName-1</b> kills/died to <b>FamilyName-2</b> from <b>Guild</b>
                 </span>
             )}
             <div className="flex flex-col gap-2 items-center w-full relative">
@@ -356,24 +356,27 @@ function LoggerRowComponent({
                 options={getNameOptions(playerOneIndex, log)}
                 selectedValue={playerOneIndex}
                 onChange={(value) => updateNames('player_one', value)}
+                className='w-28'
             />
             <div className="flex justify-center items-center w-16">
                 {log.hex[possibleKillOffsets[killIndex]] === '1' ? (
                     <p className="self-center text-submarine-500">killed</p>
                 ) : (
-                    <p className="self-center text-red-500">died to</p>
+                    <p className="self-center text-red-400">died to</p>
                 )}
             </div>
             <Select
                 options={getNameOptions(playerTwoIndex, log)}
                 selectedValue={playerTwoIndex}
                 onChange={(value) => updateNames('player_two', value)}
+                className='w-28'
             />
             <p className="text-sm text-gray-400">from</p>
             <Select
                 options={getNameOptions(guildIndex, log)}
                 selectedValue={guildIndex}
                 onChange={(value) => updateNames('guild', value)}
+                className='w-28'
             />
         </div>
     );

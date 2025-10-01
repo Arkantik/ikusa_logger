@@ -32,7 +32,7 @@ function SettingsPage() {
 
     return (
         <div className="h-full flex flex-col gap-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-4">
                 <Label>Network Interface</Label>
                 <Select
                     options={['All', 'Default']}

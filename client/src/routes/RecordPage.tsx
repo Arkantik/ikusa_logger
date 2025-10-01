@@ -90,7 +90,7 @@ function RecordPage() {
         };
     }, []);
 
-    return <Logger logs={logs} height={165} />;
+    return <Logger logs={logs} height={186} />;
 }
 
 export default RecordPage;
