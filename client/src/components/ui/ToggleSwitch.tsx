@@ -22,7 +22,7 @@ function ToggleSwitch({ checked, onChange, disabled = false, label, className }:
             />
             <div className={classNames(
                 "relative w-11 h-6 rounded-full transition-colors duration-200 ease-in-out",
-                "peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-cta-300/50",
+                "peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cta-300/50",
                 {
                     'bg-cta-500 peer-checked:bg-cta-500': checked,
                     'bg-gray-600': !checked,
