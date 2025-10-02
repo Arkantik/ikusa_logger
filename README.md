@@ -1,6 +1,6 @@
 # BDO Combat Logger
 
-[![Version](https://img.shields.io/badge/version-1.8.4-blue.svg)](https://github.com/Arkantik/ikusa_logger/releases)
+[![Version](https://img.shields.io/github/release-date/Arkantik/ikusa_logger)](https://github.com/Arkantik/ikusa_logger/releases)
 [![License](https://img.shields.io/badge/license-repo%20not%20found-red.svg)](https://github.com/Arkantik/ikusa_logger)
 [![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)](https://github.com/Arkantik/ikusa_logger)
 [![BDO](https://img.shields.io/badge/game-Black%20Desert%20Online-orange.svg)](https://www.naeu.playblackdesert.com/)
