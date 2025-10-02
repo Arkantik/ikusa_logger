@@ -1,12 +1,11 @@
 # BDO Combat Logger
 
-[![Version](https://img.shields.io/github/release-date/Arkantik/ikusa_logger)](https://github.com/Arkantik/ikusa_logger/releases)
+[![Version](https://img.shields.io/github/v/release/Arkantik/ikusa_logger?label=version)](https://github.com/Arkantik/ikusa_logger/releases)
 [![License](https://img.shields.io/badge/license-repo%20not%20found-red.svg)](https://github.com/Arkantik/ikusa_logger)
 [![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)](https://github.com/Arkantik/ikusa_logger)
 [![BDO](https://img.shields.io/badge/game-Black%20Desert%20Online-orange.svg)](https://www.naeu.playblackdesert.com/)
 
 A powerful tool for Black Desert Online that captures and logs combat messages during PvP activities such as Node Wars, Sieges, and War of the Roses.
-
 
 ## 📋 Table of Contents
 
@@ -39,7 +38,6 @@ A powerful tool for Black Desert Online that captures and logs combat messages d
   - [📝 Notes for Advanced Users](#-notes-for-advanced-users)
     - [Manual Config Updates](#manual-config-updates)
 
-
 ## ✨ Features
 
 - **Real-time Combat Logging**: Automatically captures kill and death messages during PvP
@@ -56,11 +54,13 @@ A powerful tool for Black Desert Online that captures and logs combat messages d
 Before installing Ikusa Logger, you need:
 
 ### Required
+
 - **[Npcap 1.7.8+](https://npcap.com/dist/)** - Network packet capture library (Required for network monitoring)
 - **[Node.js 16+](https://nodejs.org/en/download/)** - JavaScript runtime (Only needed if building from source)
 - **[Python 3+](https://www.python.org/downloads/)** - Programming language (Only needed if building from source)
 
 ### Optional
+
 - **[Wireshark](https://www.wireshark.org/download.html)** - Network protocol analyzer (Useful for backup recordings)
 
 > **Important**: When installing Python, make sure to check the box that says **"Add Python to PATH"** during installation!
@@ -74,12 +74,14 @@ Before installing Ikusa Logger, you need:
 Choose one of these methods:
 
 **Method A: Clone with Git**
+
 ```bash
 git clone https://github.com/Arkantik/ikusa_logger.git
 cd ikusa_logger
 ```
 
-**Method B: Download as ZIP (Recommended)** 
+**Method B: Download as ZIP (Recommended)**
+
 1. Download the project: [bdo-combat-logger.zip](https://github.com/Arkantik/ikusa_logger/archive/refs/heads/main.zip)
 2. Extract the ZIP file to a folder of your choice
 3. Open the extracted folder
@@ -87,6 +89,7 @@ cd ikusa_logger
 ### Step 2: Verify Prerequisites
 
 Make sure you have installed:
+
 - Node.js (Check by opening Command Prompt and typing: `node --version`)
 - Python (Check by opening Command Prompt and typing: `python --version`)
 
@@ -140,15 +143,18 @@ After recording or opening logs, you may need to adjust the player name order:
 The logger can open two types of files:
 
 **Network Capture Files** (`.pcap`, `.pcapng`)
+
 - These are raw network recordings
 - The logger will extract combat messages from them
 - Useful if you recorded with Wireshark as backup
 
 **Log Files** (`.log`)
+
 - Previously saved combat logs
 - Can be opened to adjust names if needed**Method B: Download as ZIP (Recommended)**
 - Use this to fix mistakes in exported logs
-To open a file:
+  To open a file:
+
 1. Click **Open** in the main menu
 2. Select your file
 3. Adjust names if needed
@@ -165,6 +171,7 @@ After saving your logs, visualize them using the Ikusa website:
 3. View detailed statistics, graphs, and analysis of your combat performance
 
 The website provides:
+
 - Kill/Death ratios
 - Performance over time
 - Player and guild statistics
@@ -179,6 +186,7 @@ The website provides:
 **Problem**: Logger won't start or shows errors immediately
 
 **Solutions**:
+
 1. Check if Npcap is properly installed:
    - Open the logger
    - Check the status message on the home screen
@@ -197,11 +205,13 @@ This error usually means Python is not added to your system PATH:
 **Possible causes and solutions**:
 
 1. **Config is outdated**: BDO changes its network structure after each weekly maintenance
+
    - Wait for a config update
    - Check the Discord for announcements
    - As a backup, use Wireshark to record the session, then analyze the `.pcap` file later
 
 2. **Wrong network interface selected**:
+
    - Go to Settings
    - Try switching between "All" and "Default" network interfaces
    - Restart recording
@@ -255,6 +265,7 @@ If you're experiencing issues or have questions:
 - **GitHub Issues**: Report bugs on the [Issues page](https://github.com/Arkantik/ikusa_logger/issues)
 
 When asking for help, please provide:
+
 1. Your Windows version
 2. The exact error message (if any)
 3. What you were doing when the problem occurred
