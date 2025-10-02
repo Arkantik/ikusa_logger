@@ -1,19 +1,18 @@
-import { app, events, Icon, init, MessageBoxChoice, os } from '@neutralinojs/lib';
+import { app, events, init, os } from '@neutralinojs/lib';
 import { useEffect, useRef, useState } from 'react';
-import { HashRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Modal from './components/modal/Modal';
 import LoadingIndicator from './components/ui/LoadingIndicator';
 import { get_remaining_height } from './logic/util';
 import HomePage from './routes/HomePage';
+import OpenPage from './routes/OpenPage';
 import RecordPage from './routes/RecordPage';
 import SettingsPage from './routes/SettingsPage';
-import OpenPage from './routes/OpenPage';
 
 function AppContent() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerHeight, setContainerHeight] = useState(0);
-  const location = useLocation();
 
   useEffect(() => {
     if (containerRef.current) {
@@ -22,31 +21,25 @@ function AppContent() {
   }, [location]);
 
   useEffect(() => {
-    const closeHandler = async () => {
-      if (location.pathname === '/record') {
-        const result = await os.showMessageBox(
-          'Confirm Exit',
-          'Are you sure you want to close the Combat Logger? All unsaved logs will be lost.',
-          MessageBoxChoice.YES_NO,
-          Icon.WARNING
-        );
-
-        if (result === 'YES') {
-          await os.execCommand('taskkill /F /IM logger.exe ');
-          await app.exit();
-        }
-      } else {
+    const killLoggerProcess = async () => {
+      try {
         await os.execCommand('taskkill /F /IM logger.exe ');
-        await app.exit();
+      } catch (e) {
+        console.error('Failed to kill logger process:', e);
       }
     };
 
-    events.on('windowClose', closeHandler);
+    const exitApp = async () => {
+      await killLoggerProcess();
+      await app.exit();
+    };
+
+    events.on('windowClose', exitApp);
 
     return () => {
-      events.off('windowClose', closeHandler);
+      events.off('windowClose', exitApp);
     };
-  }, [location.pathname]);
+  }, []);
 
   return (
     <div className="h-full w-full">
