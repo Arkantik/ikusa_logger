@@ -11,7 +11,7 @@ REM Save the version number argument to a variable
 set "VERSION=%~1"
 
 REM GitHub repository details
-set "REPO_OWNER=sch-28"
+set "REPO_OWNER=Arkantik"
 set "REPO_NAME=ikusa_logger"
 set "ASSET_NAME=ikusa-logger-installer.exe"
 
