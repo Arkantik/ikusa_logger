@@ -6,18 +6,37 @@ interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'typ
 }
 
 export function Checkbox({ checked, className, ...props }: CheckboxProps) {
-    const checkboxClasses = classNames(
-        'text-cta focus:ring-cta w-4 h-4 bg-gray-100 border-gray-300 dark:ring-offset-gray-800 focus:ring-2 mr-2 dark:bg-gray-700 dark:border-gray-600 rounded',
-        className
-    );
-
     return (
-        <input
-            type="checkbox"
-            checked={checked}
-            className={checkboxClasses}
-            {...props}
-        />
+        <label className={classNames('inline-flex items-center cursor-pointer', className)}>
+            <input
+                type="checkbox"
+                checked={checked}
+                className="sr-only peer"
+                {...props}
+            />
+            <div className={classNames(
+                'relative w-4 h-4 rounded border-2 transition-colors',
+                'peer-focus:ring-2 peer-focus:ring-cta-300/50 peer-focus:ring-offset-1 peer-focus:ring-offset-background',
+                {
+                    'bg-cta-500 border-cta-500': checked,
+                    'bg-transparent border-gray-600': !checked,
+                }
+            )}>
+                {checked && (
+                    <svg
+                        className="absolute inset-0 w-full h-full text-black p-0.5"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    >
+                        <polyline points="3,8 6,11 13,4" />
+                    </svg>
+                )}
+            </div>
+        </label>
     );
 }
 

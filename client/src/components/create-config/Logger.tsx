@@ -263,11 +263,13 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
             )}
             <div className="flex flex-col gap-2 items-center w-full relative">
                 <div className="flex gap-1 items-center justify-start w-full px-1">
-                    {logs.length} Logs
-                    <div className="ml-2">
-                        <Checkbox checked={autoScroll} onChange={(e) => setAutoScroll(e.target.checked)} />
-                        <span>Auto scroll</span>
-                    </div>
+                    <span className="text-sm">{logs.length} Logs</span>
+                    <Checkbox
+                        checked={autoScroll}
+                        onChange={(e) => setAutoScroll(e.target.checked)}
+                        className="mx-1"
+                    />
+                    <span className="text-sm">Auto scroll</span>
                     <button
                         className="ml-auto"
                         onClick={() =>
@@ -356,7 +358,7 @@ function LoggerRowComponent({
                 options={getNameOptions(playerOneIndex, log)}
                 selectedValue={playerOneIndex}
                 onChange={(value) => updateNames('player_one', value)}
-                className='w-28'
+                className='w-26'
             />
             <div className="flex justify-center items-center w-16">
                 {log.hex[possibleKillOffsets[killIndex]] === '1' ? (
@@ -369,14 +371,14 @@ function LoggerRowComponent({
                 options={getNameOptions(playerTwoIndex, log)}
                 selectedValue={playerTwoIndex}
                 onChange={(value) => updateNames('player_two', value)}
-                className='w-28'
+                className='w-26'
             />
             <p className="text-sm text-gray-400">from</p>
             <Select
                 options={getNameOptions(guildIndex, log)}
                 selectedValue={guildIndex}
                 onChange={(value) => updateNames('guild', value)}
-                className='w-28'
+                className='w-26'
             />
         </div>
     );
