@@ -5,7 +5,7 @@ import { check_status, type LoggerStatus } from '../logic/logger-status';
 import Button from '../components/ui/Button';
 import Icon from '../components/ui/Icon';
 import LoadingIndicator from '../components/ui/LoadingIndicator';
-import { LuGithub } from 'react-icons/lu';
+import { LuCheck, LuGithub } from 'react-icons/lu';
 import { FaDiscord } from 'react-icons/fa';
 
 declare const NL_APPVERSION: string;
@@ -77,6 +77,9 @@ function HomePage() {
                 <Button className="w-32" onClick={() => navigate('/record')}>
                     Record
                 </Button>
+                <Button className="w-32" onClick={() => navigate('/open')} color="outline">
+                    Open
+                </Button>
                 <Button className="w-32" onClick={() => navigate('/settings')} color="secondary">
                     Settings
                 </Button>
@@ -88,7 +91,7 @@ function HomePage() {
                     Help
                 </Button>
 
-                <div className="min-h-[32px] mt-2 text-center flex flex-col items-center justify-center">
+                <div className="min-h-[32px] mt-1 text-center flex flex-col items-center justify-center">
                     {loading ? (
                         <LoadingIndicator />
                     ) : (
@@ -100,7 +103,7 @@ function HomePage() {
                             )}
 
                             {status?.npcap_installed ? (
-                                <p className="text-submarine-500">Npcap found</p>
+                                <p className="flex items-center gap-1 text-green-600">Npcap found <LuCheck /></p>
                             ) : (
                                 <p className="text-red-500 flex justify-center flex-col">
                                     Npcap is not installed.
@@ -116,7 +119,7 @@ function HomePage() {
 
             <div className="w-full flex justify-between absolute bottom-0 p-2 text-sm text-gray-300">
                 <span className="text-xs">
-                    Made by <b>ORACLE#7672</b>, updated by <b>ArkantiK</b>
+                    Made by <b>ORACLE</b>, updated by <b>ArkantiK</b>
                 </span>
 
                 <div className="flex gap-2">
