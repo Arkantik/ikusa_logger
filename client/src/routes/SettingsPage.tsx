@@ -1,7 +1,7 @@
-import { Label, ToggleSwitch } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import { get_config, update_config, type Config } from '../components/create-config/config';
 import Select from '../components/create-config/Select';
+import ToggleSwitch from '../components/ui/ToggleSwitch';
 
 function SettingsPage() {
     const [config, setConfig] = useState<Config | null>(null);
@@ -33,16 +33,17 @@ function SettingsPage() {
     return (
         <div className="h-full flex flex-col gap-2">
             <div className="flex items-center gap-2 mt-4">
-                <Label>Network Interface</Label>
+                <label>Network Interface</label>
                 <Select
                     options={['All', 'Default']}
                     selectedValue={selectedInterface}
                     onChange={updateInterface}
+                    className='w-28'
                 />
             </div>
             <div className="flex items-center gap-2">
-                <Label>Enable IP Filter</Label>
-                <ToggleSwitch checked={ipFilter} onChange={(checked) => setIpFilter(checked)} className='bg-cta' />
+                <label>Enable IP Filter</label>
+                <ToggleSwitch checked={ipFilter} onChange={(checked) => setIpFilter(checked)} />
             </div>
         </div>
     );

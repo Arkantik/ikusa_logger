@@ -15,7 +15,6 @@
     "autoprefixer": "^10.4.21",
     "classnames": "^2.5.1",
     "config-ini-parser": "^1.6.1",
-    "flowbite-react": "^0.12.9",
     "generate-unique-id": "^2.0.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
