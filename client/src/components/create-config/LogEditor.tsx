@@ -76,12 +76,12 @@ function LogEditor({ logs, height = 155, loading = false }: LogEditorProps) {
     return (
         <>
             {logs.length > 0 && (
-                <span className="absolute top-2 left-0 right-0 text-center text-gray-400 text-sm">
-                    Adjust the Logs to: <b>Family-Name-1</b> kills/died to <b>Family-Name-2</b> from <b>Guild</b>
+                <span className="absolute top-2 left-0 right-0 text-center text-gray-400 text-xs">
+                    Adjust the Logs to: <b>FamilyName-1</b> kills/died to <b>FamilyName-2</b> from <b>Guild</b>
                 </span>
             )}
             <div className="flex flex-col gap-2 items-center w-full relative">
-                <div className="flex gap-1 items-center justify-start w-full px-1">
+                <div className="flex gap-1 items-center justify-start w-full px-1 text-sm">
                     {logs.length} Logs
                 </div>
                 <div className="w-full overflow-auto flex flex-col" style={{ height: `${height}px` }}>
@@ -131,24 +131,27 @@ function RowComponent({
                 options={log.names}
                 selectedValue={playerOneIndex}
                 onChange={(value) => updateNames('player_one', value)}
+                className='w-26'
             />
             <div className="flex justify-center items-center w-16">
                 {log.kill ? (
                     <p className="self-center text-submarine-500">killed</p>
                 ) : (
-                    <p className="self-center text-red-500">died to</p>
+                    <p className="self-center text-red-400">died to</p>
                 )}
             </div>
             <Select
                 options={log.names}
                 selectedValue={playerTwoIndex}
                 onChange={(value) => updateNames('player_two', value)}
+                className='w-26'
             />
             <p className="text-sm text-gray-400">from</p>
             <Select
                 options={log.names}
                 selectedValue={guildIndex}
                 onChange={(value) => updateNames('guild', value)}
+                className='w-26'
             />
         </div>
     );

@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes } from 'react';
 import classNames from 'classnames';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-    color?: 'primary' | 'secondary';
+    color?: 'primary' | 'secondary' | 'outline';
     size?: 'sm' | 'md' | 'lg';
 }
 
@@ -10,16 +10,17 @@ function Button({
     children,
     className,
     color = 'primary',
-    size = 'md',
+    size = 'sm',
     disabled,
     ...props
 }: ButtonProps) {
     const buttonClasses = classNames(
-        'cursor-pointer disabled:cursor-not-allowed text-center font-medium focus:ring-4 focus:outline-none flex items-center justify-center rounded-lg',
+        'cursor-pointer disabled:cursor-not-allowed text-center font-medium focus:ring-2 focus:outline-none flex items-center justify-center rounded-lg duration-200',
         {
-            'bg-cta-300 focus:ring-cta-400 text-black border-cta': color === 'primary' && !disabled,
+            'bg-cta-400 focus:ring-cta-400 text-black border-cta hover:bg-cta-500': color === 'primary' && !disabled,
             '!bg-gray-700 text-gray-400': color === 'primary' && disabled,
             'bg-background focus:ring-gray-400 border border-foreground-secondary hover:bg-gray-600/30': color === 'secondary',
+            'bg-transparent border border-cta-400 hover:bg-cta-500/30': color === 'outline',
             'h-8 px-4 text-xs': size === 'sm',
             'h-10 px-5 text-sm': size === 'md',
             'h-12 px-6 text-lg': size === 'lg'

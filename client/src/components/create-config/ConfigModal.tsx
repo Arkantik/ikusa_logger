@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { IoMdClipboard } from 'react-icons/io';
-import Checkbox from '../ui/Checkbox';
-import Icon from '../ui/Icon';
-import { copy_to_clipboard, type Config } from './config';
-import Select from './Select';
+import { useState } from "react";
+import { IoMdClipboard } from "react-icons/io";
+import Checkbox from "../ui/Checkbox";
+import Icon from "../ui/Icon";
+import { copy_to_clipboard, type Config } from "./config";
+import Select from "./Select";
 
 interface ConfigModalProps {
     config: Config;
@@ -17,7 +17,7 @@ interface ConfigModalProps {
         kill_index: number;
         include_characters: boolean;
     };
-    onChange: (new_options: ConfigModalProps['options']) => void;
+    onChange: (new_options: ConfigModalProps["options"]) => void;
 }
 
 function ConfigModal({ config, options, onChange }: ConfigModalProps) {
@@ -42,16 +42,17 @@ function ConfigModal({ config, options, onChange }: ConfigModalProps) {
         <div>
             <div className="flex justify-between">
                 <h3 className="font-bold">Config</h3>
-                <button onClick={() => copy_to_clipboard(config)} className='cursor-pointer'>
+                <button onClick={() => copy_to_clipboard(config)} className="cursor-pointer">
                     <Icon icon={IoMdClipboard} />
                 </button>
             </div>
-            <div>
+            <div className="flex items-center">
                 <Checkbox
                     checked={includeCharacters}
                     onChange={(e) => handleIncludeCharactersChange(e.target.checked)}
+                    className="mr-1"
                 />
-                <span>Characters</span>
+                <span className="text-sm">Characters</span>
             </div>
             <pre className="text-xs mt-1">
                 {`[GENERAL]

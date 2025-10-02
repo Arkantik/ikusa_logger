@@ -10,14 +10,14 @@ function Header() {
     const version = NL_APPVERSION;
 
     return (
-        <header className="flex justify-center gap-0.5 text-3xl font-bold text-cta mt-4 flex-col items-center">
+        <header className="flex justify-center gap-0.5 text-2xl font-bold text-cta mt-4 flex-col items-center">
             {showArrow && (
                 <Link to="/" className="absolute left-10 top-10">
                     <Icon icon={IoMdArrowRoundBack} />
                 </Link>
             )}
             NodewarGG x Ikusa
-            <span className="text-xs">v {version}</span>
+            <span className="text-xs">v{version}</span>
         </header>
     );
 }

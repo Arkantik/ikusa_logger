@@ -24,7 +24,7 @@ function Modal() {
         >
             <div className="relative m-2 max-h-full">
                 <div
-                    className="relative w-fit max-w-full max-h-full my-2 mx-auto bg-background shadow-lg rounded-lg border-gold border h-full"
+                    className="relative w-fit max-w-full max-h-full mx-auto bg-background shadow-lg rounded-lg border-cta-400 border h-full"
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="relative p-4 overflow-auto h-full">
