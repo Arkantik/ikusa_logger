@@ -46,7 +46,7 @@ last_payload = ""
 current_position = 0
 
 identifier_regex = r"[56][0-9a-f]0100[0-9a-f]{4}"
-name_regex = r"^[A-Z][a-zA-Z0-9_]{2,15}$"
+name_regex = r"^[A-Z][a-zA-Z0-9_]{1,15}$"
 
 
 def package_handler(package, output, ip_filter=True):
