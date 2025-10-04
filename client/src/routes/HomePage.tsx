@@ -1,69 +1,25 @@
+import { os } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { app, os, updater } from '@neutralinojs/lib';
-import { check_status, type LoggerStatus } from '../logic/logger-status';
-import Button from '../components/ui/Button';
-import Icon from '../components/ui/Icon';
-import LoadingIndicator from '../components/ui/LoadingIndicator';
-import { LuCheck, LuGithub } from 'react-icons/lu';
 import { FaDiscord } from 'react-icons/fa';
-
-declare const NL_APPVERSION: string;
+import { IoMdFolder, IoMdPlay } from 'react-icons/io';
+import { LuCheck, LuCircleAlert, LuSettings as LuCog, LuGithub, LuShield } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
+import ActionCard from '../components/ui/ActionCard';
+import Icon from '../components/ui/Icon';
+import StatusCard from '../components/ui/StatusCard';
+import { check_status, type LoggerStatus } from '../logic/logger-status';
 
 function HomePage() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState<LoggerStatus | null>(null);
-    const [updateAvailable, setUpdateAvailable] = useState(false);
-    const [fullUpdateAvailable, setFullUpdateAvailable] = useState(false);
-    const [version, setVersion] = useState(NL_APPVERSION);
-
-    async function checkForUpdates() {
-        const url = 'https://raw.githubusercontent.com/Arkantik/ikusa_logger/blob/main/version/version-manifest.json';
-        const manifest = await updater.checkForUpdates(url);
-
-        if (manifest.version !== NL_APPVERSION) {
-            const manifestParts = manifest.version.split('.');
-            const currentParts = NL_APPVERSION.split('.');
-
-            if (
-                manifestParts.length !== currentParts.length ||
-                manifestParts[0] !== currentParts[0] ||
-                manifestParts[1] !== currentParts[1]
-            ) {
-                setFullUpdateAvailable(true);
-            } else {
-                setUpdateAvailable(true);
-            }
-            setVersion(manifest.version);
-        }
-    }
-
-    async function update() {
-        try {
-            if (fullUpdateAvailable) {
-                await os.execCommand(`update.bat ${version}`, { background: true });
-                await app.exit();
-            } else if (updateAvailable) {
-                await updater.install();
-                await app.restartProcess();
-            }
-        } catch (err) {
-            alert('Updating went wrong, check your internet connection. ' + ((err as Error).message || err));
-            console.error(err);
-        }
-    }
 
     useEffect(() => {
         (async () => {
             try {
                 setLoading(true);
-                console.log('Checking for updates');
-                await checkForUpdates().catch((e) => console.error(e));
-                console.log('Checking status');
                 const statusResult = await check_status();
                 setStatus(statusResult);
-                console.log('Starting logger');
             } catch (e) {
                 console.error(e);
             }
@@ -71,67 +27,124 @@ function HomePage() {
         })();
     }, []);
 
+    const actionCards = [
+        {
+            title: 'Record',
+            description: 'Start live capture',
+            icon: IoMdPlay,
+            gradientFrom: 'rgba(139, 92, 246, 0.2)',
+            gradientTo: 'rgba(236, 72, 153, 0.2)',
+            iconColor: 'text-purple-400',
+            onClick: () => navigate('/record')
+        },
+        {
+            title: 'Open File',
+            description: 'Import existing data',
+            icon: IoMdFolder,
+            gradientFrom: 'rgba(59, 130, 246, 0.2)',
+            gradientTo: 'rgba(6, 182, 212, 0.2)',
+            iconColor: 'text-blue-400',
+            onClick: () => navigate('/open')
+        },
+        {
+            title: 'Settings',
+            description: 'Configure options',
+            icon: LuCog,
+            gradientFrom: 'rgba(249, 115, 22, 0.2)',
+            gradientTo: 'rgba(234, 179, 8, 0.2)',
+            iconColor: 'text-orange-400',
+            onClick: () => navigate('/settings')
+        }
+    ];
+
+    const socialLinks = [
+        {
+            icon: FaDiscord,
+            url: 'https://discord.gg/CUc38nKyDU',
+            title: 'Join Discord'
+        },
+        {
+            icon: LuGithub,
+            url: 'https://github.com/Arkantik/ikusa_logger',
+            title: 'View on GitHub'
+        }
+    ];
+
     return (
-        <>
-            <div className="flex flex-col items-center justify-center gap-2 mt-4">
-                <Button className="w-32" onClick={() => navigate('/record')}>
-                    Record
-                </Button>
-                <Button className="w-32" onClick={() => navigate('/open')} color="outline">
-                    Open
-                </Button>
-                <Button className="w-32" onClick={() => navigate('/settings')} color="secondary">
-                    Settings
-                </Button>
-                <Button
-                    className="w-32"
-                    onClick={() => os.open('https://github.com/Arkantik/ikusa_logger/blob/main/README.md')}
-                    color="secondary"
-                >
-                    Help
-                </Button>
+        <div className="flex flex-col h-full relative">
+            {/* Decorative background elements */}
+            <div className="absolute top-20 right-20 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl animate-float"></div>
+            <div className="absolute bottom-20 left-20 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
 
-                <div className="min-h-[32px] mt-1 text-center flex flex-col items-center justify-center">
-                    {loading ? (
-                        <LoadingIndicator />
-                    ) : (
-                        <>
-                            {(updateAvailable || fullUpdateAvailable) && (
-                                <Button className="w-32" onClick={update}>
-                                    Update
-                                </Button>
-                            )}
+            {/* Main Content */}
+            <div className="flex-1 flex items-center justify-center px-8 relative z-10">
+                <div className="w-full max-w-4xl">
+                    {/* Status Section */}
+                    <div className="glass-card rounded-2xl p-8 mb-8 border border-white/10">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-3 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl">
+                                <Icon icon={LuShield} className="text-purple-400" size="lg" />
+                            </div>
+                            <div>
+                                <h2 className="text-2xl font-bold text-white">System Status</h2>
+                                <p className="text-sm text-gray-400">Monitor your logger configuration</p>
+                            </div>
+                        </div>
 
-                            {status?.npcap_installed ? (
-                                <p className="flex items-center gap-1 text-green-600">Npcap found <LuCheck /></p>
-                            ) : (
-                                <p className="text-red-500 flex justify-center flex-col">
-                                    Npcap is not installed.
-                                    <a href="https://npcap.com/dist/npcap-1.78.exe" className="underline">
-                                        Download
-                                    </a>
-                                </p>
+                        <div className="grid grid-cols-2 gap-4">
+                            <StatusCard
+                                label="Npcap Driver"
+                                isValid={status?.npcap_installed || false}
+                                statusText="Installed"
+                                statusIcon={status?.npcap_installed ? LuCheck : LuCircleAlert}
+                                statusColor="bg-green-500/20"
+                                loading={loading}
+                                link={!status?.npcap_installed ? {
+                                    url: 'https://npcap.com/dist/npcap-1.78.exe',
+                                    text: 'Download Npcap'
+                                } : undefined}
+                            />
+
+                            {(loading || status?.config_valid) && (
+                                <StatusCard
+                                    label="Configuration"
+                                    isValid={status?.config_up_to_date || false}
+                                    statusText={status?.config_up_to_date ? 'Updated' : 'Outdated'}
+                                    statusIcon={status?.config_up_to_date ? LuCheck : LuCircleAlert}
+                                    statusColor={status?.config_up_to_date ? 'bg-green-500/20' : 'bg-yellow-500/20'}
+                                    loading={loading}
+                                />
                             )}
-                        </>
-                    )}
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4">
+                        {actionCards.map((card, index) => (
+                            <ActionCard key={index} {...card} />
+                        ))}
+                    </div>
                 </div>
             </div>
 
-            <div className="w-full flex justify-between absolute bottom-0 p-2 text-sm text-gray-300">
-                <span className="text-xs">
-                    Made by <b>ORACLE</b>, updated by <b>ArkantiK</b>
+            <div className="glass-card flex items-center justify-between px-8 py-1 relative z-10">
+                <span className="text-xs text-gray-400">
+                    Made by <span className="font-semibold text-gray-300">ORACLE</span> • Updated by <span className="font-semibold text-gray-300">ArkantiK</span>
                 </span>
 
-                <div className="flex gap-2">
-                    <button onClick={() => os.open('https://discord.gg/CUc38nKyDU')} className='cursor-pointer'>
-                        <Icon icon={FaDiscord} />
-                    </button>
-                    <button onClick={() => os.open('https://github.com/Arkantik/ikusa_logger')} className='cursor-pointer'>
-                        <Icon icon={LuGithub} />
-                    </button>
+                <div className="flex gap-1.5">
+                    {socialLinks.map((link, index) => (
+                        <button
+                            key={index}
+                            onClick={() => os.open(link.url)}
+                            className="cursor-pointer p-2.5 rounded-xl transition-all duration-300 hover:bg-white/10 text-gray-400 hover:text-white"
+                            title={link.title}
+                        >
+                            <Icon icon={link.icon} size="sm" />
+                        </button>
+                    ))}
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 

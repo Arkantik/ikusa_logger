@@ -1,25 +1,25 @@
-import { useState, useEffect } from 'react';
+import { filesystem } from '@neutralinojs/lib';
+import { useEffect, useState } from 'react';
+import { IoMdSave, IoMdSettings } from 'react-icons/io';
 import { List, type RowComponentProps } from 'react-window';
-import { filesystem, os } from '@neutralinojs/lib';
 import { open_save_location } from '../../logic/file';
-import Button from '../ui/Button';
-import LoadingIndicator from '../ui/LoadingIndicator';
-import Checkbox from '../ui/Checkbox';
-import Icon from '../ui/Icon';
-import { IoMdSettings } from 'react-icons/io';
-import {
-    update_config,
-    type Config,
-    type LogType,
-    get_date,
-    get_formatted_date,
-    get_config,
-    hexToString
-} from './config';
-import Select from './Select';
 import { find_all_indicies } from '../../logic/util';
 import { ModalManager } from '../modal/modal-store';
+import Button from '../ui/Button';
+import Checkbox from '../ui/Checkbox';
+import Icon from '../ui/Icon';
+import LoadingIndicator from '../ui/LoadingIndicator';
+import {
+    get_config,
+    get_date,
+    get_formatted_date,
+    hexToString,
+    update_config,
+    type Config,
+    type LogType
+} from './config';
 import ConfigModal from './ConfigModal';
+import Select from './Select';
 
 export interface LoggerProps {
     logs: LogType[];
@@ -210,9 +210,6 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
     }
 
     function getLogsString() {
-        const currentUtcHour = new Date().getUTCHours();
-        const useWorFormat = currentUtcHour < 18;
-
         let output = '';
         for (const log of logs) {
             let characters = '';
@@ -230,19 +227,12 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
 
             const isKill = log.hex[possibleKillOffsets[killIndex]] === '1';
 
-            if (useWorFormat) {
-                if (isKill) {
-                    output += `[${log.time}] ${playerOneName} killed ${playerTwoName} from the ${guildName}${characters}\n`;
-                } else {
-                    output += `[${log.time}] ${playerOneName} was slain by ${playerTwoName} of the ${guildName}${characters}\n`;
-                }
+            if (isKill) {
+                output += `[${log.time}] ${playerOneName} has killed ${playerTwoName} from ${guildName}${characters}\n`;
             } else {
-                if (isKill) {
-                    output += `[${log.time}] ${playerOneName} has killed ${playerTwoName} from ${guildName}${characters}\n`;
-                } else {
-                    output += `[${log.time}] ${playerOneName} died to ${playerTwoName} from ${guildName}${characters}\n`;
-                }
+                output += `[${log.time}] ${playerOneName} died to ${playerTwoName} from ${guildName}${characters}\n`;
             }
+
         }
         return output;
     }
@@ -255,86 +245,101 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
     const disabled = logs.length === 0 || loading;
 
     return (
-        <>
+        <div className="flex flex-col h-full w-full relative">
             {logs.length > 0 && (
-                <span className="absolute top-2 left-0 right-0 text-center text-gray-400 text-xs">
-                    Adjust the Logs to: <b>FamilyName-1</b> kills/died to <b>FamilyName-2</b> from <b>Guild</b>
-                </span>
+                <div className="text-center text-gray-400 text-xs mb-3 px-2">
+                    Adjust the Logs to: <span className="font-semibold text-gray-300">YourGuild-FamilyName</span> kills/died to <span className="font-semibold text-gray-300">Enemy-FamilyName</span> from <span className="font-semibold text-gray-300">Guild</span>
+                </div>
             )}
-            <div className="flex flex-col gap-2 items-center w-full relative">
-                <div className="flex gap-1 items-center justify-start w-full px-1">
-                    <span className="text-sm">{logs.length} Logs</span>
-                    <Checkbox
-                        checked={autoScroll}
-                        onChange={(e) => setAutoScroll(e.target.checked)}
-                        className="mx-1"
-                    />
-                    <span className="text-sm">Auto scroll</span>
-                    <button
-                        className="ml-auto"
-                        onClick={() =>
-                            config && ModalManager.open(ConfigModal, {
-                                config,
-                                options: {
-                                    possible_kill_offsets: possibleKillOffsets,
-                                    possible_name_offsets: possibleNameOffsets,
-                                    name_indicies: nameIndicies,
-                                    player_one_index: playerOneIndex,
-                                    player_two_index: playerTwoIndex,
-                                    guild_index: guildIndex,
-                                    kill_index: killIndex,
-                                    include_characters: config.include_characters
-                                },
-                                onChange: async (options: any) => {
-                                    setPossibleKillOffsets(options.possible_kill_offsets);
-                                    setPossibleNameOffsets(options.possible_name_offsets);
-                                    setNameIndicies(options.name_indicies);
-                                    setPlayerOneIndex(options.player_one_index);
-                                    setPlayerTwoIndex(options.player_two_index);
-                                    setGuildIndex(options.guild_index);
-                                    setKillIndex(options.kill_index);
-                                    if (config) {
-                                        config.include_characters = options.include_characters;
-                                        await updateConfigWrapper();
-                                    }
-                                }
-                            })
-                        }
-                    >
-                        <Icon icon={IoMdSettings} className='cursor-pointer' />
-                    </button>
-                </div>
-                <div className="w-full overflow-auto flex flex-col" style={{ height: `${height}px` }}>
-                    {loading && logs.length === 0 ? (
-                        <div className="absolute inset-0 flex justify-center items-center mb-14">
-                            <LoadingIndicator />
-                        </div>
-                    ) : logs.length === 0 && !loading ? (
-                        <p className="text-center text-gray-400">Waiting for logs...</p>
-                    ) : (
-                        <List
-                            className="react-window-list"
-                            rowComponent={LoggerRowComponent}
-                            rowCount={logs.length}
-                            rowHeight={40}
-                            rowProps={{
-                                logs,
-                                possibleKillOffsets,
-                                killIndex,
-                                playerOneIndex,
-                                playerTwoIndex,
-                                guildIndex,
-                                updateNames,
-                                getNameOptions
-                            }}
+
+            <div className="flex items-center justify-between mb-3 px-2">
+                <div className="flex items-center gap-3">
+                    <span className="text-sm font-medium text-white">{logs.length} Logs</span>
+                    <div className="flex items-center gap-2">
+                        <Checkbox
+                            checked={autoScroll}
+                            onChange={(e) => setAutoScroll(e.target.checked)}
                         />
-                    )}
+                        <span className="text-sm text-gray-400">Auto scroll</span>
+                    </div>
                 </div>
-                <Button className="w-32" onClick={saveLogs} disabled={disabled}>
-                    Save
-                </Button>
+
+                <button
+                    onClick={() =>
+                        config && ModalManager.open(ConfigModal, {
+                            config,
+                            options: {
+                                possible_kill_offsets: possibleKillOffsets,
+                                possible_name_offsets: possibleNameOffsets,
+                                name_indicies: nameIndicies,
+                                player_one_index: playerOneIndex,
+                                player_two_index: playerTwoIndex,
+                                guild_index: guildIndex,
+                                kill_index: killIndex,
+                                include_characters: config.include_characters
+                            },
+                            onChange: async (options: any) => {
+                                setPossibleKillOffsets(options.possible_kill_offsets);
+                                setPossibleNameOffsets(options.possible_name_offsets);
+                                setNameIndicies(options.name_indicies);
+                                setPlayerOneIndex(options.player_one_index);
+                                setPlayerTwoIndex(options.player_two_index);
+                                setGuildIndex(options.guild_index);
+                                setKillIndex(options.kill_index);
+                                if (config) {
+                                    config.include_characters = options.include_characters;
+                                    await updateConfigWrapper();
+                                }
+                            }
+                        })
+                    }
+                    className="cursor-pointer p-2.5 group rounded-xl transition-all duration-300 hover:bg-white/10"
+                    title="Advanced Config"
+                >
+                    <Icon icon={IoMdSettings} className="text-white" />
+                </button>
             </div>
-        </>
+
+            <div className="flex-1 overflow-hidden rounded-lg border border-white/10 bg-black/20 mb-3">
+                {loading && logs.length === 0 ? (
+                    <div className="flex justify-center items-center h-full">
+                        <LoadingIndicator />
+                    </div>
+                ) : logs.length === 0 && !loading ? (
+                    <div className="flex justify-center items-center h-full">
+                        <p className="text-gray-400">Waiting for logs...</p>
+                    </div>
+                ) : (
+                    <List
+                        className="react-window-list"
+                        rowComponent={LoggerRowComponent}
+                        rowCount={logs.length}
+                        rowHeight={40}
+                        rowProps={{
+                            logs,
+                            possibleKillOffsets,
+                            killIndex,
+                            playerOneIndex,
+                            playerTwoIndex,
+                            guildIndex,
+                            updateNames,
+                            getNameOptions
+                        }}
+                    />
+                )}
+            </div>
+
+            <Button
+                className="w-full"
+                onClick={saveLogs}
+                disabled={disabled}
+                size="md"
+                color="gradient"
+            >
+                <Icon icon={IoMdSave} size="sm" className="mr-2" />
+                Save Logs
+            </Button>
+        </div>
     );
 }
 
@@ -351,34 +356,36 @@ function LoggerRowComponent({
     getNameOptions
 }: RowComponentProps<LoggerRowProps>) {
     const log = logs[index];
+    const isKill = log.hex[possibleKillOffsets[killIndex]] === '1';
+
     return (
-        <div style={style} className="flex gap-2 group py-1 items-center px-1">
-            <p className="text-sm text-gray-400">{log.time}</p>
+        <div style={style} className="flex gap-2 items-center px-2 hover:bg-white/5">
+            <span className="text-xs text-gray-500 w-16">{log.time}</span>
             <Select
                 options={getNameOptions(playerOneIndex, log)}
                 selectedValue={playerOneIndex}
                 onChange={(value) => updateNames('player_one', value)}
-                className='w-26'
+                className='w-full max-w-32 text-xs'
             />
             <div className="flex justify-center items-center w-16">
-                {log.hex[possibleKillOffsets[killIndex]] === '1' ? (
-                    <p className="self-center text-submarine-500">killed</p>
+                {isKill ? (
+                    <span className="text-xs font-medium text-green-400">killed</span>
                 ) : (
-                    <p className="self-center text-red-400">died to</p>
+                    <span className="text-xs font-medium text-red-400">died to</span>
                 )}
             </div>
             <Select
                 options={getNameOptions(playerTwoIndex, log)}
                 selectedValue={playerTwoIndex}
                 onChange={(value) => updateNames('player_two', value)}
-                className='w-26'
+                className='w-full max-w-32 text-xs'
             />
-            <p className="text-sm text-gray-400">from</p>
+            <span className="text-xs text-gray-500">from</span>
             <Select
                 options={getNameOptions(guildIndex, log)}
                 selectedValue={guildIndex}
                 onChange={(value) => updateNames('guild', value)}
-                className='w-26'
+                className='w-full max-w-32 text-xs'
             />
         </div>
     );

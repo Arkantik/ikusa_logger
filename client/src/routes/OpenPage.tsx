@@ -1,9 +1,12 @@
 import { filesystem } from '@neutralinojs/lib';
 import { useEffect, useRef, useState } from 'react';
+import { IoMdFolder } from 'react-icons/io';
+import { LuFileText } from 'react-icons/lu';
 import { get_config, type Log, type LogType } from '../components/create-config/config';
 import LogEditor from '../components/create-config/LogEditor';
 import Logger from '../components/create-config/Logger';
 import Button from '../components/ui/Button';
+import Icon from '../components/ui/Icon';
 import { open_file } from '../logic/file';
 import { start_logger, type LoggerCallback } from '../logic/logger-wrapper';
 
@@ -14,6 +17,7 @@ function OpenPage() {
     const [combatLogs, setCombatLogs] = useState<Log[]>([]);
     const [loading, setLoading] = useState(false);
     const [isNetwork, setIsNetwork] = useState(false);
+    const [fileName, setFileName] = useState<string>('');
     const isDestroyedRef = useRef(false);
 
     useEffect(() => {
@@ -60,12 +64,16 @@ function OpenPage() {
     async function openPcap() {
         setLogs([]);
         setCombatLogs([]);
+        setFileName('');
 
         const filePaths = await open_file();
         if (!filePaths || filePaths.length === 0) return;
 
         const filePath = filePaths[0];
         const config = await get_config();
+
+        const pathParts = filePath.split(/[\\/]/);
+        setFileName(pathParts[pathParts.length - 1]);
 
         if (filePath.includes('.txt') || filePath.includes('.log')) {
             setIsNetwork(false);
@@ -88,7 +96,6 @@ function OpenPage() {
             }
 
             setCombatLogs(newCombatLogs);
-            console.log('Loaded combat logs:', newCombatLogs.length);
         } else {
             setIsNetwork(true);
             setLoading(true);
@@ -101,15 +108,34 @@ function OpenPage() {
     }
 
     return (
-        <div className="flex flex-col items-center w-full gap-1">
-            <Button className="mt-2 shrink-0" onClick={openPcap}>
-                Import File
-            </Button>
-            {isNetwork ? (
-                <Logger logs={logs} height={152} loading={loading} />
-            ) : (
-                <LogEditor logs={combatLogs} height={152} loading={loading} />
-            )}
+        <div className="flex flex-col h-full w-full p-8 gap-6">
+            <div className="glass-card rounded-2xl p-6 border border-white/10">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl">
+                            <Icon icon={fileName ? LuFileText : IoMdFolder} size="lg" className="text-blue-400" />
+                        </div>
+                        <div>
+                            <div className="text-xs text-gray-400 mb-1">Selected File</div>
+                            <div className="text-base font-semibold text-white">
+                                {fileName || 'No file selected'}
+                            </div>
+                        </div>
+                    </div>
+                    <Button onClick={openPcap} size="md" color="gradient">
+                        <Icon icon={IoMdFolder} size="sm" className="mr-2" />
+                        Import File
+                    </Button>
+                </div>
+            </div>
+
+            <div className="flex-1 glass-card rounded-2xl p-6 border border-white/10 overflow-hidden">
+                {isNetwork ? (
+                    <Logger logs={logs} height={window.innerHeight - 350} loading={loading} />
+                ) : (
+                    <LogEditor logs={combatLogs} height={window.innerHeight - 350} loading={loading} />
+                )}
+            </div>
         </div>
     );
 }
