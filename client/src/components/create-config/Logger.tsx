@@ -1,6 +1,6 @@
 import { filesystem, os } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
-import { LuCog, LuSave, LuUpload } from 'react-icons/lu';
+import { LuSettings, LuSave, LuUpload } from 'react-icons/lu';
 import { List, type RowComponentProps } from 'react-window';
 import { open_save_location } from '../../logic/file';
 import { find_all_indicies } from '../../logic/util';
@@ -300,7 +300,7 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
                     className="cursor-pointer p-2.5 group rounded-xl transition-all duration-300 hover:bg-white/10"
                     title="Advanced Config"
                 >
-                    <Icon icon={LuCog} className="text-white" />
+                    <Icon icon={LuSettings} className="text-white" />
                 </button>
             </div>
 

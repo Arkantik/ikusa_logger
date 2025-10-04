@@ -1,7 +1,7 @@
 import { os } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
 import { FaDiscord } from 'react-icons/fa';
-import { LuCheck, LuCircleAlert, LuCog, LuFolder, LuGithub, LuPlay, LuShield } from 'react-icons/lu';
+import { LuCheck, LuCircleAlert, LuSettings, LuFolder, LuGithub, LuPlay, LuShield } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
 import ActionCard from '../components/ui/ActionCard';
 import Icon from '../components/ui/Icon';
@@ -48,7 +48,7 @@ function HomePage() {
         {
             title: 'Settings',
             description: 'Configure options',
-            icon: LuCog,
+            icon: LuSettings,
             gradientFrom: 'rgba(249, 115, 22, 0.2)',
             gradientTo: 'rgba(234, 179, 8, 0.2)',
             iconColor: 'text-orange-400',
