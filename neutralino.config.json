@@ -24,12 +24,12 @@
   "modes": {
     "window": {
       "title": "BDO Combat Logger",
-      "width": 600,
-      "height": 400,
-      "minWidth": 600,
-      "minHeight": 400,
-      "maxWidth": 600,
-      "maxHeight": 400,
+      "width": 1200,
+      "height": 800,
+      "minWidth": 1000,
+      "minHeight": 700,
+      "resizable": true,
+      "maximizable": true,
       "icon": "/client/public/logo.png",
       "exitProcessOnClose": true,
       "enableInspector": false

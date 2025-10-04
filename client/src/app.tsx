@@ -1,25 +1,15 @@
 import { app, events, init, os } from '@neutralinojs/lib';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Modal from './components/modal/Modal';
 import LoadingIndicator from './components/ui/LoadingIndicator';
-import { get_remaining_height } from './logic/util';
 import HomePage from './routes/HomePage';
 import OpenPage from './routes/OpenPage';
 import RecordPage from './routes/RecordPage';
 import SettingsPage from './routes/SettingsPage';
 
 function AppContent() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [containerHeight, setContainerHeight] = useState(0);
-
-    useEffect(() => {
-        if (containerRef.current) {
-            setContainerHeight(get_remaining_height(containerRef.current, 16));
-        }
-    }, [location]);
-
     useEffect(() => {
         const killLoggerProcess = async () => {
             try {
@@ -42,21 +32,15 @@ function AppContent() {
     }, []);
 
     return (
-        <div className="h-full w-full">
-            <div className="h-screen p-4 w-full max-w-7xl mx-auto">
-                <Header />
-                <div
-                    ref={containerRef}
-                    className="flex flex-col items-center"
-                    style={{ height: `${containerHeight}px` }}
-                >
-                    <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/record" element={<RecordPage />} />
-                        <Route path="/open" element={<OpenPage />} />
-                        <Route path="/settings" element={<SettingsPage />} />
-                    </Routes>
-                </div>
+        <div className="h-screen w-full flex flex-col bg-background">
+            <Header />
+            <div className="flex-1 overflow-y-auto">
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/record" element={<RecordPage />} />
+                    <Route path="/open" element={<OpenPage />} />
+                    <Route path="/settings" element={<SettingsPage />} />
+                </Routes>
             </div>
             <Modal />
         </div>
@@ -82,7 +66,7 @@ function App() {
 
     if (!isReady) {
         return (
-            <div className="h-screen w-screen flex items-center justify-center">
+            <div className="h-screen w-screen flex items-center justify-center bg-background">
                 <LoadingIndicator />
             </div>
         );
