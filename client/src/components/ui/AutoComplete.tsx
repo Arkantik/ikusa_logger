@@ -120,7 +120,7 @@ function AutoComplete({
                             ref={(el) => {
                                 if (el) suggestion.button = el;
                             }}
-                            className="p-2 w-full text-left text-gold-muted hover:text-gold outline-none focus:bg-gold focus:text-black"
+                            className="p-2 w-full text-left text-cta-muted hover:text-cta outline-none focus:bg-cta focus:text-black"
                             onClick={() => {
                                 onChange(suggestion.name);
                                 setShowSuggestions(false);
