@@ -1,8 +1,7 @@
 import { os } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
 import { FaDiscord } from 'react-icons/fa';
-import { IoMdFolder, IoMdPlay } from 'react-icons/io';
-import { LuCheck, LuCircleAlert, LuSettings as LuCog, LuGithub, LuShield } from 'react-icons/lu';
+import { LuCheck, LuCircleAlert, LuCog, LuFolder, LuGithub, LuPlay, LuShield } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
 import ActionCard from '../components/ui/ActionCard';
 import Icon from '../components/ui/Icon';
@@ -31,7 +30,7 @@ function HomePage() {
         {
             title: 'Record',
             description: 'Start live capture',
-            icon: IoMdPlay,
+            icon: LuPlay,
             gradientFrom: 'rgba(139, 92, 246, 0.2)',
             gradientTo: 'rgba(236, 72, 153, 0.2)',
             iconColor: 'text-purple-400',
@@ -40,7 +39,7 @@ function HomePage() {
         {
             title: 'Open File',
             description: 'Import existing data',
-            icon: IoMdFolder,
+            icon: LuFolder,
             gradientFrom: 'rgba(59, 130, 246, 0.2)',
             gradientTo: 'rgba(6, 182, 212, 0.2)',
             iconColor: 'text-blue-400',

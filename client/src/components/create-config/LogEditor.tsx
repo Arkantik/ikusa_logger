@@ -1,6 +1,6 @@
-import { filesystem } from '@neutralinojs/lib';
+import { filesystem, os } from '@neutralinojs/lib';
 import { useState } from 'react';
-import { IoMdSave } from 'react-icons/io';
+import { LuSave, LuUpload } from 'react-icons/lu';
 import { List, type RowComponentProps } from 'react-window';
 import { open_save_location } from '../../logic/file';
 import Button from '../ui/Button';
@@ -73,6 +73,10 @@ function LogEditor({ logs, height = 155, loading = false }: LogEditorProps) {
         await filesystem.writeFile(path, getLogsString());
     }
 
+    function handleUploadToNodewar() {
+        os.open('https://nodewar.gg/account');
+    }
+
     const disabled = logs.length === 0 || loading;
 
     return (
@@ -112,16 +116,28 @@ function LogEditor({ logs, height = 155, loading = false }: LogEditorProps) {
                 )}
             </div>
 
-            <Button
-                className="w-full"
-                onClick={saveLogs}
-                disabled={disabled}
-                size="md"
-                color="gradient"
-            >
-                <Icon icon={IoMdSave} size="sm" className="mr-2" />
-                Save Logs
-            </Button>
+            <div className="flex gap-2 justify-center">
+                <Button
+                    className="w-full"
+                    onClick={saveLogs}
+                    disabled={disabled}
+                    size="md"
+                    color="primary"
+                >
+                    <Icon icon={LuSave} size="sm" className="mr-2" />
+                    Save Logs
+                </Button>
+                <Button
+                    className="w-full"
+                    onClick={handleUploadToNodewar}
+                    disabled={disabled}
+                    size="md"
+                    color="gradient"
+                >
+                    <Icon icon={LuUpload} size="sm" className="mr-2" />
+                    Upload to NodewarGG
+                </Button>
+            </div>
         </div>
     );
 }

@@ -1,6 +1,6 @@
-import { filesystem } from '@neutralinojs/lib';
+import { filesystem, os } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
-import { IoMdSave, IoMdSettings } from 'react-icons/io';
+import { LuCog, LuSave, LuUpload } from 'react-icons/lu';
 import { List, type RowComponentProps } from 'react-window';
 import { open_save_location } from '../../logic/file';
 import { find_all_indicies } from '../../logic/util';
@@ -242,6 +242,10 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
         await filesystem.writeFile(path, getLogsString());
     }
 
+    function handleUploadToNodewar() {
+        os.open('https://nodewar.gg/account');
+    }
+
     const disabled = logs.length === 0 || loading;
 
     return (
@@ -296,7 +300,7 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
                     className="cursor-pointer p-2.5 group rounded-xl transition-all duration-300 hover:bg-white/10"
                     title="Advanced Config"
                 >
-                    <Icon icon={IoMdSettings} className="text-white" />
+                    <Icon icon={LuCog} className="text-white" />
                 </button>
             </div>
 
@@ -329,16 +333,28 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
                 )}
             </div>
 
-            <Button
-                className="w-full"
-                onClick={saveLogs}
-                disabled={disabled}
-                size="md"
-                color="gradient"
-            >
-                <Icon icon={IoMdSave} size="sm" className="mr-2" />
-                Save Logs
-            </Button>
+            <div className="flex gap-2 justify-center">
+                <Button
+                    className="w-full"
+                    onClick={saveLogs}
+                    disabled={disabled}
+                    size="md"
+                    color="primary"
+                >
+                    <Icon icon={LuSave} size="sm" className="mr-2" />
+                    Save Logs
+                </Button>
+                <Button
+                    className="w-full"
+                    onClick={handleUploadToNodewar}
+                    disabled={disabled}
+                    size="md"
+                    color="gradient"
+                >
+                    <Icon icon={LuUpload} size="sm" className="mr-2" />
+                    Upload to NodewarGG
+                </Button>
+            </div>
         </div>
     );
 }

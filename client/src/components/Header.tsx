@@ -1,9 +1,8 @@
+import { app, os, updater } from '@neutralinojs/lib';
+import { useEffect, useState } from 'react';
+import { LuArrowLeft, LuDownload, LuMessageCircleQuestion } from 'react-icons/lu';
 import { Link, useLocation } from 'react-router-dom';
-import { IoMdArrowRoundBack, IoMdHelp } from 'react-icons/io';
-import { HiDownload } from 'react-icons/hi';
 import Icon from './ui/Icon';
-import { os, updater, app } from '@neutralinojs/lib';
-import { useState, useEffect } from 'react';
 
 declare const NL_APPVERSION: string;
 
@@ -76,7 +75,7 @@ function Header({ onUpdateAvailable }: HeaderProps) {
                         to="/"
                         className="p-2.5 rounded-xl transition-all duration-300 hover:bg-white/10 text-gray-300 hover:text-white"
                     >
-                        <Icon icon={IoMdArrowRoundBack} className="text-white" />
+                        <Icon icon={LuArrowLeft} className="text-white" />
                     </Link>
                 )}
                 <div className="flex flex-col">
@@ -93,7 +92,7 @@ function Header({ onUpdateAvailable }: HeaderProps) {
                     className="cursor-pointer p-2.5 rounded-xl transition-all duration-300 hover:bg-white/10 text-gray-300 hover:text-white"
                     title="Help"
                 >
-                    <Icon icon={IoMdHelp} />
+                    <Icon icon={LuMessageCircleQuestion} />
                 </button>
 
                 {updateAvailable && (
@@ -103,7 +102,7 @@ function Header({ onUpdateAvailable }: HeaderProps) {
                         className="cursor-pointer flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium shadow-lg hover:shadow-xl glow-effect"
                         title={`Update to v${newVersion}`}
                     >
-                        <Icon icon={HiDownload} size="sm" />
+                        <Icon icon={LuDownload} size="sm" />
                         {updating ? 'Updating...' : 'Update Available'}
                     </button>
                 )}

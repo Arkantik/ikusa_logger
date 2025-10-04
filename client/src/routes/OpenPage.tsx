@@ -1,7 +1,6 @@
 import { filesystem } from '@neutralinojs/lib';
 import { useEffect, useRef, useState } from 'react';
-import { IoMdFolder } from 'react-icons/io';
-import { LuFileText } from 'react-icons/lu';
+import { LuFileText, LuFolder } from 'react-icons/lu';
 import { get_config, type Log, type LogType } from '../components/create-config/config';
 import LogEditor from '../components/create-config/LogEditor';
 import Logger from '../components/create-config/Logger';
@@ -113,7 +112,7 @@ function OpenPage() {
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <div className="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl">
-                            <Icon icon={fileName ? LuFileText : IoMdFolder} size="lg" className="text-blue-400" />
+                            <Icon icon={fileName ? LuFileText : LuFolder} size="lg" className="text-blue-400" />
                         </div>
                         <div>
                             <div className="text-xs text-gray-400 mb-1">Selected File</div>
@@ -123,7 +122,7 @@ function OpenPage() {
                         </div>
                     </div>
                     <Button onClick={openPcap} size="md" color="gradient">
-                        <Icon icon={IoMdFolder} size="sm" className="mr-2" />
+                        <Icon icon={LuFolder} size="sm" className="mr-2" />
                         Import File
                     </Button>
                 </div>
