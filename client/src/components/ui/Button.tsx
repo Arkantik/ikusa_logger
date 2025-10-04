@@ -18,10 +18,8 @@ function Button({
         'cursor-pointer disabled:cursor-not-allowed text-center font-medium focus:ring-2 focus:outline-none flex items-center justify-center rounded-xl duration-300 transition-all',
         {
             // Gradient primary button
-            'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-sm hover:shadow-md glow-effect':
+            'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-xs hover:shadow-md glow-effect':
                 color === 'primary' && !disabled,
-            '!bg-gray-700 text-gray-400 shadow-none':
-                color === 'primary' && disabled,
 
             // Glass secondary button
             'glass-card glass-card-hover text-white border border-white/10':
@@ -32,8 +30,11 @@ function Button({
                 color === 'outline',
 
             // Gold gradient button
-            'bg-gradient-to-r from-cta-500 to-orange-500 hover:from-cta-600 hover:to-orange-600 text-gray-900 shadow-sm hover:shadow-mg glow-effect-cta':
+            'bg-gradient-to-r from-cta-500 to-orange-500 hover:from-cta-600 hover:to-orange-600 text-gray-900 shadow-xs hover:shadow-md glow-effect-cta':
                 color === 'gradient' && !disabled,
+            
+            '!bg-gray-700 text-gray-400 shadow-none':
+                (color === 'primary' || color === 'gradient') && disabled,
 
             'h-8 px-4 text-xs': size === 'sm',
             'h-10 px-5 text-sm': size === 'md',
