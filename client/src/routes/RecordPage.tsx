@@ -10,28 +10,7 @@ function RecordPage() {
     const isDestroyedRef = useRef(false);
     const retryCountRef = useRef(0);
     const [config, setConfig] = useState<Config | null>(null);
-
-    const stats = useMemo(() => {
-        if (!config || logs.length === 0) {
-            return { kills: 0, deaths: 0, kdr: 0 };
-        }
-
-        let kills = 0;
-        let deaths = 0;
-
-        logs.forEach(log => {
-            const isKill = log.hex[config.kill] === '1';
-            if (isKill) {
-                kills++;
-            } else {
-                deaths++;
-            }
-        });
-
-        const kdr = deaths > 0 ? parseFloat((kills / deaths).toFixed(2)) : kills;
-
-        return { kills, deaths, kdr };
-    }, [logs, config]);
+    const [stats, setStats] = useState({ kills: 0, deaths: 0, kdr: 0 });
 
     useEffect(() => {
         (async () => {
@@ -159,7 +138,7 @@ function RecordPage() {
             </div>
 
             <div className="flex-1 glass-card rounded-2xl p-6 border border-white/10 overflow-hidden">
-                <Logger logs={logs} height={window.innerHeight - 400} />
+                <Logger logs={logs} height={window.innerHeight - 400} onStatsUpdate={setStats} />
             </div>
         </div>
     );

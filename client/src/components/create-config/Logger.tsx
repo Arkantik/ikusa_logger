@@ -25,6 +25,7 @@ export interface LoggerProps {
     logs: LogType[];
     height?: number;
     loading?: boolean;
+    onStatsUpdate?: (stats: { kills: number; deaths: number; kdr: number }) => void;
 }
 
 export interface LoggerRowProps {
@@ -38,7 +39,7 @@ export interface LoggerRowProps {
     getNameOptions: (i: number, log: LogType) => string[];
 }
 
-function Logger({ logs, height = 155, loading = false }: LoggerProps) {
+function Logger({ logs, height = 155, loading = false, onStatsUpdate }: LoggerProps) {
     const [possibleNameOffsets, setPossibleNameOffsets] = useState<{ offset: number; count: number }[][]>([]);
     const [nameIndicies, setNameIndicies] = useState<number[]>([0, 0, 0, 0, 0]);
     const [playerOneIndex, setPlayerOneIndex] = useState(0);
@@ -74,6 +75,26 @@ function Logger({ logs, height = 155, loading = false }: LoggerProps) {
             logsChanged();
         }
     }, [logs]);
+
+    // Calculate and update stats whenever logs, possibleKillOffsets, or killIndex change
+    useEffect(() => {
+        if (onStatsUpdate && logs.length > 0 && possibleKillOffsets.length > 0) {
+            let kills = 0;
+            let deaths = 0;
+
+            logs.forEach(log => {
+                const isKill = log.hex[possibleKillOffsets[killIndex]] === '1';
+                if (isKill) {
+                    kills++;
+                } else {
+                    deaths++;
+                }
+            });
+
+            const kdr = deaths > 0 ? parseFloat((kills / deaths).toFixed(2)) : kills;
+            onStatsUpdate({ kills, deaths, kdr });
+        }
+    }, [logs, possibleKillOffsets, killIndex, onStatsUpdate]);
 
     function logsChanged() {
         if (autoScroll) {
