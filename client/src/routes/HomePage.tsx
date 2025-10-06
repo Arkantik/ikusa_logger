@@ -99,7 +99,7 @@ function HomePage() {
                                 statusColor="bg-green-500/20"
                                 loading={loading}
                                 link={!status?.npcap_installed ? {
-                                    url: 'https://npcap.com/dist/npcap-1.78.exe',
+                                    url: 'https://npcap.com/dist/npcap-1.84.exe',
                                     text: 'Download Npcap'
                                 } : undefined}
                             />
