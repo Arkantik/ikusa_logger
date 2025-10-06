@@ -278,15 +278,12 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate }: LoggerPr
             )}
 
             <div className="flex items-center justify-between mb-3 px-2">
-                <div className="flex items-center gap-3">
-                    <span className="text-sm font-medium text-white">{logs.length} Logs</span>
-                    <div className="flex items-center gap-2">
-                        <Checkbox
-                            checked={autoScroll}
-                            onChange={(e) => setAutoScroll(e.target.checked)}
-                        />
-                        <span className="text-sm text-gray-400">Auto scroll</span>
-                    </div>
+                <div className="flex items-center gap-2">
+                    <Checkbox
+                        checked={autoScroll}
+                        onChange={(e) => setAutoScroll(e.target.checked)}
+                    />
+                    <span className="text-sm text-gray-400">Auto scroll</span>
                 </div>
 
                 <button
