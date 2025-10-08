@@ -61,6 +61,7 @@ body {
   @apply bg-background;
   background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
   background-attachment: fixed;
+  color: #ffffff;
 
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
