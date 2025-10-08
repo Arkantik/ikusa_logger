@@ -10,34 +10,16 @@ A powerful tool for Black Desert Online that captures and logs combat messages d
 
 ## 📋 Table of Contents
 
-- [BDO Combat Logger](#bdo-combat-logger)
-  - [📋 Table of Contents](#-table-of-contents)
-  - [✨ Features](#-features)
-  - [🔧 Prerequisites](#-prerequisites)
-    - [Required](#required)
-    - [Optional](#optional)
-  - [📥 Installation](#-installation)
-    - [Step 1: Get the Project Files](#step-1-get-the-project-files)
-    - [Step 2: Verify Prerequisites](#step-2-verify-prerequisites)
-    - [Step 3: Build the Application](#step-3-build-the-application)
-  - [🎮 Usage](#-usage)
-    - [Starting the Logger](#starting-the-logger)
-    - [Recording Combat Logs (Live)](#recording-combat-logs-live)
-    - [Adjusting Log Names](#adjusting-log-names)
-    - [Saving Your Logs](#saving-your-logs)
-    - [Opening Existing Files](#opening-existing-files)
-  - [📊 Visualizing Your Logs](#-visualizing-your-logs)
-  - [❗ Troubleshooting](#-troubleshooting)
-    - [Startup Issues](#startup-issues)
-    - ["The system cannot find the path specified" Error](#the-system-cannot-find-the-path-specified-error)
-    - [No Logs Being Captured](#no-logs-being-captured)
-    - [Logs Have Wrong Names](#logs-have-wrong-names)
-    - [Can't Save Logs / Logs Not Found](#cant-save-logs--logs-not-found)
-  - [🤔 FAQ](#-faq)
-  - [💬 Need Help?](#-need-help)
-  - [👥 Credits](#-credits)
-  - [📝 Notes for Advanced Users](#-notes-for-advanced-users)
-    - [Manual Config Updates](#manual-config-updates)
+- [✨ Features](#-features)
+- [🔧 Prerequisites](#-prerequisites)
+- [📥 Installation](#-installation)
+- [🎮 Usage](#-usage)
+- [📊 Visualizing Your Logs](#-visualizing-your-logs)
+- [❗ Troubleshooting](#-troubleshooting)
+- [🤔 FAQ](#-faq)
+- [💬 Need Help?](#-need-help)
+- [👥 Credits](#-credits)
+- [📝 Notes for Advanced Users](#-notes-for-advanced-users)
 
 ## ✨ Features
 
@@ -152,9 +134,10 @@ The logger can open two types of files:
 **Log Files** (`.log`)
 
 - Previously saved combat logs
-- Can be opened to adjust names if needed**Method B: Download as ZIP (Recommended)**
+- Can be opened to adjust names if needed
 - Use this to fix mistakes in exported logs
-  To open a file:
+
+To open a file:
 
 1. Click **Open** in the main menu
 2. Select your file
@@ -181,6 +164,9 @@ The website provides:
 ---
 
 ## ❗ Troubleshooting
+
+<details>
+<summary><b>Click to expand troubleshooting guide</b></summary>
 
 ### Startup Issues
 
@@ -234,9 +220,14 @@ This error usually means Python is not added to your system PATH:
 2. Check that you have write permissions in the save location
 3. Try saving to a different folder (like Documents)
 
+</details>
+
 ---
 
 ## 🤔 FAQ
+
+<details>
+<summary><b>Click to expand frequently asked questions</b></summary>
 
 **Q: Is this tool safe to use?**  
 A: Yes, the logger only reads network packets and doesn't modify or inject anything into the game.
@@ -255,6 +246,8 @@ A: Yes! Use the Open function to load your `.log` file, adjust the names, and sa
 
 **Q: What if I accidentally close the logger while recording?**  
 A: A warning message should appear asking you to confirm. If you lose data, you can use your Wireshark recording as backup (if you made one).
+
+</details>
 
 ---
 
@@ -284,6 +277,9 @@ When asking for help, please provide:
 
 ## 📝 Notes for Advanced Users
 
+<details>
+<summary><b>Click to expand advanced configuration</b></summary>
+
 ### Manual Config Updates
 
 If you need to update the config manually:
@@ -296,5 +292,7 @@ If you need to update the config manually:
    - `player_one`: Offset for first player name
    - `player_two`: Offset for second player name
    - `kill`: Offset for kill/death flag
+
+</details>
 
 ---
