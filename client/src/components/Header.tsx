@@ -42,23 +42,13 @@ function Header({ onUpdateAvailable }: HeaderProps) {
 
         setUpdating(true);
         try {
-            const manifestParts = newVersion.split('.');
-            const currentParts = NL_APPVERSION.split('.');
+            await updater.install();
+            alert('Update installed successfully!\n\nThe application will now close.\nPlease restart it to use the new version.');
 
-            if (
-                manifestParts.length !== currentParts.length ||
-                manifestParts[0] !== currentParts[0] ||
-                manifestParts[1] !== currentParts[1]
-            ) {
-                await os.execCommand(`update.bat ${newVersion}`, { background: true });
-                await app.exit();
-            } else {
-                await updater.install();
-                await app.restartProcess();
-            }
+            await app.restartProcess();
         } catch (err) {
-            alert('Update failed. Please check your internet connection.\n' + ((err as Error).message || err));
-            console.error(err);
+            console.error('Update failed:', err);
+            alert('Update failed. Please try again.\n\n' + ((err as Error).message || err));
             setUpdating(false);
         }
     }
