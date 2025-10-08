@@ -3,11 +3,12 @@
   "version": "1.8.6",
   "defaultMode": "window",
   "documentRoot": "/client/build/",
-  "url": "/index.html",
+  "url": "/index.html#/",
   "enableServer": true,
   "enableNativeAPI": true,
   "nativeAllowList": [
     "app.exit",
+    "app.restartProcess",
     "filesystem.readFile",
     "filesystem.writeFile",
     "filesystem.writeBinaryFile",
@@ -19,7 +20,9 @@
     "os.execCommand",
     "clipboard.writeText",
     "storage.setData",
-    "storage.getData"
+    "storage.getData",
+    "updater.checkForUpdates",
+    "updater.install"
   ],
   "modes": {
     "window": {
