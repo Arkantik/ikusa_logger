@@ -1,5 +1,5 @@
 {
-    "applicationId": "ikusa.logger",
-    "version": "1.8.6",
-    "resourcesURL": "https://github.com/Arkantik/ikusa_logger/blob/main/version/resources.neu"
+  "applicationId": "ikusa.logger",
+  "version": "1.8.5",
+  "resourcesURL": "https://raw.githubusercontent.com/Arkantik/ikusa_logger/main/version/resources.neu"
 }
