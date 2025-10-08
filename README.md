@@ -39,8 +39,8 @@ Before installing Ikusa Logger, you need:
 ### Required
 
 - **[Npcap 1.7.8+](https://npcap.com/dist/)** - Network packet capture library (Required for network monitoring)
-- **[Node.js 16+](https://nodejs.org/en/download/)** - JavaScript runtime (Only needed if building from source)
-- **[Python 3+](https://www.python.org/downloads/)** - Programming language (Only needed if building from source)
+- **[Node.js 20+](https://nodejs.org/en/download/)** - JavaScript runtime
+- **[Python 3+](https://www.python.org/downloads/)** - Programming language
 
 ### Optional
 
