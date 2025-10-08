@@ -18,6 +18,8 @@
     "os.spawnProcess",
     "os.updateSpawnedProcess",
     "os.execCommand",
+    "os.getEnv",
+    "os.getExecPath",
     "clipboard.writeText",
     "storage.setData",
     "storage.getData",
