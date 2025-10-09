@@ -64,7 +64,7 @@ def package_handler(package, output, ip_filter=True):
             (
                 [
                     ip
-                    for ip in ["20.76.13", "20.76.14", "13.64.17", "13.93.181"]
+                    for ip in ["20.76.13", "20.76.14", "13.64.17", "13.93.181", "52.137.41", "52.137.42", "44.228.191", "54.150.104"]
                     if ip in package_src
                 ]
             )
