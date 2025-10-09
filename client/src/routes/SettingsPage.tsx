@@ -15,7 +15,8 @@ function SettingsPage() {
             const cfg = await get_config();
             setConfig(cfg);
             setAllInterfaces(cfg.all_interfaces === true || cfg.all_interfaces === undefined);
-            setIpFilter(cfg.ip_filter === true || cfg.ip_filter === undefined);
+            // setIpFilter(cfg.ip_filter === true || cfg.ip_filter === undefined);
+            setIpFilter(false);
         })();
     }, []);
 
@@ -27,13 +28,13 @@ function SettingsPage() {
         }
     }
 
-    async function updateIpFilter(value: boolean) {
-        setIpFilter(value);
-        if (config) {
-            await update_config({ ...config, ip_filter: value });
-            showSavedIndicator();
-        }
-    }
+    // async function updateIpFilter(value: boolean) {
+    //     setIpFilter(value);
+    //     if (config) {
+    //         await update_config({ ...config, ip_filter: value });
+    //         showSavedIndicator();
+    //     }
+    // }
 
     function showSavedIndicator() {
         setSaved(true);
@@ -65,7 +66,7 @@ function SettingsPage() {
                                 <div className="flex-1">
                                     <h3 className="text-lg font-semibold text-white mb-2">All Network Interfaces</h3>
                                     <p className="text-sm text-gray-400 leading-relaxed">
-                                        Capture traffic from all available network interfaces. Disable to use only the default interface for better performance.
+                                        Capture traffic from all available network interfaces. Disable to use only the default interface.
                                     </p>
                                 </div>
                             </div>
@@ -77,7 +78,8 @@ function SettingsPage() {
                         </div>
                     </div>
 
-                    <div className="glass-card rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-colors duration-300">
+                    {/* DISABLED due to BDO IP servers changing occassionally making this option unrialiable */}
+                    {/* <div className="glass-card rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-colors duration-300">
                         <div className="flex items-center justify-between">
                             <div className="flex items-start gap-4 flex-1">
                                 <div className="p-3 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl">
@@ -96,7 +98,7 @@ function SettingsPage() {
                                 className="ml-6"
                             />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 {saved && (
