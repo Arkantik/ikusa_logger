@@ -9,7 +9,7 @@ function handle_process(evt: CustomEvent) {
         break;
       case "stdErr":
         alert(
-          "Something went wrong. Please contact me on discord and send the following error message:\n\n" +
+          "Something went wrong. Refer to the troubleshooting section in the documentation:\n\n" +
             evt.detail.data
         );
         console.error(evt.detail.data);
