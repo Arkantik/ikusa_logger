@@ -93,6 +93,10 @@ function RecordPage() {
         };
     }, []);
 
+    const handleDeleteLog = (index: number) => {
+        setLogs((prevLogs) => prevLogs.filter((_, i) => i !== index));
+    };
+
     return (
         <div className="flex flex-col h-full w-full p-8 gap-6">
             <div className="grid grid-cols-4 gap-4">
@@ -138,7 +142,7 @@ function RecordPage() {
             </div>
 
             <div className="flex-1 glass-card rounded-2xl p-6 border border-white/10 overflow-hidden">
-                <Logger logs={logs} height={window.innerHeight - 400} onStatsUpdate={setStats} />
+                <Logger logs={logs} height={window.innerHeight - 400} onStatsUpdate={setStats} onDeleteLog={handleDeleteLog} />
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 import { filesystem, os } from '@neutralinojs/lib';
 import { useState } from 'react';
-import { LuSave, LuUpload } from 'react-icons/lu';
+import { LuSave, LuUpload, LuX } from 'react-icons/lu';
 import { List, type RowComponentProps } from 'react-window';
 import { open_save_location } from '../../logic/file';
 import Button from '../ui/Button';
@@ -13,6 +13,7 @@ interface LogEditorProps {
     logs: Log[];
     height?: number;
     loading?: boolean;
+    onDeleteLog?: (index: number) => void;
 }
 
 interface RowProps {
@@ -21,9 +22,10 @@ interface RowProps {
     playerTwoIndex: number;
     guildIndex: number;
     updateNames: (target: 'player_one' | 'player_two' | 'guild', value: number) => void;
+    onDeleteLog: (index: number) => void;
 }
 
-function LogEditor({ logs, height = 155, loading = false }: LogEditorProps) {
+function LogEditor({ logs, height = 155, loading = false, onDeleteLog }: LogEditorProps) {
     const [playerOneIndex, setPlayerOneIndex] = useState(0);
     const [playerTwoIndex, setPlayerTwoIndex] = useState(1);
     const [guildIndex, setGuildIndex] = useState(2);
@@ -110,7 +112,8 @@ function LogEditor({ logs, height = 155, loading = false }: LogEditorProps) {
                             playerOneIndex,
                             playerTwoIndex,
                             guildIndex,
-                            updateNames
+                            updateNames,
+                            onDeleteLog: (index: number) => onDeleteLog?.(index)
                         }}
                     />
                 )}
@@ -149,11 +152,12 @@ function RowComponent({
     playerOneIndex,
     playerTwoIndex,
     guildIndex,
-    updateNames
+    updateNames,
+    onDeleteLog
 }: RowComponentProps<RowProps>) {
     const log = logs[index];
     return (
-        <div style={style} className="flex gap-2 items-center px-2 hover:bg-white/5">
+        <div style={style} className="flex gap-2 items-center px-2 hover:bg-white/5 group">
             <span className="text-xs text-gray-500 w-16">{log.time}</span>
             <Select
                 options={log.names}
@@ -181,6 +185,13 @@ function RowComponent({
                 onChange={(value) => updateNames('guild', value)}
                 className='w-full max-w-32 text-xs'
             />
+            <button
+                onClick={() => onDeleteLog(index)}
+                className="ml-auto p-1 rounded hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+                title="Delete entry"
+            >
+                <Icon icon={LuX} size="sm" />
+            </button>
         </div>
     );
 }
