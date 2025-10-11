@@ -1,6 +1,6 @@
 import { filesystem, os } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
-import { LuSettings, LuSave, LuUpload } from 'react-icons/lu';
+import { LuSettings, LuSave, LuUpload, LuX } from 'react-icons/lu';
 import { List, type RowComponentProps } from 'react-window';
 import { open_save_location } from '../../logic/file';
 import { find_all_indicies } from '../../logic/util';
@@ -26,6 +26,7 @@ export interface LoggerProps {
     height?: number;
     loading?: boolean;
     onStatsUpdate?: (stats: { kills: number; deaths: number; kdr: number }) => void;
+    onDeleteLog?: (index: number) => void;
 }
 
 export interface LoggerRowProps {
@@ -37,9 +38,10 @@ export interface LoggerRowProps {
     guildIndex: number;
     updateNames: (target: 'player_one' | 'player_two' | 'guild', value: number) => void;
     getNameOptions: (i: number, log: LogType) => string[];
+    onDeleteLog: (index: number) => void;
 }
 
-function Logger({ logs, height = 155, loading = false, onStatsUpdate }: LoggerProps) {
+function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLog }: LoggerProps) {
     const [possibleNameOffsets, setPossibleNameOffsets] = useState<{ offset: number; count: number }[][]>([]);
     const [nameIndicies, setNameIndicies] = useState<number[]>([0, 0, 0, 0, 0]);
     const [playerOneIndex, setPlayerOneIndex] = useState(0);
@@ -345,7 +347,8 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate }: LoggerPr
                             playerTwoIndex,
                             guildIndex,
                             updateNames,
-                            getNameOptions
+                            getNameOptions,
+                            onDeleteLog: (index: number) => onDeleteLog?.(index)
                         }}
                     />
                 )}
@@ -387,13 +390,14 @@ function LoggerRowComponent({
     playerTwoIndex,
     guildIndex,
     updateNames,
-    getNameOptions
+    getNameOptions,
+    onDeleteLog
 }: RowComponentProps<LoggerRowProps>) {
     const log = logs[index];
     const isKill = log.hex[possibleKillOffsets[killIndex]] === '1';
 
     return (
-        <div style={style} className="flex gap-2 items-center px-2 hover:bg-white/5">
+        <div style={style} className="flex gap-2 items-center px-2 hover:bg-white/5 group">
             <span className="text-xs text-gray-500 w-16">{log.time}</span>
             <Select
                 options={getNameOptions(playerOneIndex, log)}
@@ -421,6 +425,13 @@ function LoggerRowComponent({
                 onChange={(value) => updateNames('guild', value)}
                 className='w-full max-w-32 text-xs'
             />
+            <button
+                onClick={() => onDeleteLog(index)}
+                className="ml-auto p-1 rounded hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+                title="Delete entry"
+            >
+                <Icon icon={LuX} size="sm" />
+            </button>
         </div>
     );
 }

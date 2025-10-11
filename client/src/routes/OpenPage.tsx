@@ -106,6 +106,14 @@ function OpenPage() {
         }
     }
 
+    const handleDeleteLog = (index: number) => {
+        setLogs((prevLogs) => prevLogs.filter((_, i) => i !== index));
+    };
+
+    const handleDeleteCombatLog = (index: number) => {
+        setCombatLogs((prevLogs) => prevLogs.filter((_, i) => i !== index));
+    };
+
     return (
         <div className="flex flex-col h-full w-full p-8 gap-6">
             <div className="glass-card rounded-2xl p-6 border border-white/10">
@@ -130,9 +138,9 @@ function OpenPage() {
 
             <div className="flex-1 glass-card rounded-2xl p-6 border border-white/10 overflow-hidden">
                 {isNetwork ? (
-                    <Logger logs={logs} height={window.innerHeight - 350} loading={loading} />
+                    <Logger logs={logs} height={window.innerHeight - 350} loading={loading} onDeleteLog={handleDeleteLog} />
                 ) : (
-                    <LogEditor logs={combatLogs} height={window.innerHeight - 350} loading={loading} />
+                    <LogEditor logs={combatLogs} height={window.innerHeight - 350} loading={loading} onDeleteLog={handleDeleteCombatLog} />
                 )}
             </div>
         </div>
