@@ -187,7 +187,7 @@ function RowComponent({
             />
             <button
                 onClick={() => onDeleteLog(index)}
-                className="ml-auto p-1 rounded hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+                className="cursor-pointer ml-auto p-1 rounded hover:bg-red-500/20 text-gray-400 hover:text-red-400 border border-white/10 transition-colors opacity-0 group-hover:opacity-100 hover:border-red-400/20"
                 title="Delete entry"
             >
                 <Icon icon={LuX} size="sm" />
