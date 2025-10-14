@@ -1,12 +1,20 @@
 # BDO Combat Logger
 
-[![Version](https://img.shields.io/github/v/release/Arkantik/ikusa_logger?label=version)](https://github.com/Arkantik/ikusa_logger/releases)
-[![Last Updated](https://img.shields.io/github/last-commit/Arkantik/ikusa_logger?label=last%20updated)](https://github.com/Arkantik/ikusa_logger)
-[![License](https://img.shields.io/badge/license-repo%20not%20found-red.svg)](https://github.com/Arkantik/ikusa_logger)
-[![Platform](https://img.shields.io/badge/platform-Windows-lightgrey.svg)](https://github.com/Arkantik/ikusa_logger)
-[![BDO](https://img.shields.io/badge/game-Black%20Desert%20Online-orange.svg)](https://www.naeu.playblackdesert.com/)
+[![Version][version-shield]][version-url]
+[![Commit][commit-shield]][commit-url]
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
 
-A powerful tool for Black Desert Online that captures and logs combat messages during PvP activities such as Node Wars, Sieges, and War of the Roses.
+<p align="center">
+ A powerful tool for Black Desert Online that captures and logs combat messages during PvP activities such as Node Wars, Sieges, and War of the Roses.
+ <br />
+ <br />
+ <a href="https://github.com/Arkantik/ikusa_logger/issues">Report Bug</a>
+ ·
+ <a href="https://github.com/Arkantik/ikusa_logger/issues">Request Feature</a>
+</p>
 
 ## 📋 Table of Contents
 
@@ -295,5 +303,23 @@ If you need to update the config manually:
    - `kill`: Offset for kill/death flag
 
 </details>
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+
+[version-shield]: https://img.shields.io/github/v/release/Arkantik/ikusa_logger.svg?style=for-the-badge
+[version-url]: https://github.com/Arkantik/ikusa_logger/releases
+[commit-shield]: https://img.shields.io/github/last-commit/Arkantik/ikusa_logger.svg?style=for-the-badge
+[commit-url]: https://github.com/Arkantik/ikusa_logger/commits/main/
+[contributors-shield]: https://img.shields.io/github/contributors/Arkantik/ikusa_logger.svg?style=for-the-badge
+[contributors-url]: https://github.com/Arkantik/next-template/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Arkantik/ikusa_logger.svg?style=for-the-badge
+[forks-url]: https://github.com/Arkantik/ikusa_logger/network/members
+[stars-shield]: https://img.shields.io/github/stars/Arkantik/ikusa_logger.svg?style=for-the-badge
+[stars-url]: https://github.com/Arkantik/ikusa_logger/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Arkantik/ikusa_logger.svg?style=for-the-badge
+[issues-url]: https://github.com/Arkantik/ikusa_logger/issues
+[license-shield]: https://img.shields.io/github/license/Arkantik/ikusa_logger.svg?style=for-the-badge
+[license-url]: https://github.com/Arkantik/ikusa_logger/blob/main/LICENSE.txt
 
 ---
