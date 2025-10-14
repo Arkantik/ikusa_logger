@@ -46,7 +46,8 @@ Before installing Ikusa Logger, you need:
 
 - **[Wireshark](https://www.wireshark.org/download.html)** - Network protocol analyzer (Useful for backup recordings)
 
-> **Important**: When installing Python, make sure to check the box that says **"Add Python to PATH"** during installation!
+> [!Warning]
+> When installing Python, make sure to check the box that says **"Add Python to PATH"** during installation!
 
 ---
 
@@ -84,7 +85,8 @@ Make sure you have installed:
 4. Wait for the build process to complete (this may take several minutes)
 5. When finished, you'll find the executable in `dist/ikusa-logger/ikusa-logger-win_x64.exe`
 
-> **Note**: The first build may take few minutes as it downloads and installs all necessary dependencies.
+> [!Note]
+> The first build may take few minutes as it downloads and installs all necessary dependencies.
 
 ---
 
@@ -191,28 +193,29 @@ This error usually means Python is not added to your system PATH:
 
 **Possible causes and solutions**:
 
-1. **Config is outdated**: BDO changes its network structure after each weekly maintenance
+1. **VPN or Software altering our network**: If you are using a VPN or any Software that alters your normal network, it will prevent the tool to pick up events during your record session.
+
+2. **Config is outdated**: BDO changes its network structure after each weekly maintenance
 
    - Wait for a config update
    - Check the Discord for announcements
    - As a backup, use Wireshark to record the session, then analyze the `.pcap` file later
 
-2. **Wrong network interface selected**:
+3. **Wrong network interface selected**:
 
    - Go to Settings
    - Try switching between "All" and "Default" network interfaces
    - Restart recording
 
-3. **Firewall or antivirus blocking**:
+4. **Firewall or antivirus blocking**:
    - Add an exception for the logger in your antivirus
    - Run the logger as Administrator
 
 ### Logs Have Wrong Names
 
-1. Stop recording
-2. In the log display, use the dropdown menus to reorder the names
-3. The correct format is: **Player1 killed/died to Player2 from Guild**
-4. Save the corrected logs
+1. In the log display, use the dropdown menus to reorder the names
+2. The correct format is: **YourGuild-FamilyName killed/died to Enemy-FamilyName from Guild**
+3. Save the corrected logs
 
 ### Can't Save Logs / Logs Not Found
 
