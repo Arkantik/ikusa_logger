@@ -191,7 +191,7 @@ This error usually means Python is not added to your system PATH:
 
 ### No Logs Being Captured
 
-1. **VPN or Software altering our network**: If you are using a VPN or any Software that alters your normal network, it will prevent the tool to pick up events during your record session.
+1. **VPN or Software altering your network**: If you are using a VPN or any Software that alters your normal network, it will prevent the tool to pick up events during your record session.
 
 2. **Config is outdated**: BDO changes its network structure after each weekly maintenance
 
