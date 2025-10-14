@@ -312,7 +312,7 @@ If you need to update the config manually:
 [commit-shield]: https://img.shields.io/github/last-commit/Arkantik/ikusa_logger.svg?style=for-the-badge
 [commit-url]: https://github.com/Arkantik/ikusa_logger/commits/main/
 [contributors-shield]: https://img.shields.io/github/contributors/Arkantik/ikusa_logger.svg?style=for-the-badge
-[contributors-url]: https://github.com/Arkantik/next-template/graphs/contributors
+[contributors-url]: https://github.com/Arkantik/ikusa_logger/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/Arkantik/ikusa_logger.svg?style=for-the-badge
 [forks-url]: https://github.com/Arkantik/ikusa_logger/network/members
 [stars-shield]: https://img.shields.io/github/stars/Arkantik/ikusa_logger.svg?style=for-the-badge
