@@ -1,7 +1,7 @@
-import { app, os, updater } from '@neutralinojs/lib';
+import { app, updater } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
 import { LuArrowLeft, LuDownload, LuMessageCircleQuestion } from 'react-icons/lu';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Icon from './ui/Icon';
 
 declare const NL_APPVERSION: string;
@@ -11,6 +11,7 @@ interface HeaderProps {
 }
 
 function Header({ onUpdateAvailable }: HeaderProps) {
+    const navigate = useNavigate();
     const location = useLocation();
     const showArrow = location.pathname !== '/';
     const version = NL_APPVERSION;
@@ -53,10 +54,6 @@ function Header({ onUpdateAvailable }: HeaderProps) {
         }
     }
 
-    function handleHelp() {
-        os.open('https://github.com/Arkantik/ikusa_logger/blob/main/README.md#-troubleshooting');
-    }
-
     return (
         <header className="glass-card flex items-center justify-between px-8 py-4 border-b-0">
             <div className="flex items-center gap-4">
@@ -77,13 +74,13 @@ function Header({ onUpdateAvailable }: HeaderProps) {
             </div>
 
             <div className="flex items-center gap-3">
-                <button
-                    onClick={handleHelp}
-                    className="cursor-pointer p-2.5 rounded-xl transition-all duration-300 hover:bg-white/10 text-gray-300 hover:text-white"
+                <Link
+                    to="/docs"
+                    className="p-2.5 rounded-xl transition-all duration-300 hover:bg-white/10 text-gray-300 hover:text-white"
                     title="Help"
                 >
                     <Icon icon={LuMessageCircleQuestion} />
-                </button>
+                </Link>
 
                 {updateAvailable && (
                     <button
