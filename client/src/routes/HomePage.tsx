@@ -71,14 +71,11 @@ function HomePage() {
 
     return (
         <div className="flex flex-col h-full relative">
-            {/* Decorative background elements */}
             <div className="absolute top-20 right-20 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl animate-float"></div>
             <div className="absolute bottom-20 left-20 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
 
-            {/* Main Content */}
             <div className="flex-1 flex items-center justify-center px-8 relative z-10">
                 <div className="w-full max-w-4xl">
-                    {/* Status Section */}
                     <div className="glass-card rounded-2xl p-8 mb-8 border border-white/10">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-3 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl">
