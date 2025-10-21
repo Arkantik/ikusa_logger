@@ -273,7 +273,7 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
 
     return (
         <div className="flex flex-col h-full w-full relative">
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
                     <Checkbox
                         checked={autoScroll}
