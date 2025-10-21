@@ -40,7 +40,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: ".\dist\ikusa-logger\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\dist\ikusa-logger\update.bat"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\update.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\dist\ikusa-logger\resources.neu"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\dist\ikusa-logger\WebView2Loader.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\logger\icon\{#MyAppIcoName}"; DestDir: "{app}"; Flags: ignoreversion
