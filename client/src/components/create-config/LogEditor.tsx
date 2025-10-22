@@ -84,14 +84,10 @@ function LogEditor({ logs, height = 155, loading = false, onDeleteLog }: LogEdit
     return (
         <div className="flex flex-col h-full w-full relative">
             {logs.length > 0 && (
-                <div className="text-center text-gray-400 text-xs mb-2 px-2">
+                <div className="text-center text-gray-400 text-xs mb-2">
                     Adjust the Logs to: <span className="font-semibold text-gray-300">YourGuild-FamilyName</span> kills/died to <span className="font-semibold text-gray-300">Enemy-FamilyName</span> from <span className="font-semibold text-gray-300">Guild</span>
                 </div>
             )}
-
-            <div className="flex items-center justify-between mb-3 px-2">
-                <span className="text-sm font-medium text-white">{logs.length} Logs</span>
-            </div>
 
             <div className="flex-1 overflow-hidden rounded-lg border border-white/10 bg-black/20 mb-3">
                 {loading && logs.length === 0 ? (
