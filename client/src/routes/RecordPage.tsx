@@ -10,13 +10,15 @@ function RecordPage() {
     const [logs, setLogs] = useState<LogType[]>([]);
     const isDestroyedRef = useRef(false);
     const retryCountRef = useRef(0);
-    const [config, setConfig] = useState<Config | null>(null);
+    const [_, setConfig] = useState<Config | null>(null);
     const [stats, setStats] = useState({ kills: 0, deaths: 0, kdr: 0 });
+    const [killOffset, setKillOffset] = useState<number | null>(null);
 
     useEffect(() => {
         (async () => {
             const cfg = await get_config();
             setConfig(cfg);
+            setKillOffset(cfg.kill);
 
             const loggerCallback: LoggerCallback = (data, status) => {
                 if (status === 'running') {
@@ -141,7 +143,12 @@ function RecordPage() {
                 />
             </div>
 
-            <KDTimeline kills={stats.kills} deaths={stats.deaths} kdr={stats.kdr} />
+            <KDTimeline 
+                kdr={stats.kdr} 
+                totalEvents={logs.length} 
+                currentLogs={logs}
+                killOffset={killOffset}
+            />
 
             <div className="flex-1 glass-card rounded-2xl p-4 border border-white/10 overflow-hidden">
                 <Logger logs={logs} height={window.innerHeight - 400} onStatsUpdate={setStats} onDeleteLog={handleDeleteLog} />
