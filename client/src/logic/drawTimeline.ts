@@ -9,10 +9,9 @@ interface DrawTimelineOptions {
   canvas: HTMLCanvasElement;
   container: HTMLElement;
   dataPoints: DataPoint[];
-  currentKdr: number;
 }
 
-export function drawTimeline({ canvas, container, dataPoints, currentKdr }: DrawTimelineOptions): void {
+export function drawTimeline({ canvas, container, dataPoints }: DrawTimelineOptions): void {
   if (!canvas || !container) return;
 
   const ctx = canvas.getContext("2d");
