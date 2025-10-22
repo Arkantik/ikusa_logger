@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { LuActivity, LuChartPie, LuSkull, LuSword } from 'react-icons/lu';
 import { get_config, type Config, type LogType } from '../components/create-config/config';
 import Logger from '../components/create-config/Logger';
+import KDTimeline from '../components/ui/KDTimeline';
 import StatCard from '../components/ui/StatCard';
 import { start_logger, type LoggerCallback } from '../logic/logger-wrapper';
 
@@ -9,13 +10,15 @@ function RecordPage() {
     const [logs, setLogs] = useState<LogType[]>([]);
     const isDestroyedRef = useRef(false);
     const retryCountRef = useRef(0);
-    const [config, setConfig] = useState<Config | null>(null);
+    const [_, setConfig] = useState<Config | null>(null);
     const [stats, setStats] = useState({ kills: 0, deaths: 0, kdr: 0 });
+    const [killOffset, setKillOffset] = useState<number | null>(null);
 
     useEffect(() => {
         (async () => {
             const cfg = await get_config();
             setConfig(cfg);
+            setKillOffset(cfg.kill);
 
             const loggerCallback: LoggerCallback = (data, status) => {
                 if (status === 'running') {
@@ -98,7 +101,7 @@ function RecordPage() {
     };
 
     return (
-        <div className="flex flex-col h-full w-full p-8 gap-6">
+        <div className="flex flex-col h-full w-full p-8 gap-4">
             <div className="grid grid-cols-4 gap-4">
                 <StatCard
                     label="Events"
@@ -140,7 +143,14 @@ function RecordPage() {
                 />
             </div>
 
-            <div className="flex-1 glass-card rounded-2xl p-6 border border-white/10 overflow-hidden">
+            <KDTimeline 
+                kdr={stats.kdr} 
+                totalEvents={logs.length} 
+                currentLogs={logs}
+                killOffset={killOffset}
+            />
+
+            <div className="flex-1 glass-card rounded-2xl p-4 border border-white/10 overflow-hidden">
                 <Logger logs={logs} height={window.innerHeight - 400} onStatsUpdate={setStats} onDeleteLog={handleDeleteLog} />
             </div>
         </div>
