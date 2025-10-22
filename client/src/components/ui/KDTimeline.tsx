@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
+import { calculateMaxKDR, drawTimeline } from '../../logic/drawTimeline';
+import type { Log, LogType } from '../create-config/config';
 
 interface KDTimelineProps {
-    kills: number;
-    deaths: number;
     kdr: number;
+    totalEvents?: number;
+    allLogs?: Log[];
+    currentLogs?: LogType[];
+    killOffset?: number | null;
 }
 
 interface DataPoint {
@@ -13,147 +17,128 @@ interface DataPoint {
     deaths: number;
 }
 
-function KDTimeline({ kills, deaths, kdr }: KDTimelineProps) {
+function KDTimeline({ kdr, totalEvents = 0, allLogs, currentLogs, killOffset }: KDTimelineProps) {
     const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isInitializedRef = useRef(false);
 
-    useEffect(() => {
-        const now = Date.now();
-        setDataPoints(prev => [...prev, { timestamp: now, kdr, kills, deaths }]);
-    }, [kills, deaths, kdr]);
-
-    const formatTime = (timestamp: number) => {
-        const date = new Date(timestamp);
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const seconds = String(date.getSeconds()).padStart(2, '0');
-        return `${hours}:${minutes}:${seconds}`;
+    const parseTimeToTimestamp = (timeStr: string): number => {
+        const today = new Date();
+        const [hours, minutes, seconds] = timeStr.split(':').map(Number);
+        today.setHours(hours, minutes, seconds, 0);
+        return today.getTime();
     };
 
     useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas || dataPoints.length === 0) return;
-
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        const width = canvas.width;
-        const height = canvas.height;
-        const xPadding = 25;
-        const yPadding = 10;
-
-        ctx.clearRect(0, 0, width, height);
-
-        const dataMaxKDR = Math.max(...dataPoints.map(p => p.kdr));
-        const maxKDR = Math.max(2, Math.ceil(dataMaxKDR * 2) / 2);
-
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-        ctx.lineWidth = 1;
-        for (let i = 0; i <= 4; i++) {
-            const y = yPadding + (height - 2 * yPadding) * (i / 4);
-            ctx.beginPath();
-            ctx.moveTo(xPadding, y);
-            ctx.lineTo(width - xPadding, y);
-            ctx.stroke();
+        if (!allLogs && !currentLogs && totalEvents === 0) {
+            setDataPoints([]);
+            isInitializedRef.current = false;
+            return;
         }
+    }, [allLogs, currentLogs, totalEvents]);
 
-        const oneKDRY = yPadding + (height - 2 * yPadding) * (1 - 1 / maxKDR);
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(xPadding, oneKDRY);
-        ctx.lineTo(width - xPadding, oneKDRY);
-        ctx.stroke();
+    useEffect(() => {
+        if (allLogs && allLogs.length > 0 && !isInitializedRef.current) {
+            const newDataPoints: DataPoint[] = [];
+            let cumulativeKills = 0;
+            let cumulativeDeaths = 0;
 
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-        ctx.font = '600 11px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
-        ctx.textAlign = 'right';
-        ctx.fillText('1.0', xPadding - 8, oneKDRY + 4);
+            allLogs.forEach((log) => {
+                log.kill ? cumulativeKills++ : cumulativeDeaths++;
 
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-        ctx.font = '600 11px -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif';
-        ctx.textAlign = 'right';
-        for (let i = 0; i <= 4; i++) {
-            const value = (maxKDR * (4 - i) / 4).toFixed(1);
-            const y = yPadding + (height - 2 * yPadding) * (i / 4);
-            ctx.fillText(value, xPadding - 8, y + 4);
-        }
+                const currentKdr = cumulativeDeaths > 0
+                    ? parseFloat((cumulativeKills / cumulativeDeaths).toFixed(2))
+                    : cumulativeKills;
 
-        if (dataPoints.length > 1) {
-            ctx.lineWidth = 2.5;
-            ctx.beginPath();
+                const timestamp = parseTimeToTimestamp(log.time);
 
-            dataPoints.forEach((point, index) => {
-                const x = xPadding + ((width - 2 * xPadding) * index) / (dataPoints.length - 1);
-                const y = yPadding + (height - 2 * yPadding) * (1 - point.kdr / maxKDR);
-
-                index === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+                newDataPoints.push({
+                    timestamp,
+                    kdr: currentKdr,
+                    kills: cumulativeKills,
+                    deaths: cumulativeDeaths
+                });
             });
 
-            ctx.strokeStyle = kdr >= 1 ? '#4ade80' : '#f87171';
-            ctx.stroke();
-
-            const lastPoint = dataPoints[dataPoints.length - 1];
-            const lastX = xPadding + ((width - 2 * xPadding) * (dataPoints.length - 1)) / (dataPoints.length - 1);
-            const lastY = yPadding + (height - 2 * yPadding) * (1 - lastPoint.kdr / maxKDR);
-
-            ctx.lineTo(lastX, oneKDRY);
-            ctx.lineTo(xPadding, oneKDRY);
-            ctx.closePath();
-
-            ctx.fillStyle = kdr >= 1 ? 'rgba(74, 222, 128, 0.1)' : 'rgba(248, 113, 113, 0.1)';
-            ctx.fill();
-
-            ctx.beginPath();
-            ctx.arc(lastX, lastY, 4, 0, 2 * Math.PI);
-            ctx.fillStyle = kdr >= 1 ? '#4ade80' : '#f87171';
-            ctx.fill();
-            ctx.strokeStyle = kdr >= 1 ? '#22c55e' : '#ef4444';
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            setDataPoints(newDataPoints);
+            isInitializedRef.current = true;
         }
+    }, [allLogs]);
 
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-        ctx.font = '600 10px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace';
-        ctx.textAlign = 'center';
+    useEffect(() => {
+        if (currentLogs && currentLogs.length > 0 && killOffset !== null && killOffset !== undefined) {
+            const newDataPoints: DataPoint[] = [];
+            let cumulativeKills = 0;
+            let cumulativeDeaths = 0;
 
-        const maxLabels = 6;
-        const labelInterval = Math.max(1, Math.floor(dataPoints.length / maxLabels));
+            currentLogs.forEach((log) => {
+                const isKill = log.hex[killOffset] === '1';
 
-        dataPoints.forEach((point, index) => {
-            if (index % labelInterval === 0 || index === dataPoints.length - 1) {
-                const x = xPadding + ((width - 2 * xPadding) * index) / (dataPoints.length - 1);
-                const timeLabel = formatTime(point.timestamp);
+                isKill ? cumulativeKills++ : cumulativeDeaths++;
 
-                ctx.fillText(timeLabel, x, height - yPadding + 12);
+                const currentKdr = cumulativeDeaths > 0
+                    ? parseFloat((cumulativeKills / cumulativeDeaths).toFixed(2))
+                    : cumulativeKills;
 
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(x, height - yPadding);
-                ctx.lineTo(x, height - yPadding + 4);
-                ctx.stroke();
-            }
+                const timestamp = parseTimeToTimestamp(log.time);
+
+                newDataPoints.push({
+                    timestamp,
+                    kdr: currentKdr,
+                    kills: cumulativeKills,
+                    deaths: cumulativeDeaths
+                });
+            });
+
+            setDataPoints(newDataPoints);
+        }
+    }, [currentLogs, killOffset]);
+
+    useEffect(() => {
+        if (containerRef.current) {
+            containerRef.current.scrollLeft = containerRef.current.scrollWidth;
+        }
+    }, [dataPoints]);
+
+    useEffect(() => {
+        if (!canvasRef.current || !containerRef.current) return;
+
+        drawTimeline({
+            canvas: canvasRef.current,
+            container: containerRef.current,
+            dataPoints,
         });
-
     }, [dataPoints, kdr]);
+
+    const maxKDR = calculateMaxKDR(dataPoints);
+
+    const yAxisLabels = [0, 1, 2, 3, 4].map((i) => {
+        const value = (maxKDR * (4 - i) / 4).toFixed(1);
+        const isOne = value === '1.0';
+        return { value, isOne };
+    });
 
     return (
         <div className="glass-card rounded-2xl p-2 border border-white/10">
-            <div className="ml-4 flex gap-1 items-center">
+            <div className="ml-4 flex gap-1 items-center mb-1">
                 <span className="flex items-center justify-center rounded-full w-3.5 aspect-square p-0.5">
                     <span className="rounded-full w-2 aspect-square bg-red-600 animate-pulse"></span>
                 </span>
                 <h3 className="text-[10px] text-gray-400">Live K/D Tracking</h3>
             </div>
             <div className="relative">
-                <canvas
-                    ref={canvasRef}
-                    width={1000}
-                    height={80}
-                    className="w-full h-[80px]"
-                    style={{ imageRendering: 'auto' }}
-                />
+                <div className="absolute left-0 top-0 h-[100px] w-[30px] bg-gradient-to-r from-[#1c1c29] via-[#1c1c29] to-transparent pointer-events-none z-10 flex flex-col justify-between">
+                    {yAxisLabels.map((label, index) => (
+                        <div key={index} className={`text-[10px] font-semibold text-right pr-1 font-sans ${label.isOne ? 'text-white/70' : 'text-white/60'}`}>
+                            {label.value}
+                        </div>
+                    ))}
+                </div>
+
+                <div ref={containerRef} className="overflow-x-auto scrollbar-thin">
+                    <canvas ref={canvasRef} height={100} className="h-[100px]" />
+                </div>
             </div>
         </div>
     );
