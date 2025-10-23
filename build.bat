@@ -18,4 +18,11 @@ cd ..
 CALL neu update
 CALL neu build
 
+:: Copy update.bat to the distribution folder
+copy update.bat dist\ikusa-logger\update.bat /Y
+
+:: Copy resources.neu to version folder for updates
+copy dist\ikusa-logger\resources.neu version\resources.neu /Y
+
 echo Build completed. Compiled files are in dist/ikusa-logger/
+echo resources.neu copied to version/ folder for updates

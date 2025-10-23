@@ -1,7 +1,7 @@
-import { app, updater } from '@neutralinojs/lib';
+import { app, os, updater } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
 import { LuArrowLeft, LuDownload, LuMessageCircleQuestion } from 'react-icons/lu';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Icon from './ui/Icon';
 
 declare const NL_APPVERSION: string;
@@ -11,7 +11,6 @@ interface HeaderProps {
 }
 
 function Header({ onUpdateAvailable }: HeaderProps) {
-    const navigate = useNavigate();
     const location = useLocation();
     const showArrow = location.pathname !== '/';
     const version = NL_APPVERSION;
@@ -43,10 +42,9 @@ function Header({ onUpdateAvailable }: HeaderProps) {
 
         setUpdating(true);
         try {
-            await updater.install();
-            alert('Update installed successfully!\n\nThe application will now close.\nPlease restart it to use the new version.');
-
-            await app.restartProcess();
+            await os.execCommand(`cmd.exe /c start "" "update.bat" ${newVersion}`);
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            await app.exit();
         } catch (err) {
             console.error('Update failed:', err);
             alert('Update failed. Please try again.\n\n' + ((err as Error).message || err));
@@ -74,14 +72,6 @@ function Header({ onUpdateAvailable }: HeaderProps) {
             </div>
 
             <div className="flex items-center gap-3">
-                <Link
-                    to="/docs"
-                    className="p-2.5 rounded-xl transition-all duration-300 hover:bg-white/10 text-gray-300 hover:text-white"
-                    title="Help"
-                >
-                    <Icon icon={LuMessageCircleQuestion} />
-                </Link>
-
                 {updateAvailable && (
                     <button
                         onClick={handleUpdate}
@@ -93,6 +83,13 @@ function Header({ onUpdateAvailable }: HeaderProps) {
                         {updating ? 'Updating...' : 'Update Available'}
                     </button>
                 )}
+                <Link
+                    to="/docs"
+                    className="p-2.5 rounded-xl transition-all duration-300 hover:bg-white/10 text-gray-300 hover:text-white"
+                    title="Help"
+                >
+                    <Icon icon={LuMessageCircleQuestion} />
+                </Link>
             </div>
         </header>
     );

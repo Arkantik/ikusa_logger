@@ -1,21 +1,24 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LuActivity, LuChartPie, LuSkull, LuSword } from 'react-icons/lu';
 import { get_config, type Config, type LogType } from '../components/create-config/config';
 import Logger from '../components/create-config/Logger';
-import Icon from '../components/ui/Icon';
+import KDTimeline from '../components/ui/KDTimeline';
+import StatCard from '../components/ui/StatCard';
 import { start_logger, type LoggerCallback } from '../logic/logger-wrapper';
 
 function RecordPage() {
     const [logs, setLogs] = useState<LogType[]>([]);
     const isDestroyedRef = useRef(false);
     const retryCountRef = useRef(0);
-    const [config, setConfig] = useState<Config | null>(null);
+    const [_, setConfig] = useState<Config | null>(null);
     const [stats, setStats] = useState({ kills: 0, deaths: 0, kdr: 0 });
+    const [killOffset, setKillOffset] = useState<number | null>(null);
 
     useEffect(() => {
         (async () => {
             const cfg = await get_config();
             setConfig(cfg);
+            setKillOffset(cfg.kill);
 
             const loggerCallback: LoggerCallback = (data, status) => {
                 if (status === 'running') {
@@ -98,50 +101,56 @@ function RecordPage() {
     };
 
     return (
-        <div className="flex flex-col h-full w-full p-8 gap-6">
+        <div className="flex flex-col h-full w-full p-8 gap-4">
             <div className="grid grid-cols-4 gap-4">
-                <div className="glass-card rounded-xl p-5 border border-white/10">
-                    <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm text-gray-400 font-medium">Total Events</span>
-                        <div className="p-2 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-lg">
-                            <Icon icon={LuActivity} size="sm" className="text-green-400" />
-                        </div>
-                    </div>
-                    <div className="text-3xl font-bold text-white">{logs.length}</div>
-                </div>
+                <StatCard
+                    label="Events"
+                    value={logs.length}
+                    icon={LuActivity}
+                    iconColor="text-green-400"
+                    gradientFrom="from-green-500/20"
+                    gradientTo="to-emerald-500/20"
+                />
 
-                <div className="glass-card rounded-xl p-5 border border-white/10">
-                    <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm text-gray-400 font-medium">Kills</span>
-                        <div className="p-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg">
-                            <Icon icon={LuSword} size="sm" className="text-blue-400" />
-                        </div>
-                    </div>
-                    <div className="text-3xl font-bold text-blue-400">{stats.kills}</div>
-                </div>
+                <StatCard
+                    label="Kills"
+                    value={stats.kills}
+                    icon={LuSword}
+                    iconColor="text-blue-400"
+                    gradientFrom="from-blue-500/20"
+                    gradientTo="to-cyan-500/20"
+                    valueColor="text-blue-400"
+                />
 
-                <div className="glass-card rounded-xl p-5 border border-white/10">
-                    <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm text-gray-400 font-medium">Deaths</span>
-                        <div className="p-2 bg-gradient-to-br from-red-500/20 to-rose-500/20 rounded-lg">
-                            <Icon icon={LuSkull} size="sm" className="text-red-400" />
-                        </div>
-                    </div>
-                    <div className="text-3xl font-bold text-red-400">{stats.deaths}</div>
-                </div>
+                <StatCard
+                    label="Deaths"
+                    value={stats.deaths}
+                    icon={LuSkull}
+                    iconColor="text-red-400"
+                    gradientFrom="from-red-500/20"
+                    gradientTo="to-rose-500/20"
+                    valueColor="text-red-400"
+                />
 
-                <div className="glass-card rounded-xl p-5 border border-white/10">
-                    <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm text-gray-400 font-medium">K/D Ratio</span>
-                        <div className="p-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg">
-                            <Icon icon={LuChartPie} size="sm" className="text-purple-400" />
-                        </div>
-                    </div>
-                    <div className={`text-3xl font-bold ${stats.kdr >= 1 ? "text-green-400" : "text-red-400"} `}>{stats.kdr}</div>
-                </div>
+                <StatCard
+                    label="K/D Ratio"
+                    value={stats.kdr}
+                    icon={LuChartPie}
+                    iconColor="text-purple-400"
+                    gradientFrom="from-purple-500/20"
+                    gradientTo="to-pink-500/20"
+                    valueColor={stats.kdr >= 1 ? "text-green-400" : "text-red-400"}
+                />
             </div>
 
-            <div className="flex-1 glass-card rounded-2xl p-6 border border-white/10 overflow-hidden">
+            <KDTimeline 
+                kdr={stats.kdr} 
+                totalEvents={logs.length} 
+                currentLogs={logs}
+                killOffset={killOffset}
+            />
+
+            <div className="flex-1 glass-card rounded-2xl p-4 border border-white/10 overflow-hidden">
                 <Logger logs={logs} height={window.innerHeight - 400} onStatsUpdate={setStats} onDeleteLog={handleDeleteLog} />
             </div>
         </div>

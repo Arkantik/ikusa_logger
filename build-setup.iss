@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "BDO Combat Logger"
-#define MyAppVersion "1.8.9"
+#define MyAppVersion "1.9.0"
 #define MyAppPublisher "sch-28"
 #define MyAppURL "https://www.ikusa.site/"
 #define MyAppExeName "ikusa-logger-win_x64.exe"
@@ -40,7 +40,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 
 [Files]
 Source: ".\dist\ikusa-logger\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\dist\ikusa-logger\update.bat"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\update.bat"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\dist\ikusa-logger\resources.neu"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\dist\ikusa-logger\WebView2Loader.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\logger\icon\{#MyAppIcoName}"; DestDir: "{app}"; Flags: ignoreversion

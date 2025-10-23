@@ -67,35 +67,29 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
     }, []);
 
     useEffect(() => {
-        if (config) {
-            update_config({ ...config, auto_scroll: autoScroll });
-        }
+        if (config) update_config({ ...config, auto_scroll: autoScroll });
     }, [autoScroll, config]);
 
     useEffect(() => {
-        if (logs.length > 0) {
-            logsChanged();
-        }
+        if (logs.length > 0) logsChanged();
     }, [logs]);
 
-    // Calculate and update stats whenever logs, possibleKillOffsets, or killIndex change
     useEffect(() => {
-        if (onStatsUpdate && logs.length > 0 && possibleKillOffsets.length > 0) {
-            let kills = 0;
-            let deaths = 0;
+        if (!onStatsUpdate || logs.length === 0 || possibleKillOffsets.length === 0) return;
 
-            logs.forEach(log => {
-                const isKill = log.hex[possibleKillOffsets[killIndex]] === '1';
-                if (isKill) {
-                    kills++;
-                } else {
-                    deaths++;
-                }
-            });
+        let kills = 0;
+        let deaths = 0;
 
-            const kdr = deaths > 0 ? parseFloat((kills / deaths).toFixed(2)) : kills;
-            onStatsUpdate({ kills, deaths, kdr });
-        }
+        logs.forEach(log => {
+            const killOffset = possibleKillOffsets[killIndex];
+            if (killOffset !== undefined && log.hex.length > killOffset) {
+                const isKill = log.hex[killOffset] === '1';
+                isKill ? kills++ : deaths++;
+            }
+        });
+
+        const kdr = deaths > 0 ? parseFloat((kills / deaths).toFixed(2)) : kills;
+        onStatsUpdate({ kills, deaths, kdr });
     }, [logs, possibleKillOffsets, killIndex, onStatsUpdate]);
 
     function logsChanged() {
@@ -120,11 +114,10 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
                 const name = log.names[i];
                 if (newPossibleNameOffsets[i]) {
                     const index = newPossibleNameOffsets[i].findIndex((n) => n.offset === name.offset);
-                    if (index !== -1) {
-                        newPossibleNameOffsets[i][index].count++;
-                    } else {
-                        newPossibleNameOffsets[i].push({ offset: name.offset, count: 1 });
-                    }
+                    index !== -1
+                        ? newPossibleNameOffsets[i][index].count++
+                        : newPossibleNameOffsets[i].push({ offset: name.offset, count: 1 });
+
                 } else {
                     newPossibleNameOffsets[i] = [{ offset: name.offset, count: 1 }];
                 }
@@ -273,19 +266,17 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
 
     return (
         <div className="flex flex-col h-full w-full relative">
-            {logs.length > 0 && (
-                <div className="text-center text-gray-400 text-xs mb-3 px-2">
-                    Adjust the Logs to: <span className="font-semibold text-gray-300">YourGuild-FamilyName</span> kills/died to <span className="font-semibold text-gray-300">Enemy-FamilyName</span> from <span className="font-semibold text-gray-300">Guild</span>
-                </div>
-            )}
-
-            <div className="flex items-center justify-between mb-3 px-2">
+            <div className="flex items-center justify-between mb-1">
                 <div className="flex items-center gap-2">
                     <Checkbox
                         checked={autoScroll}
                         onChange={(e) => setAutoScroll(e.target.checked)}
                     />
                     <span className="text-sm text-gray-400">Auto scroll</span>
+                </div>
+
+                <div className="text-center text-gray-400 text-xs">
+                    Adjust the Logs to: <span className="font-semibold text-gray-300">YourGuild-FamilyName</span> kills/died to <span className="font-semibold text-gray-300">Enemy-FamilyName</span> from <span className="font-semibold text-gray-300">Guild</span>
                 </div>
 
                 <button
