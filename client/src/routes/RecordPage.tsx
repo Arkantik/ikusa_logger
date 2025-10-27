@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { LuActivity, LuChartPie, LuSkull, LuSword } from 'react-icons/lu';
 import { get_config, type Config, type LogType } from '../components/create-config/config';
 import Logger from '../components/create-config/Logger';
+import GuildStats from '../components/ui/GuildStats';
 import KDTimeline from '../components/ui/KDTimeline';
 import StatCard from '../components/ui/StatCard';
 import { start_logger, type LoggerCallback } from '../logic/logger-wrapper';
@@ -12,13 +13,11 @@ function RecordPage() {
     const retryCountRef = useRef(0);
     const [_, setConfig] = useState<Config | null>(null);
     const [stats, setStats] = useState({ kills: 0, deaths: 0, kdr: 0 });
-    const [killOffset, setKillOffset] = useState<number | null>(null);
 
     useEffect(() => {
         (async () => {
             const cfg = await get_config();
             setConfig(cfg);
-            setKillOffset(cfg.kill);
 
             const loggerCallback: LoggerCallback = (data, status) => {
                 if (status === 'running') {
@@ -143,15 +142,16 @@ function RecordPage() {
                 />
             </div>
 
-            <KDTimeline 
-                kdr={stats.kdr} 
-                totalEvents={logs.length} 
-                currentLogs={logs}
-                killOffset={killOffset}
-            />
+            <KDTimeline kdr={stats.kdr} kills={stats.kills} deaths={stats.deaths} />
 
-            <div className="flex-1 glass-card rounded-2xl p-4 border border-white/10 overflow-hidden">
-                <Logger logs={logs} height={window.innerHeight - 400} onStatsUpdate={setStats} onDeleteLog={handleDeleteLog} />
+            <div className="flex-1 flex gap-4 overflow-hidden">
+                <div className="flex-1 glass-card rounded-2xl p-4 border border-white/10 overflow-hidden">
+                    <Logger logs={logs} height={window.innerHeight - 400} onStatsUpdate={setStats} onDeleteLog={handleDeleteLog} />
+                </div>
+
+                <div className="w-64 flex flex-col overflow-hidden">
+                    <GuildStats logs={logs} />
+                </div>
             </div>
         </div>
     );
