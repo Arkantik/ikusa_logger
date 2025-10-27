@@ -202,9 +202,9 @@ function OpenPage() {
                     <KDTimeline
                         key={timelineKey}
                         kdr={stats.kdr}
-                        totalEvents={isNetwork ? logs.length : combatLogs.length}
+                        kills={stats.kills}
+                        deaths={stats.deaths}
                         allLogs={isNetwork ? undefined : combatLogs}
-                        currentLogs={isNetwork ? logs : undefined}
                     />
                 </>
             )}
