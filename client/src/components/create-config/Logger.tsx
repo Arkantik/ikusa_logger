@@ -93,9 +93,7 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
     }, [logs, possibleKillOffsets, killIndex, onStatsUpdate]);
 
     function logsChanged() {
-        if (autoScroll) {
-            setTimeout(scroll);
-        }
+        if (autoScroll) setTimeout(scroll);
 
         if (logs.length < 50 || logs.length % 100 === 0) {
             const killOffsets = findKillOffset(logs);
@@ -220,9 +218,7 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
 
     function scroll() {
         const container = document.querySelector('.react-window-list');
-        if (container) {
-            container.scrollTop = container.scrollHeight;
-        }
+        if (container) container.scrollTop = container.scrollHeight;
     }
 
     function getLogsString() {
@@ -276,7 +272,7 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
                 </div>
 
                 <div className="text-center text-gray-400 text-xs">
-                    Adjust the Logs to: <span className="font-semibold text-gray-300">YourGuild-FamilyName</span> kills/died to <span className="font-semibold text-gray-300">Enemy-FamilyName</span> from <span className="font-semibold text-gray-300">Guild</span>
+                    Adjust the Logs to: <span className="font-semibold text-gray-300">YourGuild-FamilyName</span> killed/died to <span className="font-semibold text-gray-300">Enemy-FamilyName</span> from <span className="font-semibold text-gray-300">Guild</span>
                 </div>
 
                 <button

@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { calculateMaxKDR, drawTimeline } from '../../logic/drawTimeline';
-import type { Log, LogType } from '../create-config/config';
+import type { Log } from '../create-config/config';
 
 interface KDTimelineProps {
     kdr: number;
-    totalEvents?: number;
+    kills: number;
+    deaths: number;
     allLogs?: Log[];
-    currentLogs?: LogType[];
-    killOffset?: number | null;
 }
 
 interface DataPoint {
@@ -17,89 +16,62 @@ interface DataPoint {
     deaths: number;
 }
 
-function KDTimeline({ kdr, totalEvents = 0, allLogs, currentLogs, killOffset }: KDTimelineProps) {
-    const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
+function KDTimeline({ kdr, kills, deaths, allLogs }: KDTimelineProps) {
+    const dataPointsRef = useRef<DataPoint[]>([]);
+    const [_, setRenderTrigger] = useState(0);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
-    const isInitializedRef = useRef(false);
-
-    const parseTimeToTimestamp = (timeStr: string): number => {
-        const today = new Date();
-        const [hours, minutes, seconds] = timeStr.split(':').map(Number);
-        today.setHours(hours, minutes, seconds, 0);
-        return today.getTime();
-    };
 
     useEffect(() => {
-        if (!allLogs && !currentLogs && totalEvents === 0) {
-            setDataPoints([]);
-            isInitializedRef.current = false;
-            return;
-        }
-    }, [allLogs, currentLogs, totalEvents]);
-
-    useEffect(() => {
-        if (allLogs && allLogs.length > 0 && !isInitializedRef.current) {
-            const newDataPoints: DataPoint[] = [];
-            let cumulativeKills = 0;
-            let cumulativeDeaths = 0;
+        if (allLogs && allLogs.length > 0) {
+            const points: DataPoint[] = [];
+            let killCount = 0;
+            let deathCount = 0;
 
             allLogs.forEach((log) => {
-                log.kill ? cumulativeKills++ : cumulativeDeaths++;
+                log.kill ? killCount++ : deathCount++;
 
-                const currentKdr = cumulativeDeaths > 0
-                    ? parseFloat((cumulativeKills / cumulativeDeaths).toFixed(2))
-                    : cumulativeKills;
+                const calculatedKdr = deathCount > 0 ? parseFloat((killCount / deathCount).toFixed(2)) : killCount;
 
-                const timestamp = parseTimeToTimestamp(log.time);
+                const [hours, minutes, seconds] = log.time.split(':').map(Number);
+                const now = new Date();
+                now.setHours(hours, minutes, seconds, 0);
 
-                newDataPoints.push({
-                    timestamp,
-                    kdr: currentKdr,
-                    kills: cumulativeKills,
-                    deaths: cumulativeDeaths
+                points.push({
+                    timestamp: now.getTime(),
+                    kdr: calculatedKdr,
+                    kills: killCount,
+                    deaths: deathCount
                 });
             });
 
-            setDataPoints(newDataPoints);
-            isInitializedRef.current = true;
+            dataPointsRef.current = points;
+            setRenderTrigger(prev => prev + 1);
         }
     }, [allLogs]);
 
     useEffect(() => {
-        if (currentLogs && currentLogs.length > 0 && killOffset !== null && killOffset !== undefined) {
-            const newDataPoints: DataPoint[] = [];
-            let cumulativeKills = 0;
-            let cumulativeDeaths = 0;
+        if (allLogs && allLogs.length > 0) return;
 
-            currentLogs.forEach((log) => {
-                const isKill = log.hex[killOffset] === '1';
-
-                isKill ? cumulativeKills++ : cumulativeDeaths++;
-
-                const currentKdr = cumulativeDeaths > 0
-                    ? parseFloat((cumulativeKills / cumulativeDeaths).toFixed(2))
-                    : cumulativeKills;
-
-                const timestamp = parseTimeToTimestamp(log.time);
-
-                newDataPoints.push({
-                    timestamp,
-                    kdr: currentKdr,
-                    kills: cumulativeKills,
-                    deaths: cumulativeDeaths
-                });
-            });
-
-            setDataPoints(newDataPoints);
+        if (kills === 0 && deaths === 0) {
+            dataPointsRef.current = [];
+            setRenderTrigger(prev => prev + 1);
+            return;
         }
-    }, [currentLogs, killOffset]);
 
-    useEffect(() => {
-        if (containerRef.current) {
-            containerRef.current.scrollLeft = containerRef.current.scrollWidth;
-        }
-    }, [dataPoints]);
+        const lastPoint = dataPointsRef.current[dataPointsRef.current.length - 1];
+        if (lastPoint && lastPoint.kills === kills && lastPoint.deaths === deaths) return;
+
+        const newPoint: DataPoint = {
+            timestamp: Date.now(),
+            kdr,
+            kills,
+            deaths
+        };
+
+        dataPointsRef.current = [...dataPointsRef.current, newPoint];
+        setRenderTrigger(prev => prev + 1);
+    }, [kdr, kills, deaths, allLogs]);
 
     useEffect(() => {
         if (!canvasRef.current || !containerRef.current) return;
@@ -107,11 +79,13 @@ function KDTimeline({ kdr, totalEvents = 0, allLogs, currentLogs, killOffset }: 
         drawTimeline({
             canvas: canvasRef.current,
             container: containerRef.current,
-            dataPoints,
+            dataPoints: dataPointsRef.current,
         });
-    }, [dataPoints, kdr]);
 
-    const maxKDR = calculateMaxKDR(dataPoints);
+        containerRef.current.scrollLeft = containerRef.current.scrollWidth;
+    }, [dataPointsRef.current.length, setRenderTrigger]);
+
+    const maxKDR = calculateMaxKDR(dataPointsRef.current);
 
     const yAxisLabels = [0, 1, 2, 3, 4].map((i) => {
         const value = (maxKDR * (4 - i) / 4).toFixed(1);
@@ -130,7 +104,10 @@ function KDTimeline({ kdr, totalEvents = 0, allLogs, currentLogs, killOffset }: 
             <div className="relative">
                 <div className="absolute left-0 top-0 h-[100px] w-[30px] bg-gradient-to-r from-[#1c1c29] via-[#1c1c29] to-transparent pointer-events-none z-10 flex flex-col justify-between">
                     {yAxisLabels.map((label, index) => (
-                        <div key={index} className={`text-[10px] font-semibold text-right pr-1 font-sans ${label.isOne ? 'text-white/70' : 'text-white/60'}`}>
+                        <div
+                            key={index}
+                            className={`text-[10px] font-semibold text-right pr-1 font-sans ${label.isOne ? 'text-white/70' : 'text-white/60'}`}
+                        >
                             {label.value}
                         </div>
                     ))}
