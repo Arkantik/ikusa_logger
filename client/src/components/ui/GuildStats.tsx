@@ -62,7 +62,7 @@ function GuildStats({ logs }: GuildStatsProps) {
                 <h3 className="text-sm font-bold text-gray-400">Members per guilds</h3>
             </div>
 
-            <div className="flex-1 overflow-hidden space-y-2 p-2 rounded-lg border border-white/10 bg-black/20">
+            <div className="flex-1 overflow-y-auto space-y-2 p-2 rounded-lg border border-white/10 bg-black/20">
                 {sortedGuilds.map((guild) => (
                     <div
                         key={guild.name}
