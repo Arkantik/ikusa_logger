@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "BDO Combat Logger"
-#define MyAppVersion "1.10.0"
+#define MyAppVersion "1.11.0"
 #define MyAppPublisher "arkantik"
 #define MyAppURL "https://nodewar.gg/"
 #define MyAppExeName "bdo-combat-logger-win_x64.exe"
@@ -23,7 +23,7 @@ DefaultDirName={autopf}\BDO-combat-logger
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputBaseFilename=bdo-combat-logger-installer
+OutputBaseFilename=bdo-combat-installer
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
