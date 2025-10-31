@@ -1,5 +1,5 @@
 {
-  "applicationId": "ikusa.logger",
+  "applicationId": "bdo.combat.logger",
   "version": "1.10.0",
   "defaultMode": "window",
   "documentRoot": "/client/build/",
@@ -41,7 +41,7 @@
     }
   },
   "cli": {
-    "binaryName": "ikusa-logger",
+    "binaryName": "bdo-combat-logger",
     "resourcesPath": "/client/build/",
     "extensionsPath": "/extensions/",
     "binaryVersion": "5.6.0",
