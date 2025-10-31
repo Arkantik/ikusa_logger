@@ -8,6 +8,7 @@ if "%~1"=="" (
 
 set "VERSION=%~1"
 set "INSTALL_DIR=%~dp0"
+set "EXE_NAME=bdo-combat-logger-win_x64.exe"
 
 echo.
 echo Updating to v%VERSION%...
@@ -15,16 +16,16 @@ echo.
 
 REM Wait for application to close
 timeout /t 3 /nobreak >nul
-taskkill /F /IM ikusa-logger-win_x64.exe 2>nul
+taskkill /F /IM %EXE_NAME% 2>nul
 timeout /t 2 /nobreak >nul
 
 REM Create temp directory
-set "TEMP_DIR=%TEMP%\ikusa_update_%RANDOM%"
+set "TEMP_DIR=%TEMP%\bdo_update_%RANDOM%"
 mkdir "%TEMP_DIR%"
 
 REM Download executable from releases
 echo Downloading executable...
-curl -L -o "%TEMP_DIR%\ikusa-logger-win_x64.exe" "https://github.com/Arkantik/ikusa_logger/releases/download/v%VERSION%/ikusa-logger-win_x64.exe"
+curl -L -o "%TEMP_DIR%\%EXE_NAME%" "https://github.com/Arkantik/ikusa_logger/releases/download/v%VERSION%/%EXE_NAME%"
 if errorlevel 1 (
     echo ERROR: Failed to download executable
     pause
@@ -44,19 +45,19 @@ REM Install update
 echo Installing update...
 
 REM Backup current executable
-if exist "%INSTALL_DIR%ikusa-logger-win_x64.exe.backup" (
-    del "%INSTALL_DIR%ikusa-logger-win_x64.exe.backup"
+if exist "%INSTALL_DIR%%EXE_NAME%.backup" (
+    del "%INSTALL_DIR%%EXE_NAME%.backup"
 )
-if exist "%INSTALL_DIR%ikusa-logger-win_x64.exe" (
-    move "%INSTALL_DIR%ikusa-logger-win_x64.exe" "%INSTALL_DIR%ikusa-logger-win_x64.exe.backup" >nul
+if exist "%INSTALL_DIR%%EXE_NAME%" (
+    move "%INSTALL_DIR%%EXE_NAME%" "%INSTALL_DIR%%EXE_NAME%.backup" >nul
 )
 
 REM Copy new files
-copy /Y "%TEMP_DIR%\ikusa-logger-win_x64.exe" "%INSTALL_DIR%ikusa-logger-win_x64.exe" >nul
+copy /Y "%TEMP_DIR%\%EXE_NAME%" "%INSTALL_DIR%%EXE_NAME%" >nul
 if errorlevel 1 (
     echo ERROR: Failed to replace executable
-    if exist "%INSTALL_DIR%ikusa-logger-win_x64.exe.backup" (
-        move "%INSTALL_DIR%ikusa-logger-win_x64.exe.backup" "%INSTALL_DIR%ikusa-logger-win_x64.exe" >nul
+    if exist "%INSTALL_DIR%%EXE_NAME%.backup" (
+        move "%INSTALL_DIR%%EXE_NAME%.backup" "%INSTALL_DIR%%EXE_NAME%" >nul
     )
     pause
     goto :cleanup
@@ -65,8 +66,8 @@ if errorlevel 1 (
 copy /Y "%TEMP_DIR%\resources.neu" "%INSTALL_DIR%resources.neu" >nul
 
 REM Clean up backup
-if exist "%INSTALL_DIR%ikusa-logger-win_x64.exe.backup" (
-    del "%INSTALL_DIR%ikusa-logger-win_x64.exe.backup"
+if exist "%INSTALL_DIR%%EXE_NAME%.backup" (
+    del "%INSTALL_DIR%%EXE_NAME%.backup"
 )
 
 echo.
@@ -74,7 +75,7 @@ echo Update completed successfully!
 echo Restarting application...
 timeout /t 2 /nobreak >nul
 
-start "" "%INSTALL_DIR%ikusa-logger-win_x64.exe"
+start "" "%INSTALL_DIR%%EXE_NAME%"
 
 :cleanup
 if exist "%TEMP_DIR%" (
