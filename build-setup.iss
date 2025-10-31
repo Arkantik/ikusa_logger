@@ -3,15 +3,15 @@
 
 #define MyAppName "BDO Combat Logger"
 #define MyAppVersion "1.10.0"
-#define MyAppPublisher "sch-28"
-#define MyAppURL "https://www.ikusa.site/"
-#define MyAppExeName "ikusa-logger-win_x64.exe"
+#define MyAppPublisher "arkantik"
+#define MyAppURL "https://nodewar.gg/"
+#define MyAppExeName "bdo-combat-logger-win_x64.exe"
 #define MyAppIcoName "icon-2.ico"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={43CB38E6-372B-4BC6-A2FA-EC72E1ADC671}
+AppId={{43CB38E6-372B-4BC6-A2FA-EC72E1ADC671}}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -19,11 +19,11 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={autopf}\Ikusa
+DefaultDirName={autopf}\BDO-combat-logger
 DisableProgramGroupPage=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputBaseFilename=ikusa-logger-installer
+OutputBaseFilename=bdo-combat-logger-installer
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -39,12 +39,11 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: ".\dist\ikusa-logger\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\dist\bdo-combat-logger\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\update.bat"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\dist\ikusa-logger\resources.neu"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\dist\ikusa-logger\WebView2Loader.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ".\dist\bdo-combat-logger\resources.neu"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\logger\icon\{#MyAppIcoName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: ".\dist\ikusa-logger\logger\*"; DestDir: "{app}\logger\"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ".\dist\bdo-combat-logger\logger\*"; DestDir: "{app}\logger\"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
