@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
-import { LuUsers, LuShield } from 'react-icons/lu';
+import { LuUsers } from 'react-icons/lu';
 import type { LogType } from '../create-config/config';
 import Icon from './Icon';
 
 interface GuildStatsProps {
     logs: LogType[];
+    guildIndex: number;
+    playerIndex: number;
 }
 
 interface GuildData {
     name: string;
     members: Set<string>;
-    kills: number;
-    deaths: number;
 }
 
-function GuildStats({ logs }: GuildStatsProps) {
+function GuildStats({ logs, guildIndex, playerIndex }: GuildStatsProps) {
     const [guilds, setGuilds] = useState<Map<string, GuildData>>(new Map());
 
-    useEffect(() => {
+    const calculateGuilds = () => {
         const guildMap = new Map<string, GuildData>();
 
         logs.forEach((log) => {
@@ -25,29 +25,30 @@ function GuildStats({ logs }: GuildStatsProps) {
 
             // The format is: [PlayerOne, PlayerTwo, Guild, Character1, Character2]
             // PlayerTwo (index 1) belongs to Guild (index 2)
-            if (names.length >= 3) {
-                const playerTwo = names[1];
-                const guildName = names[2];
+            if (names.length > Math.max(guildIndex, playerIndex)) {
+                const playerName = names[playerIndex];
+                const guildName = names[guildIndex];
 
                 if (!guildName || guildName === '-1' || guildName.trim() === '') return;
-                if (!playerTwo || playerTwo === '-1' || playerTwo.trim() === '') return;
+                if (!playerName || playerName === '-1' || playerName.trim() === '') return;
 
                 if (!guildMap.has(guildName)) {
                     guildMap.set(guildName, {
                         name: guildName,
-                        members: new Set<string>(),
-                        kills: 0,
-                        deaths: 0
+                        members: new Set<string>()
                     });
                 }
 
-                const guild = guildMap.get(guildName)!;
-                guild.members.add(playerTwo);
+                guildMap.get(guildName)!.members.add(playerName);
             }
         });
 
         setGuilds(guildMap);
-    }, [logs]);
+    };
+
+    useEffect(() => {
+        calculateGuilds();
+    }, [logs, guildIndex, playerIndex]);
 
     const sortedGuilds = Array.from(guilds.values()).sort((a, b) => {
         return b.members.size - a.members.size;

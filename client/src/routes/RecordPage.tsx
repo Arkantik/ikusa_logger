@@ -13,6 +13,7 @@ function RecordPage() {
     const retryCountRef = useRef(0);
     const [_, setConfig] = useState<Config | null>(null);
     const [stats, setStats] = useState({ kills: 0, deaths: 0, kdr: 0 });
+    const [guildStatsKey, setGuildStatsKey] = useState({ playerTwo: 1, guild: 2 });
 
     useEffect(() => {
         (async () => {
@@ -99,6 +100,10 @@ function RecordPage() {
         setLogs((prevLogs) => prevLogs.filter((_, i) => i !== index));
     };
 
+    const handleIndicesChange = (indices: { playerTwo: number; guild: number }) => {
+        setGuildStatsKey(indices);
+    };
+
     return (
         <div className="flex flex-col h-full w-full p-8 gap-4">
             <div className="grid grid-cols-4 gap-4">
@@ -146,11 +151,21 @@ function RecordPage() {
 
             <div className="flex-1 flex gap-4 overflow-hidden">
                 <div className="flex-1 glass-card rounded-2xl p-4 border border-white/10 overflow-hidden">
-                    <Logger logs={logs} height={window.innerHeight - 400} onStatsUpdate={setStats} onDeleteLog={handleDeleteLog} />
+                    <Logger
+                        logs={logs}
+                        height={window.innerHeight - 400}
+                        onStatsUpdate={setStats}
+                        onDeleteLog={handleDeleteLog}
+                        onIndicesChange={handleIndicesChange}
+                    />
                 </div>
 
                 <div className="w-64 flex flex-col overflow-hidden">
-                    <GuildStats logs={logs} />
+                    <GuildStats
+                        logs={logs}
+                        guildIndex={guildStatsKey.guild}
+                        playerIndex={guildStatsKey.playerTwo}
+                    />
                 </div>
             </div>
         </div>

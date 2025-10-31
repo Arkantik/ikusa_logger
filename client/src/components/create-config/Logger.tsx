@@ -27,6 +27,7 @@ export interface LoggerProps {
     loading?: boolean;
     onStatsUpdate?: (stats: { kills: number; deaths: number; kdr: number }) => void;
     onDeleteLog?: (index: number) => void;
+    onIndicesChange?: (indices: { playerTwo: number; guild: number }) => void;
 }
 
 export interface LoggerRowProps {
@@ -41,7 +42,7 @@ export interface LoggerRowProps {
     onDeleteLog: (index: number) => void;
 }
 
-function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLog }: LoggerProps) {
+function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLog, onIndicesChange }: LoggerProps) {
     const [possibleNameOffsets, setPossibleNameOffsets] = useState<{ offset: number; count: number }[][]>([]);
     const [nameIndicies, setNameIndicies] = useState<number[]>([0, 0, 0, 0, 0]);
     const [playerOneIndex, setPlayerOneIndex] = useState(0);
@@ -201,19 +202,43 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
     }
 
     function updateNames(target: 'player_one' | 'player_two' | 'guild', value: number) {
+        let newPlayerTwoIndex = playerTwoIndex;
+        let newGuildIndex = guildIndex;
+
         if (target === 'player_one') {
-            if (value === playerTwoIndex) setPlayerTwoIndex(playerOneIndex);
-            else if (value === guildIndex) setGuildIndex(playerOneIndex);
+            if (value === playerTwoIndex) {
+                setPlayerTwoIndex(playerOneIndex);
+                newPlayerTwoIndex = playerOneIndex;
+            } else if (value === guildIndex) {
+                setGuildIndex(playerOneIndex);
+                newGuildIndex = playerOneIndex;
+            }
             setPlayerOneIndex(value);
         } else if (target === 'player_two') {
-            if (value === playerOneIndex) setPlayerOneIndex(playerTwoIndex);
-            else if (value === guildIndex) setGuildIndex(playerTwoIndex);
+            if (value === playerOneIndex) {
+                setPlayerOneIndex(playerTwoIndex);
+            } else if (value === guildIndex) {
+                setGuildIndex(playerTwoIndex);
+                newGuildIndex = playerTwoIndex;
+            }
             setPlayerTwoIndex(value);
+            newPlayerTwoIndex = value;
         } else if (target === 'guild') {
-            if (value === playerOneIndex) setPlayerOneIndex(guildIndex);
-            else if (value === playerTwoIndex) setPlayerTwoIndex(guildIndex);
+            if (value === playerOneIndex) {
+                setPlayerOneIndex(guildIndex);
+            } else if (value === playerTwoIndex) {
+                setPlayerTwoIndex(guildIndex);
+                newPlayerTwoIndex = guildIndex;
+            }
             setGuildIndex(value);
+            newGuildIndex = value;
         }
+
+        // Notify parent of index changes
+        onIndicesChange?.({
+            playerTwo: newPlayerTwoIndex,
+            guild: newGuildIndex
+        });
     }
 
     function scroll() {
