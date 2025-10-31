@@ -100,17 +100,6 @@ function HomePage() {
                                     text: 'Download Npcap'
                                 } : undefined}
                             />
-
-                            {(loading || status?.config_valid) && (
-                                <StatusCard
-                                    label="Configuration"
-                                    isValid={status?.config_up_to_date || false}
-                                    statusText={status?.config_up_to_date ? 'Updated' : 'Outdated'}
-                                    statusIcon={status?.config_up_to_date ? LuCheck : LuCircleAlert}
-                                    statusColor={status?.config_up_to_date ? 'bg-green-500/20' : 'bg-yellow-500/20'}
-                                    loading={loading}
-                                />
-                            )}
                         </div>
                     </div>
 
