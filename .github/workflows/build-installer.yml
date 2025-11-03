@@ -101,7 +101,7 @@ jobs:
         shell: powershell
 
       - name: Upload installer artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bdo-combat-logger-installer
           path: Output/bdo-combat-installer-v${{ steps.get_version.outputs.VERSION }}.exe
