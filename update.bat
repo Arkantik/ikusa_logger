@@ -16,7 +16,7 @@ echo.
 
 REM Wait for application to close
 timeout /t 3 /nobreak >nul
-taskkill /F /IM %EXE_NAME% 2>nul
+taskkill /F /IM "%EXE_NAME%" 2>nul
 timeout /t 2 /nobreak >nul
 
 REM Create temp directory
@@ -73,12 +73,13 @@ if exist "%INSTALL_DIR%%EXE_NAME%.backup" (
 echo.
 echo Update completed successfully!
 echo Restarting application...
-timeout /t 2 /nobreak >nul
+timeout /t 1 /nobreak >nul
 
-start "" "%INSTALL_DIR%%EXE_NAME%"
+cmd /c start "" /d "%INSTALL_DIR%" "%EXE_NAME%"
 
 :cleanup
 if exist "%TEMP_DIR%" (
     rmdir /s /q "%TEMP_DIR%" 2>nul
 )
+
 exit
