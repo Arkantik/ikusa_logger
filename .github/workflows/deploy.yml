@@ -37,7 +37,7 @@ jobs:
 
       - name: Copy resources.neu to version folder
         run: |
-          cp ./dist/ikusa-logger/resources.neu ./version/resources.neu
+          cp ./dist/bdo-combat-logger/resources.neu ./version/resources.neu
 
       - name: Update version-manifest.json
         run: |
