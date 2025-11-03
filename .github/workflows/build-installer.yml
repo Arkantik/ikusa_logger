@@ -104,14 +104,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: bdo-combat-logger-installer
-          path: output/bdo-combat-installer.exe
+          path: Output/bdo-combat-installer-v${{ steps.get_version.outputs.VERSION }}.exe
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/v') || github.event.inputs.create_release == 'true'
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            output/bdo-combat-installer.exe
+            Output/bdo-combat-installer-v${{ steps.get_version.outputs.VERSION }}.exe
             dist/bdo-combat-logger/bdo-combat-logger-win_x64.exe
           tag_name: v${{ steps.get_version.outputs.VERSION }}
           name: Release v${{ steps.get_version.outputs.VERSION }}
@@ -122,7 +122,7 @@ jobs:
 
             ### 📦 Installation
 
-            **Recommended**: Download and run `bdo-combat-installer.exe`
+            **Recommended**: Download and run `bdo-combat-installer-v${{ steps.get_version.outputs.VERSION }}.exe`
 
             This installer includes:
             - ✅ Complete application
