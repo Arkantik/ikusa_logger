@@ -51,7 +51,7 @@ This is the easiest way to install BDO Combat Logger. The installer handles ever
 
 #### ⚠️ Windows Security Warning
 
-When downloading and running `bdo-combat-installer-v1.10.0.exe` for the first time, Windows Defender SmartScreen will display a security warning:
+When downloading and running `bdo-combat-installer.exe` for the first time, Windows Defender SmartScreen will display a security warning:
 
 ```
 "Windows protected your PC - Microsoft Defender SmartScreen prevented an unrecognized app from starting"
@@ -91,7 +91,7 @@ The BDO Combat Logger:
 #### Step 1: Download the Installer
 
 Go to the [Releases page](https://github.com/Arkantik/ikusa_logger/releases/latest) and download:
-- **`bdo-combat-installer-v1.10.0.exe`** (or the latest version)
+- **`bdo-combat-installer.exe`** (or the latest version)
 
 #### Step 2: Run the Installer
 
