@@ -19,8 +19,9 @@
 ## 📋 Table of Contents
 
 - [✨ Features](#-features)
-- [🔧 Prerequisites](#-prerequisites)
 - [📥 Installation](#-installation)
+  - [Method 1: Installer (Recommended)](#method-1-installer-recommended)
+  - [Method 2: Manual Build](#method-2-manual-build)
 - [🎮 Usage](#-usage)
 - [📊 Visualizing Your Logs](#-visualizing-your-logs)
 - [❗ Troubleshooting](#-troubleshooting)
@@ -40,28 +41,103 @@
 
 ---
 
-## 🔧 Prerequisites
+## 📥 Installation
 
-Before installing Ikusa Logger, you need:
+### Method 1: Installer (Recommended)
 
-### Required
+This is the easiest way to install BDO Combat Logger. The installer handles everything automatically.
 
-- **[Npcap 1.7.8+](https://npcap.com/dist/)** - Network packet capture library (Required for network monitoring)
+---
+
+#### ⚠️ Windows Security Warning
+
+When downloading and running `bdo-combat-installer-v1.10.0.exe` for the first time, Windows Defender SmartScreen will display a security warning:
+
+```
+"Windows protected your PC - Microsoft Defender SmartScreen prevented an unrecognized app from starting"
+```
+
+#### ✅ This is Normal and Expected
+
+This warning appears because the application is not code-signed with an expensive certificate ($300-500/year). **The application is completely safe** - all source code is publicly available on GitHub for review.
+
+#### How to Run the Application
+
+Follow these steps when you see the warning:
+
+1. Click **"More info"** on the SmartScreen warning
+2. Click **"Run anyway"** button that appears
+3. The application will start normally
+
+#### Why Does This Warning Appear?
+
+* Code signing certificates cost $300-500 per year from Certificate Authorities
+* As a free, open-source project, we don't have commercial funding for certificates
+* Windows shows this warning for any unsigned application, regardless of safety
+* Thousands of apps on GitHub have the same situation - it's standard for open-source software
+
+#### What Does This Application Actually Do?
+
+The BDO Combat Logger:
+
+* ✅ **Only reads** network traffic (like Wireshark does)
+* ✅ Does **NOT** modify game files
+* ✅ Does **NOT** inject code into games
+* ✅ Does **NOT** access sensitive data
+* ✅ **All source code** is public and can be audited on GitHub
+
+---
+
+#### Step 1: Download the Installer
+
+Go to the [Releases page](https://github.com/Arkantik/ikusa_logger/releases/latest) and download:
+- **`bdo-combat-installer-v1.10.0.exe`** (or the latest version)
+
+#### Step 2: Run the Installer
+
+1. **Right-click** the installer and select **"Run as administrator"**
+2. If you see the Windows SmartScreen warning, follow the steps above to proceed
+3. Follow the installation wizard
+4. The installer will automatically:
+   - ✅ Install the BDO Combat Logger application
+   - ✅ Install Npcap driver (if not already installed)
+   - ✅ Create desktop shortcuts (optional)
+   - ✅ Add to Start Menu
+
+#### Step 3: Launch the Application
+
+After installation, you can launch BDO Combat Logger from:
+- Desktop shortcut (if created during installation)
+- Start Menu → BDO Combat Logger
+- Installation folder: `C:\Program Files\BDO-combat-logger\bdo-combat-logger-win_x64.exe`
+
+> [!Note]
+> **No prerequisites needed!** The installer includes everything required to run the application. You don't need to install Python, Node.js, or manually download Npcap.
+
+---
+
+### Method 2: Manual Build
+
+<details>
+
+For advanced users or developers who want to build from source.
+
+#### Prerequisites
+
+Before building manually, you need:
+
+**Required:**
+- **[Npcap 1.7.8+](https://npcap.com/dist/)** - Network packet capture library
 - **[Node.js 20+](https://nodejs.org/en/download/)** - JavaScript runtime
 - **[Python 3+](https://www.python.org/downloads/)** - Programming language
 
-### Optional
-
+**Optional:**
 - **[Wireshark](https://www.wireshark.org/download.html)** - Network protocol analyzer (Useful for backup recordings)
 
 > [!Warning]
 > When installing Python, make sure to check the box that says **"Add Python to PATH"** during installation!
 
----
-
-## 📥 Installation
-
-### Step 1: Get the Project Files
+#### Step 1: Get the Project Files
 
 Choose one of these methods:
 
@@ -72,37 +148,44 @@ git clone https://github.com/Arkantik/ikusa_logger.git
 cd ikusa_logger
 ```
 
-**Method B: Download as ZIP (Recommended)**
+**Method B: Download as ZIP**
 
 1. Download the project: [bdo-combat-logger.zip](https://github.com/Arkantik/ikusa_logger/archive/refs/heads/main.zip)
 2. Extract the ZIP file to a folder of your choice
 3. Open the extracted folder
 
-### Step 2: Verify Prerequisites
+#### Step 2: Verify Prerequisites
 
 Make sure you have installed:
 
 - Node.js (Check by opening Command Prompt and typing: `node --version`)
 - Python (Check by opening Command Prompt and typing: `python --version`)
 
-### Step 3: Build the Application
+#### Step 3: Build the Application
 
 1. Locate the `build.bat` file in the project folder
 2. **Double-click** `build.bat` to run it
 3. If a command prompt window appears asking you to press any key, **press Enter**
 4. Wait for the build process to complete (this may take several minutes)
-5. When finished, you'll find the executable in `dist/ikusa-logger/ikusa-logger-win_x64.exe`
+5. When finished, you'll find the executable in `dist/bdo-combat-logger/bdo-combat-logger-win_x64.exe`
 
 > [!Note]
-> The first build may take few minutes as it downloads and installs all necessary dependencies.
+> The first build may take a few minutes as it downloads and installs all necessary dependencies.
+
+</details>
 
 ---
 
 ## 🎮 Usage
 
+<details>
+
 ### Starting the Logger
 
-1. Launch `ikusa-logger-win_x64.exe` from the `dist/ikusa-logger/` folder
+1. Launch `bdo-combat-logger-win_x64.exe` from:
+   - Desktop shortcut (if using installer)
+   - Installation folder: `C:\Program Files\BDO-combat-logger\` (installer)
+   - Build folder: `dist/bdo-combat-logger/` (manual build)
 2. You'll see the main menu with several options
 
 ### Recording Combat Logs (Live)
@@ -154,11 +237,13 @@ To open a file:
 3. Adjust names if needed
 4. Save the corrected version
 
+</details>
+
 ---
 
 ## 📊 Visualizing Your Logs
 
-After saving your logs, visualize them using the Ikusa website:
+After saving your logs, visualize them using the Nodewar website:
 
 1. Log in to your account on [nodewar.gg](https://nodewar.gg/account)
 2. Upload your `.log` file
@@ -176,7 +261,6 @@ The website provides:
 ## ❗ Troubleshooting
 
 <details>
-<summary><b>Click to expand troubleshooting guide</b></summary>
 
 ### Startup Issues
 
@@ -188,10 +272,11 @@ The website provides:
    - Open the logger
    - Check the status message on the home screen
    - If it says "Npcap is not installed", download and install from [npcap.com](https://npcap.com/dist/)
+   - Or reinstall using the full installer
 
 ### "The system cannot find the path specified" Error
 
-This error usually means Python is not added to your system PATH:
+This error usually means Python is not added to your system PATH (only relevant for manual builds):
 
 1. Follow this guide to add Python to PATH: [Python PATH Configuration Guide](https://www.pythoncentral.io/add-python-to-path-python-is-not-recognized-as-an-internal-or-external-command/)
 2. After adding Python to PATH, restart your computer
@@ -236,7 +321,6 @@ This error usually means Python is not added to your system PATH:
 ## 🤔 FAQ
 
 <details>
-<summary><b>Click to expand frequently asked questions</b></summary>
 
 **Q: Is this tool safe to use?**  
 A: Yes, the logger only reads network packets and doesn't modify or inject anything into the game.
@@ -256,6 +340,9 @@ A: Yes! Use the Open function to load your `.log` file, adjust the names, and sa
 **Q: What if I accidentally close the logger while recording?**  
 A: A warning message should appear asking you to confirm. If you lose data, you can use your Wireshark recording as backup (if you made one).
 
+**Q: Do I need to install Python and Node.js if I use the installer?**  
+A: No! The installer method is completely standalone. You only need Python and Node.js if you're building from source manually.
+
 </details>
 
 ---
@@ -270,9 +357,10 @@ If you're experiencing issues or have questions:
 When asking for help, please provide:
 
 1. Your Windows version
-2. The exact error message (if any)
-3. What you were doing when the problem occurred
-4. Screenshots if possible
+2. Installation method used (installer or manual build)
+3. The exact error message (if any)
+4. What you were doing when the problem occurred
+5. Screenshots if possible
 
 ---
 
@@ -287,7 +375,6 @@ When asking for help, please provide:
 ## 📝 Notes for Advanced Users
 
 <details>
-<summary><b>Click to expand advanced configuration</b></summary>
 
 ### Manual Config Updates
 
@@ -301,6 +388,15 @@ If you need to update the config manually:
    - `player_one`: Offset for first player name
    - `player_two`: Offset for second player name
    - `kill`: Offset for kill/death flag
+
+### Building Your Own Installer
+
+If you want to create the installer yourself:
+
+1. Follow the manual build steps first
+2. Install [Inno Setup 6](https://jrsoftware.org/isdl.php)
+3. Run `setup-wizard.bat` and choose option 4 (Create Installer)
+4. The installer will be created in the `output` folder
 
 </details>
 
