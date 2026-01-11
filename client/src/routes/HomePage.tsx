@@ -78,7 +78,7 @@ function HomePage() {
                 <div className="w-full max-w-4xl">
                     <div className="glass-card rounded-2xl p-8 mb-8 border border-white/10">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="p-3 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl">
+                            <div className="p-3 bg-linear-to-br from-purple-500/20 to-pink-500/20 rounded-xl">
                                 <Icon icon={LuShield} className="text-purple-400" size="lg" />
                             </div>
                             <div>

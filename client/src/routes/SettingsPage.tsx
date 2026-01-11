@@ -46,7 +46,7 @@ function SettingsPage() {
             <div className="max-w-3xl mx-auto w-full space-y-6">
                 <div className="glass-card rounded-2xl p-6 border border-white/10">
                     <div className="flex items-center gap-4">
-                        <div className="p-3 bg-gradient-to-br from-orange-500/20 to-yellow-500/20 rounded-xl">
+                        <div className="p-3 bg-linear-to-br from-orange-500/20 to-yellow-500/20 rounded-xl">
                             <Icon icon={LuInfo} size="lg" className="text-orange-400" />
                         </div>
                         <div>
@@ -60,7 +60,7 @@ function SettingsPage() {
                     <div className="glass-card rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-colors duration-300">
                         <div className="flex items-center justify-between">
                             <div className="flex items-start gap-4 flex-1">
-                                <div className="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl">
+                                <div className="p-3 bg-linear-to-br from-blue-500/20 to-cyan-500/20 rounded-xl">
                                     <Icon icon={LuNetwork} className="text-blue-400" />
                                 </div>
                                 <div className="flex-1">

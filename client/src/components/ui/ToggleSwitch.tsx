@@ -29,7 +29,7 @@ function ToggleSwitch({ checked, onChange, disabled = false, label, className }:
                 }
             )}>
                 <div className={classNames(
-                    "absolute top-[2px] left-[2px] bg-white rounded-full h-5 w-5 transition-transform duration-200 ease-in-out",
+                    "absolute top-0.5 left-0.5 bg-white rounded-full h-5 w-5 transition-transform duration-200 ease-in-out",
                     {
                         'translate-x-5': checked,
                         'translate-x-0': !checked

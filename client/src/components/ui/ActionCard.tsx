@@ -27,7 +27,7 @@ function ActionCard({
         >
             <div className="flex flex-col items-center gap-4">
                 <div
-                    className={`p-4 bg-gradient-to-br rounded-2xl group-hover:scale-110 transition-transform duration-300`}
+                    className={`p-4 bg-linear-to-br rounded-2xl group-hover:scale-110 transition-transform duration-300`}
                     style={{
                         backgroundImage: `linear-gradient(to bottom right, ${gradientFrom}, ${gradientTo})`
                     }}
