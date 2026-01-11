@@ -19,7 +19,7 @@ function Modal() {
 
     return (
         <div
-            className="z-[51] fixed top-0 left-0 w-screen h-screen flex flex-col justify-center bg-background/50 backdrop-blur-sm"
+            className="z-51 fixed top-0 left-0 w-screen h-screen flex flex-col justify-center bg-background/50 backdrop-blur-sm"
             onClick={close}
         >
             <div className="relative m-2 max-h-full">

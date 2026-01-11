@@ -35,7 +35,7 @@ function DocsPage() {
             <div className="max-w-4xl mx-auto w-full p-8 space-y-6">
                 <div className="glass-card rounded-2xl p-6 border border-white/10">
                     <div className="flex items-center gap-4">
-                        <div className="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl">
+                        <div className="p-3 bg-linear-to-br from-blue-500/20 to-cyan-500/20 rounded-xl">
                             <Icon icon={LuInfo} size="lg" className="text-blue-400" />
                         </div>
                         <div>
@@ -47,7 +47,7 @@ function DocsPage() {
 
                 <div className="glass-card rounded-2xl p-6 border border-cta-500/50 bg-cta-500/5">
                     <div className="flex items-start gap-4">
-                        <div className="p-3 bg-gradient-to-br from-cta-500/20 to-orange-500/20 rounded-xl flex-shrink-0">
+                        <div className="p-3 bg-linear-to-br from-cta-500/20 to-orange-500/20 rounded-xl shrink-0">
                             <Icon icon={LuTriangleAlert} size="lg" className="text-cta-400" />
                         </div>
                         <div className="flex-1 space-y-3">
@@ -65,7 +65,7 @@ function DocsPage() {
                                     <span className="text-gray-400">Format:</span> <span className="text-cta-400">YourGuild-FamilyName</span> <span className="text-green-400">killed</span>/<span className="text-red-400">died to</span> <span className="text-blue-400">Enemy-FamilyName</span> from <span className="text-purple-400">Guild</span>
                                 </div>
                                 <p className="flex items-start gap-2">
-                                    <Icon icon={LuCircleCheck} size="sm" className="text-green-400 flex-shrink-0 mt-0.5" />
+                                    <Icon icon={LuCircleCheck} size="sm" className="text-green-400 shrink-0 mt-0.5" />
                                     <span>If you didn't apply the correct format during recording, don't worry! You can open the saved log file and update it before uploading to NodewarGG. Using the wrong format will result in incorrect class identification and data display on the website.</span>
                                 </p>
                             </div>
@@ -75,7 +75,7 @@ function DocsPage() {
 
                 <div className="space-y-4">
                     <h2 className="text-2xl font-bold text-white flex items-center gap-3">
-                        <div className="p-2 bg-gradient-to-br from-red-500/20 to-rose-500/20 rounded-lg">
+                        <div className="p-2 bg-linear-to-br from-red-500/20 to-rose-500/20 rounded-lg">
                             <Icon icon={LuTriangleAlert} className="text-red-400" />
                         </div>
                         Troubleshooting
@@ -153,7 +153,7 @@ function DocsPage() {
 
                 <div className="space-y-4">
                     <h2 className="text-2xl font-bold text-white flex items-center gap-3">
-                        <div className="p-2 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-lg">
+                        <div className="p-2 bg-linear-to-br from-purple-500/20 to-pink-500/20 rounded-lg">
                             <Icon icon={LuInfo} className="text-purple-400" />
                         </div>
                         Frequently Asked Questions
@@ -186,7 +186,7 @@ function DocsPage() {
 
                 <div className="glass-card rounded-2xl p-6 border border-white/10 bg-blue-500/5">
                     <div className="flex items-start gap-4">
-                        <div className="p-3 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl flex-shrink-0">
+                        <div className="p-3 bg-linear-to-br from-blue-500/20 to-cyan-500/20 rounded-xl shrink-0">
                             <Icon icon={LuInfo} size="lg" className="text-blue-400" />
                         </div>
                         <div className="flex-1 space-y-3">

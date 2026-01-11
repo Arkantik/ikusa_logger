@@ -23,7 +23,7 @@ function StatCard({
     return (
         <div className="glass-card flex justify-between rounded-xl p-2 border border-white/10">
             <div className="flex items-center justify-between">
-                <div className={`p-2 rounded-lg bg-gradient-to-br ${gradientFrom} ${gradientTo}`}>
+                <div className={`p-2 rounded-lg bg-linear-to-br ${gradientFrom} ${gradientTo}`}>
                     <Icon icon={icon} size="sm" className={iconColor} />
                 </div>
                 <span className="ml-1 text-sm text-gray-400 font-medium">{label}</span>

@@ -57,7 +57,7 @@ function GuildStats({ logs, guildIndex, playerIndex }: GuildStatsProps) {
     return (
         <div className="glass-card rounded-2xl p-4 border border-white/10 h-full flex flex-col">
             <div className="flex items-center gap-1 mb-3">
-                <div className="p-2 bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-lg">
+                <div className="p-2 bg-linear-to-br from-yellow-500/20 to-orange-500/20 rounded-lg">
                     <Icon icon={LuUsers} size="sm" className="text-yellow-400" />
                 </div>
                 <h3 className="text-sm font-bold text-gray-400">Members per guilds</h3>
