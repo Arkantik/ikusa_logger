@@ -4,6 +4,7 @@ import { HashRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Modal from './components/modal/Modal';
 import LoadingIndicator from './components/ui/LoadingIndicator';
+import DemoPage from './routes/DemoPage';
 import DocsPage from './routes/DocsPage';
 import HomePage from './routes/HomePage';
 import OpenPage from './routes/OpenPage';
@@ -40,6 +41,7 @@ function AppContent() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/record" element={<RecordPage />} />
                     <Route path="/open" element={<OpenPage />} />
+                    <Route path="/demo" element={<DemoPage />} />
                     <Route path="/settings" element={<SettingsPage />} />
                     <Route path="/docs" element={<DocsPage />} />
                 </Routes>

@@ -1,7 +1,7 @@
 import { os } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
 import { FaDiscord } from 'react-icons/fa';
-import { LuCheck, LuCircleAlert, LuSettings, LuFolder, LuGithub, LuPlay, LuShield } from 'react-icons/lu';
+import { LuCheck, LuCircleAlert, LuFlaskConical, LuFolder, LuGithub, LuPlay, LuSettings, LuShield } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
 import ActionCard from '../components/ui/ActionCard';
 import Icon from '../components/ui/Icon';
@@ -46,6 +46,15 @@ function HomePage() {
             onClick: () => navigate('/open')
         },
         {
+            title: 'Demo',
+            description: 'Test with simulated data',
+            icon: LuFlaskConical,
+            gradientFrom: 'rgba(245, 205, 64, 0.2)',
+            gradientTo: 'rgba(189, 142, 40, 0.2)',
+            iconColor: 'text-cta-400',
+            onClick: () => navigate('/demo')
+        },
+        {
             title: 'Settings',
             description: 'Configure options',
             icon: LuSettings,
@@ -75,7 +84,7 @@ function HomePage() {
             <div className="absolute bottom-20 left-20 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '1s' }}></div>
 
             <div className="flex-1 flex items-center justify-center px-8 relative z-10">
-                <div className="w-full max-w-4xl">
+                <div className="w-full max-w-5xl">
                     <div className="glass-card rounded-2xl p-8 mb-8 border border-white/10">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-3 bg-linear-to-br from-purple-500/20 to-pink-500/20 rounded-xl">
@@ -103,7 +112,7 @@ function HomePage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-4 gap-4">
                         {actionCards.map((card, index) => (
                             <ActionCard key={index} {...card} />
                         ))}
