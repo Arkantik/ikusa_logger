@@ -102,7 +102,7 @@ function KDTimeline({ kdr, kills, deaths, allLogs }: KDTimelineProps) {
                 <h3 className="text-[10px] text-gray-400">Live K/D Tracking</h3>
             </div>
             <div className="relative">
-                <div className="absolute left-0 top-0 h-[100px] w-[30px] bg-gradient-to-r from-[#1c1c29] via-[#1c1c29] to-transparent pointer-events-none z-10 flex flex-col justify-between">
+                <div className="absolute left-0 top-0 h-[100px] w-[30px] bg-linear-to-r from-[#1c1c29] via-[#1c1c29] to-transparent pointer-events-none z-10 flex flex-col justify-between">
                     {yAxisLabels.map((label, index) => (
                         <div
                             key={index}

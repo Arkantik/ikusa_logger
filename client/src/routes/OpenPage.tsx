@@ -139,7 +139,7 @@ function OpenPage() {
             <div className="glass-card rounded-2xl p-2 border border-white/10">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <div className="p-2 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-lg">
+                        <div className="p-2 bg-linear-to-br from-blue-500/20 to-cyan-500/20 rounded-lg">
                             <Icon icon={fileName ? LuFileText : LuFolder} size="sm" className="text-blue-400" />
                         </div>
                         <div>
