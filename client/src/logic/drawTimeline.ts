@@ -57,8 +57,7 @@ export function drawTimeline({ canvas, container, dataPoints }: DrawTimelineOpti
   const bottomPadding = 20;
   const graphHeight = height - topPadding - bottomPadding;
 
-  const dataMaxKDR = Math.max(...dataPoints.map((p) => p.kdr));
-  const maxKDR = Math.max(2, Math.ceil(dataMaxKDR * 2) / 2);
+  const maxKDR = calculateMaxKDR(dataPoints);
 
   ctx.clearRect(0, 0, width, height);
 
@@ -250,6 +249,17 @@ function drawTimeLabels(
 
 export function calculateMaxKDR(dataPoints: DataPoint[]): number {
   if (dataPoints.length === 0) return 2;
-  const dataMaxKDR = Math.max(...dataPoints.map((p) => p.kdr));
-  return Math.max(2, Math.ceil(dataMaxKDR * 2) / 2);
+
+  const twoMinutesAgo = Date.now() - 2 * 60 * 1000;
+  const recentPoints = dataPoints.filter((p) => p.timestamp >= twoMinutesAgo);
+
+  const pointsToConsider = recentPoints.length >= 10 ? recentPoints : dataPoints.slice(-50);
+
+  if (pointsToConsider.length === 0) return 2;
+
+  const dataMaxKDR = Math.max(...pointsToConsider.map((p) => p.kdr));
+
+  const paddedMax = dataMaxKDR * 1.2;
+
+  return Math.max(2, Math.ceil(paddedMax * 2) / 2);
 }
