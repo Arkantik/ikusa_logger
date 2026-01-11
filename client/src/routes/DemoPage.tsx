@@ -1,0 +1,170 @@
+import { useEffect, useRef, useState } from 'react';
+import { LuActivity, LuChartPie, LuInfo, LuOctagonPause, LuPlay, LuSkull, LuSword } from 'react-icons/lu';
+import type { LogType } from '../components/create-config/config';
+import Logger from '../components/create-config/Logger';
+import GuildStats from '../components/ui/GuildStats';
+import Icon from '../components/ui/Icon';
+import KDTimeline from '../components/ui/KDTimeline';
+import StatCard from '../components/ui/StatCard';
+import { DemoLogGenerator } from '../logic/demoGenerator';
+
+function DemoPage() {
+    const [logs, setLogs] = useState<LogType[]>([]);
+    const [stats, setStats] = useState({ kills: 0, deaths: 0, kdr: 0 });
+    const [isRunning, setIsRunning] = useState(false);
+    const [guildStatsKey, setGuildStatsKey] = useState({ playerTwo: 1, guild: 2 });
+    const generatorRef = useRef<DemoLogGenerator | null>(null);
+
+    useEffect(() => {
+        generatorRef.current = new DemoLogGenerator();
+
+        return () => {
+            if (generatorRef.current) {
+                generatorRef.current.stop();
+            }
+        };
+    }, []);
+
+    const handleStart = () => {
+        if (!generatorRef.current || isRunning) return;
+
+        setIsRunning(true);
+        generatorRef.current.start((log: LogType) => {
+            setLogs((prevLogs) => [...prevLogs, log]);
+        }, 1500);
+    };
+
+    const handleStop = () => {
+        if (!generatorRef.current) return;
+
+        generatorRef.current.stop();
+        setIsRunning(false);
+    };
+
+    const handleDeleteLog = (index: number) => {
+        setLogs((prevLogs) => prevLogs.filter((_, i) => i !== index));
+    };
+
+    const handleIndicesChange = (indices: { playerTwo: number; guild: number }) => {
+        setGuildStatsKey(indices);
+    };
+
+    const handleClearLogs = () => {
+        setLogs([]);
+        setStats({ kills: 0, deaths: 0, kdr: 0 });
+    };
+
+    return (
+        <div className="flex flex-col h-full w-full p-8 gap-4">
+            <div className="glass-card rounded-2xl p-4 border border-cta-500/50 bg-cta-500/5">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-linear-to-r from-cta-500/20 to-orange-500/20 rounded-lg">
+                            <Icon icon={LuInfo} className="text-cta-400" />
+                        </div>
+                        <div>
+                            <h3 className="text-sm font-bold text-white">Demo Mode</h3>
+                            <p className="text-xs text-gray-400">
+                                Simulated combat events for testing and demonstration purposes
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        {logs.length > 0 && (
+                            <button
+                                onClick={handleClearLogs}
+                                className="cursor-pointer px-4 py-2 rounded-lg glass-card border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 transition-all duration-300 text-sm font-medium text-red-400"
+                            >
+                                Clear Logs
+                            </button>
+                        )}
+
+                        {!isRunning ? (
+                            <button
+                                onClick={handleStart}
+                                className="cursor-pointer flex items-center gap-2 px-6 py-2 bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-lg transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl"
+                            >
+                                <Icon icon={LuPlay} size="sm" />
+                                Start Demo
+                            </button>
+                        ) : (
+                            <button
+                                onClick={handleStop}
+                                className="cursor-pointer flex items-center gap-2 px-6 py-2 bg-linear-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 text-white rounded-lg transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl"
+                            >
+                                <Icon icon={LuOctagonPause} size="sm" />
+                                Stop Demo
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-4 gap-4">
+                <StatCard
+                    label="Events"
+                    value={logs.length}
+                    icon={LuActivity}
+                    iconColor="text-green-400"
+                    gradientFrom="from-green-500/20"
+                    gradientTo="to-emerald-500/20"
+                />
+
+                <StatCard
+                    label="Kills"
+                    value={stats.kills}
+                    icon={LuSword}
+                    iconColor="text-blue-400"
+                    gradientFrom="from-blue-500/20"
+                    gradientTo="to-cyan-500/20"
+                    valueColor="text-blue-400"
+                />
+
+                <StatCard
+                    label="Deaths"
+                    value={stats.deaths}
+                    icon={LuSkull}
+                    iconColor="text-red-400"
+                    gradientFrom="from-red-500/20"
+                    gradientTo="to-rose-500/20"
+                    valueColor="text-red-400"
+                />
+
+                <StatCard
+                    label="K/D Ratio"
+                    value={stats.kdr}
+                    icon={LuChartPie}
+                    iconColor="text-purple-400"
+                    gradientFrom="from-purple-500/20"
+                    gradientTo="to-pink-500/20"
+                    valueColor={stats.kdr >= 1 ? "text-green-400" : "text-red-400"}
+                />
+            </div>
+
+            <KDTimeline kdr={stats.kdr} kills={stats.kills} deaths={stats.deaths} />
+
+            <div className="flex-1 flex gap-4 overflow-hidden">
+                <div className="flex-1 glass-card rounded-2xl p-4 border border-white/10 overflow-hidden">
+                    <Logger
+                        logs={logs}
+                        height={window.innerHeight - 400}
+                        onStatsUpdate={setStats}
+                        onDeleteLog={handleDeleteLog}
+                        onIndicesChange={handleIndicesChange}
+                    />
+                </div>
+
+                <div className="w-64 flex flex-col overflow-hidden">
+                    <GuildStats
+                        logs={logs}
+                        guildIndex={guildStatsKey.guild}
+                        playerIndex={guildStatsKey.playerTwo}
+                    />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default DemoPage;
