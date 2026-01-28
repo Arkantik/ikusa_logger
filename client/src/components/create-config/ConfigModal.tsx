@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { IoMdClipboard } from "react-icons/io";
 import Checkbox from "../ui/Checkbox";
 import Icon from "../ui/Icon";
@@ -21,6 +22,7 @@ interface ConfigModalProps {
 }
 
 function ConfigModal({ config, options, onChange }: ConfigModalProps) {
+    const { t } = useTranslation();
     const [includeCharacters, setIncludeCharacters] = useState(config.include_characters);
 
     function updateNameIndex(nameIndex: number, value: number) {
@@ -41,8 +43,8 @@ function ConfigModal({ config, options, onChange }: ConfigModalProps) {
     return (
         <div>
             <div className="flex justify-between">
-                <h3 className="font-bold">Config</h3>
-                <button onClick={() => copy_to_clipboard(config)} className="cursor-pointer">
+                <h3 className="font-bold">{t('config.title')}</h3>
+                <button onClick={() => copy_to_clipboard(config)} className="cursor-pointer" title={t('config.copyToClipboard')}>
                     <Icon icon={IoMdClipboard} />
                 </button>
             </div>
@@ -52,7 +54,7 @@ function ConfigModal({ config, options, onChange }: ConfigModalProps) {
                     onChange={(e) => handleIncludeCharactersChange(e.target.checked)}
                     className="mr-1"
                 />
-                <span className="text-sm">Characters</span>
+                <span className="text-sm">{t('config.characters')}</span>
             </div>
             <pre className="text-xs mt-1">
                 {`[GENERAL]

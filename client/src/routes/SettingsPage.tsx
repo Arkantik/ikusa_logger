@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LuCircleCheckBig, LuFilter, LuInfo, LuNetwork } from 'react-icons/lu';
 import { get_config, update_config, type Config } from '../components/create-config/config';
 import Icon from '../components/ui/Icon';
 import ToggleSwitch from '../components/ui/ToggleSwitch';
 
 function SettingsPage() {
+    const { t } = useTranslation();
     const [config, setConfig] = useState<Config | null>(null);
     const [allInterfaces, setAllInterfaces] = useState(true);
     const [ipFilter, setIpFilter] = useState(false);
@@ -50,8 +52,8 @@ function SettingsPage() {
                             <Icon icon={LuInfo} size="lg" className="text-orange-400" />
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold text-white mb-1">Network Settings</h2>
-                            <p className="text-sm text-gray-400">Configure how the logger captures network traffic</p>
+                            <h2 className="text-2xl font-bold text-white mb-1">{t('settings.title')}</h2>
+                            <p className="text-sm text-gray-400">{t('settings.subtitle')}</p>
                         </div>
                     </div>
                 </div>
@@ -64,9 +66,9 @@ function SettingsPage() {
                                     <Icon icon={LuNetwork} className="text-blue-400" />
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="text-lg font-semibold text-white mb-2">All Network Interfaces</h3>
+                                    <h3 className="text-lg font-semibold text-white mb-2">{t('settings.allInterfaces.title')}</h3>
                                     <p className="text-sm text-gray-400 leading-relaxed">
-                                        Capture traffic from all available network interfaces. Disable to use only the default interface.
+                                        {t('settings.allInterfaces.description')}
                                     </p>
                                 </div>
                             </div>
@@ -106,7 +108,7 @@ function SettingsPage() {
                         <div className="flex items-center justify-center gap-2">
                             <Icon icon={LuCircleCheckBig} size="sm" className="text-green-400" />
                             <p className="text-sm text-green-400 font-medium">
-                                Settings saved successfully
+                                {t('settings.saved')}
                             </p>
                         </div>
                     </div>
@@ -116,21 +118,21 @@ function SettingsPage() {
                     <div className="glass-card rounded-2xl p-6 border border-white/10 mb-8">
                         <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                             <Icon icon={LuInfo} size="sm" className="text-gray-400" />
-                            Configuration Information
+                            {t('settings.configInfo.title')}
                         </h3>
                         <div className="space-y-3">
                             <div className="flex justify-between items-center py-2 border-b border-white/5">
-                                <span className="text-sm text-gray-400">Patch Date</span>
-                                <span className="text-sm text-white font-mono font-medium">{config.patch || 'N/A'}</span>
+                                <span className="text-sm text-gray-400">{t('settings.configInfo.patchDate')}</span>
+                                <span className="text-sm text-white font-mono font-medium">{config.patch || t('settings.configInfo.na')}</span>
                             </div>
                             <div className="flex justify-between items-center py-2 border-b border-white/5">
-                                <span className="text-sm text-gray-400">Identifier</span>
-                                <span className="text-sm text-white font-mono font-medium">{config.identifier || 'N/A'}</span>
+                                <span className="text-sm text-gray-400">{t('settings.configInfo.identifier')}</span>
+                                <span className="text-sm text-white font-mono font-medium">{config.identifier || t('settings.configInfo.na')}</span>
                             </div>
                             <div className="flex justify-between items-center py-2">
-                                <span className="text-sm text-gray-400">Auto Scroll</span>
+                                <span className="text-sm text-gray-400">{t('settings.configInfo.autoScroll')}</span>
                                 <span className={`text-sm font-medium ${config.auto_scroll ? 'text-green-400' : 'text-gray-400'}`}>
-                                    {config.auto_scroll ? 'Enabled' : 'Disabled'}
+                                    {config.auto_scroll ? t('settings.configInfo.enabled') : t('settings.configInfo.disabled')}
                                 </span>
                             </div>
                         </div>
