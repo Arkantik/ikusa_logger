@@ -1,5 +1,6 @@
 import { filesystem } from '@neutralinojs/lib';
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LuActivity, LuChartPie, LuFileText, LuFolder, LuSkull, LuSword } from 'react-icons/lu';
 import { get_config, type Log, type LogType } from '../components/create-config/config';
 import LogEditor from '../components/create-config/LogEditor';
@@ -14,6 +15,7 @@ import { start_logger, type LoggerCallback } from '../logic/logger-wrapper';
 const LOG_REGEX = /\[(.+)\] (\w+) (died to|has killed|killed|was slain by) (\w+) (?:from|of|from the) (?:the )?(\w+|-1)(?: \((\w+),(\w+)\))?/;
 
 function OpenPage() {
+    const { t } = useTranslation();
     const [logs, setLogs] = useState<LogType[]>([]);
     const [combatLogs, setCombatLogs] = useState<Log[]>([]);
     const [loading, setLoading] = useState(false);
@@ -143,15 +145,15 @@ function OpenPage() {
                             <Icon icon={fileName ? LuFileText : LuFolder} size="sm" className="text-blue-400" />
                         </div>
                         <div>
-                            <div className="text-xs text-gray-400">Selected File</div>
+                            <div className="text-xs text-gray-400">{t('open.fileSelection.selectedFile')}</div>
                             <div className="text-sm font-semibold text-white">
-                                {fileName || 'No file selected'}
+                                {fileName || t('open.fileSelection.noFileSelected')}
                             </div>
                         </div>
                     </div>
                     <Button onClick={openPcap} size="md" color="gradient">
                         <Icon icon={LuFolder} size="sm" className="mr-2" />
-                        Import File
+                        {t('open.fileSelection.importFile')}
                     </Button>
                 </div>
             </div>
@@ -160,7 +162,7 @@ function OpenPage() {
                 <>
                     <div className="grid grid-cols-4 gap-4">
                         <StatCard
-                            label="Events"
+                            label={t('record.stats.events')}
                             value={isNetwork ? logs.length : combatLogs.length}
                             icon={LuActivity}
                             iconColor="text-green-400"
@@ -169,7 +171,7 @@ function OpenPage() {
                         />
 
                         <StatCard
-                            label="Kills"
+                            label={t('record.stats.kills')}
                             value={stats.kills}
                             icon={LuSword}
                             iconColor="text-blue-400"
@@ -179,7 +181,7 @@ function OpenPage() {
                         />
 
                         <StatCard
-                            label="Deaths"
+                            label={t('record.stats.deaths')}
                             value={stats.deaths}
                             icon={LuSkull}
                             iconColor="text-red-400"
@@ -189,7 +191,7 @@ function OpenPage() {
                         />
 
                         <StatCard
-                            label="K/D Ratio"
+                            label={t('record.stats.kdRatio')}
                             value={stats.kdr}
                             icon={LuChartPie}
                             iconColor="text-purple-400"

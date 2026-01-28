@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LuActivity, LuChartPie, LuInfo, LuOctagonPause, LuPlay, LuSkull, LuSword } from 'react-icons/lu';
 import type { LogType } from '../components/create-config/config';
 import Logger from '../components/create-config/Logger';
@@ -9,6 +10,7 @@ import StatCard from '../components/ui/StatCard';
 import { DemoLogGenerator } from '../logic/demoGenerator';
 
 function DemoPage() {
+    const { t } = useTranslation();
     const [logs, setLogs] = useState<LogType[]>([]);
     const [stats, setStats] = useState({ kills: 0, deaths: 0, kdr: 0 });
     const [isRunning, setIsRunning] = useState(false);
@@ -63,9 +65,9 @@ function DemoPage() {
                             <Icon icon={LuInfo} className="text-cta-400" />
                         </div>
                         <div>
-                            <h3 className="text-sm font-bold text-white">Demo Mode</h3>
+                            <h3 className="text-sm font-bold text-white">{t('demo.title')}</h3>
                             <p className="text-xs text-gray-400">
-                                Simulated combat events for testing and demonstration purposes
+                                {t('demo.description')}
                             </p>
                         </div>
                     </div>
@@ -76,7 +78,7 @@ function DemoPage() {
                                 onClick={handleClearLogs}
                                 className="cursor-pointer px-4 py-2 rounded-lg glass-card border border-white/10 hover:border-red-500/50 hover:bg-red-500/10 transition-all duration-300 text-sm font-medium text-red-400"
                             >
-                                Clear Logs
+                                {t('demo.controls.clearLogs')}
                             </button>
                         )}
 
@@ -86,7 +88,7 @@ function DemoPage() {
                                 className="cursor-pointer flex items-center gap-2 px-6 py-2 bg-linear-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-lg transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl"
                             >
                                 <Icon icon={LuPlay} size="sm" />
-                                Start Demo
+                                {t('demo.controls.startDemo')}
                             </button>
                         ) : (
                             <button
@@ -94,7 +96,7 @@ function DemoPage() {
                                 className="cursor-pointer flex items-center gap-2 px-6 py-2 bg-linear-to-r from-red-500 to-rose-500 hover:from-red-600 hover:to-rose-600 text-white rounded-lg transition-all duration-300 text-sm font-medium shadow-lg hover:shadow-xl"
                             >
                                 <Icon icon={LuOctagonPause} size="sm" />
-                                Stop Demo
+                                {t('demo.controls.stopDemo')}
                             </button>
                         )}
                     </div>
@@ -103,7 +105,7 @@ function DemoPage() {
 
             <div className="grid grid-cols-4 gap-4">
                 <StatCard
-                    label="Events"
+                    label={t('record.stats.events')}
                     value={logs.length}
                     icon={LuActivity}
                     iconColor="text-green-400"
@@ -112,7 +114,7 @@ function DemoPage() {
                 />
 
                 <StatCard
-                    label="Kills"
+                    label={t('record.stats.kills')}
                     value={stats.kills}
                     icon={LuSword}
                     iconColor="text-blue-400"
@@ -122,7 +124,7 @@ function DemoPage() {
                 />
 
                 <StatCard
-                    label="Deaths"
+                    label={t('record.stats.deaths')}
                     value={stats.deaths}
                     icon={LuSkull}
                     iconColor="text-red-400"
@@ -132,7 +134,7 @@ function DemoPage() {
                 />
 
                 <StatCard
-                    label="K/D Ratio"
+                    label={t('record.stats.kdRatio')}
                     value={stats.kdr}
                     icon={LuChartPie}
                     iconColor="text-purple-400"

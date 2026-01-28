@@ -1,5 +1,6 @@
 import { os } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FaDiscord } from 'react-icons/fa';
 import { LuCheck, LuCircleAlert, LuFlaskConical, LuFolder, LuGithub, LuPlay, LuSettings, LuShield } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +10,7 @@ import StatusCard from '../components/ui/StatusCard';
 import { check_status, type LoggerStatus } from '../logic/logger-status';
 
 function HomePage() {
+    const { t } = useTranslation();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState<LoggerStatus | null>(null);
@@ -28,8 +30,8 @@ function HomePage() {
 
     const actionCards = [
         {
-            title: 'Record',
-            description: 'Start live capture',
+            title: t('home.actions.record.title'),
+            description: t('home.actions.record.description'),
             icon: LuPlay,
             gradientFrom: 'rgba(139, 92, 246, 0.2)',
             gradientTo: 'rgba(236, 72, 153, 0.2)',
@@ -37,8 +39,8 @@ function HomePage() {
             onClick: () => navigate('/record')
         },
         {
-            title: 'Open File',
-            description: 'Import existing data',
+            title: t('home.actions.openFile.title'),
+            description: t('home.actions.openFile.description'),
             icon: LuFolder,
             gradientFrom: 'rgba(59, 130, 246, 0.2)',
             gradientTo: 'rgba(6, 182, 212, 0.2)',
@@ -46,8 +48,8 @@ function HomePage() {
             onClick: () => navigate('/open')
         },
         {
-            title: 'Demo',
-            description: 'Test with simulated data',
+            title: t('home.actions.demo.title'),
+            description: t('home.actions.demo.description'),
             icon: LuFlaskConical,
             gradientFrom: 'rgba(245, 205, 64, 0.2)',
             gradientTo: 'rgba(189, 142, 40, 0.2)',
@@ -55,8 +57,8 @@ function HomePage() {
             onClick: () => navigate('/demo')
         },
         {
-            title: 'Settings',
-            description: 'Configure options',
+            title: t('home.actions.settings.title'),
+            description: t('home.actions.settings.description'),
             icon: LuSettings,
             gradientFrom: 'rgba(249, 115, 22, 0.2)',
             gradientTo: 'rgba(234, 179, 8, 0.2)',
@@ -69,12 +71,12 @@ function HomePage() {
         {
             icon: FaDiscord,
             url: 'https://discord.gg/CUc38nKyDU',
-            title: 'Join Discord'
+            title: t('home.social.joinDiscord')
         },
         {
             icon: LuGithub,
             url: 'https://github.com/Arkantik/ikusa_logger',
-            title: 'View on GitHub'
+            title: t('home.social.viewOnGitHub')
         }
     ];
 
@@ -91,22 +93,22 @@ function HomePage() {
                                 <Icon icon={LuShield} className="text-purple-400" size="lg" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-white">System Status</h2>
-                                <p className="text-sm text-gray-400">Monitor your logger configuration</p>
+                                <h2 className="text-2xl font-bold text-white">{t('home.systemStatus.title')}</h2>
+                                <p className="text-sm text-gray-400">{t('home.systemStatus.subtitle')}</p>
                             </div>
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
                             <StatusCard
-                                label="Npcap Driver"
+                                label={t('home.npcap.label')}
                                 isValid={status?.npcap_installed || false}
-                                statusText="Installed"
+                                statusText={t('home.npcap.installed')}
                                 statusIcon={status?.npcap_installed ? LuCheck : LuCircleAlert}
                                 statusColor="bg-green-500/20"
                                 loading={loading}
                                 link={!status?.npcap_installed ? {
                                     url: 'https://npcap.com/dist/npcap-1.84.exe',
-                                    text: 'Download Npcap'
+                                    text: t('home.npcap.downloadNpcap')
                                 } : undefined}
                             />
                         </div>
@@ -122,7 +124,7 @@ function HomePage() {
 
             <div className="glass-card flex items-center justify-between px-8 py-1 relative z-10">
                 <span className="text-xs text-gray-400">
-                    Made by <span className="font-semibold text-gray-300">ORACLE</span> • Updated by <span className="font-semibold text-gray-300">ArkantiK</span>
+                    {t('home.footer.madeBy')} <span className="font-semibold text-gray-300">ORACLE</span> • {t('home.footer.updatedBy')} <span className="font-semibold text-gray-300">ArkantiK</span>
                 </span>
 
                 <div className="flex gap-1.5">
