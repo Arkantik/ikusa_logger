@@ -1,5 +1,6 @@
+import { storage } from '@neutralinojs/lib';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useState, useRef, useEffect } from 'react';
 import { LuChevronDown } from 'react-icons/lu';
 import Icon from './ui/Icon';
 
@@ -9,6 +10,8 @@ const languages = [
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
     { code: 'es', name: 'Español', flag: '🇪🇸' },
 ];
+
+const LANGUAGE_STORAGE_KEY = 'app_language';
 
 function LanguageSelector() {
     const { i18n, t } = useTranslation();
@@ -27,9 +30,15 @@ function LanguageSelector() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    const changeLanguage = (code: string) => {
-        i18n.changeLanguage(code);
-        setIsOpen(false);
+    const changeLanguage = async (code: string) => {
+        try {
+            await i18n.changeLanguage(code);
+            await storage.setData(LANGUAGE_STORAGE_KEY, code);
+
+            setIsOpen(false);
+        } catch (error) {
+            console.error('Failed to change language:', error);
+        }
     };
 
     return (
@@ -44,14 +53,13 @@ function LanguageSelector() {
             </button>
 
             {isOpen && (
-                <div className="absolute right-0 top-full mt-2 w-40 glass-card rounded-xl border border-white/10 shadow-xl overflow-hidden z-50">
+                <div className="absolute right-0 top-full mt-2 w-40 glass-card rounded-xl border border-white/10 shadow-xl overflow-hidden z-50 bg-[#1c1c29]!">
                     {languages.map((lang) => (
                         <button
                             key={lang.code}
                             onClick={() => changeLanguage(lang.code)}
-                            className={`cursor-pointer w-full flex items-center gap-3 p-2.5 text-sm transition-colors hover:bg-white/10 ${
-                                lang.code === currentLang.code ? 'bg-white/5 text-white' : 'text-gray-300'
-                            }`}
+                            className={`cursor-pointer w-full flex items-center gap-3 p-2.5 text-sm transition-colors hover:bg-white/10 ${lang.code === currentLang.code ? 'bg-white/5 text-white' : 'text-gray-300'
+                                }`}
                         >
                             <span>{lang.flag}</span>
                             <span>{lang.name}</span>
