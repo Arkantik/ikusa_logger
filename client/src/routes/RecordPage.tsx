@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LuActivity, LuChartPie, LuSkull, LuSword } from 'react-icons/lu';
 import { get_config, type Config, type LogType } from '../components/create-config/config';
 import Logger from '../components/create-config/Logger';
@@ -8,6 +9,7 @@ import StatCard from '../components/ui/StatCard';
 import { start_logger, type LoggerCallback } from '../logic/logger-wrapper';
 
 function RecordPage() {
+    const { t } = useTranslation();
     const [logs, setLogs] = useState<LogType[]>([]);
     const isDestroyedRef = useRef(false);
     const retryCountRef = useRef(0);
@@ -47,15 +49,11 @@ function RecordPage() {
                             return [...prevLogs, newLog];
                         });
                     } else if (data.includes('Error while reading network.')) {
-                        alert('Error while reading network. Please notify me on Discord.');
+                        alert(t('record.errors.networkError'));
                     }
                 } else if (status === 'error') {
                     console.error(data);
-                    alert(
-                        'An error occurred while trying to start the logger. Error message: ' +
-                        data +
-                        '\nLogger will be restarted.'
-                    );
+                    alert(t('record.errors.loggerError', { message: data }));
                     if (!isDestroyedRef.current && retryCountRef.current < 3) {
                         start_logger(
                             loggerCallback,
@@ -64,7 +62,7 @@ function RecordPage() {
                         );
                         retryCountRef.current++;
                     } else if (!isDestroyedRef.current && retryCountRef.current >= 3) {
-                        alert('Tried to start logger 3 times, but failed. Please try again.');
+                        alert(t('record.errors.loggerFailedRetry'));
                     } else {
                         retryCountRef.current = 0;
                     }
@@ -77,7 +75,7 @@ function RecordPage() {
                         );
                         retryCountRef.current++;
                     } else if (!isDestroyedRef.current && retryCountRef.current >= 3) {
-                        alert('Tried to start logger 3 times, but failed. Please try again.');
+                        alert(t('record.errors.loggerFailedRetry'));
                     } else {
                         retryCountRef.current = 0;
                     }
@@ -108,7 +106,7 @@ function RecordPage() {
         <div className="flex flex-col h-full w-full p-8 gap-4">
             <div className="grid grid-cols-4 gap-4">
                 <StatCard
-                    label="Events"
+                    label={t('record.stats.events')}
                     value={logs.length}
                     icon={LuActivity}
                     iconColor="text-green-400"
@@ -117,7 +115,7 @@ function RecordPage() {
                 />
 
                 <StatCard
-                    label="Kills"
+                    label={t('record.stats.kills')}
                     value={stats.kills}
                     icon={LuSword}
                     iconColor="text-blue-400"
@@ -127,7 +125,7 @@ function RecordPage() {
                 />
 
                 <StatCard
-                    label="Deaths"
+                    label={t('record.stats.deaths')}
                     value={stats.deaths}
                     icon={LuSkull}
                     iconColor="text-red-400"
@@ -137,7 +135,7 @@ function RecordPage() {
                 />
 
                 <StatCard
-                    label="K/D Ratio"
+                    label={t('record.stats.kdRatio')}
                     value={stats.kdr}
                     icon={LuChartPie}
                     iconColor="text-purple-400"

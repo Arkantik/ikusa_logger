@@ -1,5 +1,6 @@
 import { filesystem, os } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LuSettings, LuSave, LuUpload, LuX } from 'react-icons/lu';
 import { List, type RowComponentProps } from 'react-window';
 import { open_save_location } from '../../logic/file';
@@ -40,9 +41,16 @@ export interface LoggerRowProps {
     updateNames: (target: 'player_one' | 'player_two' | 'guild', value: number) => void;
     getNameOptions: (i: number, log: LogType) => string[];
     onDeleteLog: (index: number) => void;
+    translations: {
+        killed: string;
+        diedTo: string;
+        from: string;
+        deleteEntry: string;
+    };
 }
 
 function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLog, onIndicesChange }: LoggerProps) {
+    const { t } = useTranslation();
     const [possibleNameOffsets, setPossibleNameOffsets] = useState<{ offset: number; count: number }[][]>([]);
     const [nameIndicies, setNameIndicies] = useState<number[]>([0, 0, 0, 0, 0]);
     const [playerOneIndex, setPlayerOneIndex] = useState(0);
@@ -293,11 +301,11 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
                         checked={autoScroll}
                         onChange={(e) => setAutoScroll(e.target.checked)}
                     />
-                    <span className="text-sm text-gray-400">Auto scroll</span>
+                    <span className="text-sm text-gray-400">{t('logger.autoScroll')}</span>
                 </div>
 
                 <div className="text-center text-gray-400 text-xs">
-                    Adjust the Logs to: <span className="font-semibold text-gray-300">YourGuild-FamilyName</span> killed/died to <span className="font-semibold text-gray-300">Enemy-FamilyName</span> from <span className="font-semibold text-gray-300">Guild</span>
+                    {t('logger.formatHint')} <span className="font-semibold text-gray-300">YourGuild-FamilyName</span> {t('logger.killed')}/{t('logger.diedTo')} <span className="font-semibold text-gray-300">Enemy-FamilyName</span> {t('logger.from')} <span className="font-semibold text-gray-300">Guild</span>
                 </div>
 
                 <button
@@ -330,7 +338,7 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
                         })
                     }
                     className="cursor-pointer p-2.5 group rounded-xl transition-all duration-300 hover:bg-white/10"
-                    title="Advanced Config"
+                    title={t('logger.advancedConfig')}
                 >
                     <Icon icon={LuSettings} className="text-white" />
                 </button>
@@ -343,7 +351,7 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
                     </div>
                 ) : logs.length === 0 && !loading ? (
                     <div className="flex justify-center items-center h-full">
-                        <p className="text-gray-400">Waiting for logs...</p>
+                        <p className="text-gray-400">{t('logger.waitingForLogs')}</p>
                     </div>
                 ) : (
                     <List
@@ -360,7 +368,13 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
                             guildIndex,
                             updateNames,
                             getNameOptions,
-                            onDeleteLog: (index: number) => onDeleteLog?.(index)
+                            onDeleteLog: (index: number) => onDeleteLog?.(index),
+                            translations: {
+                                killed: t('logger.killed'),
+                                diedTo: t('logger.diedTo'),
+                                from: t('logger.from'),
+                                deleteEntry: t('logger.deleteEntry')
+                            }
                         }}
                     />
                 )}
@@ -375,7 +389,7 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
                     color="primary"
                 >
                     <Icon icon={LuSave} size="sm" className="mr-2" />
-                    Save Logs
+                    {t('logger.saveLogs')}
                 </Button>
                 <Button
                     className="w-full"
@@ -385,7 +399,7 @@ function Logger({ logs, height = 155, loading = false, onStatsUpdate, onDeleteLo
                     color="gradient"
                 >
                     <Icon icon={LuUpload} size="sm" className="mr-2" />
-                    Upload to NodewarGG
+                    {t('logger.uploadToNodewarGG')}
                 </Button>
             </div>
         </div>
@@ -403,7 +417,8 @@ function LoggerRowComponent({
     guildIndex,
     updateNames,
     getNameOptions,
-    onDeleteLog
+    onDeleteLog,
+    translations
 }: RowComponentProps<LoggerRowProps>) {
     const log = logs[index];
     const isKill = log.hex[possibleKillOffsets[killIndex]] === '1';
@@ -417,11 +432,11 @@ function LoggerRowComponent({
                 onChange={(value) => updateNames('player_one', value)}
                 className='w-full max-w-32 text-xs'
             />
-            <div className="flex justify-center items-center w-16">
+            <div className="flex justify-center items-center w-20">
                 {isKill ? (
-                    <span className="text-xs font-medium text-green-400">killed</span>
+                    <span className="text-xs font-medium text-green-400">{translations.killed}</span>
                 ) : (
-                    <span className="text-xs font-medium text-red-400">died to</span>
+                    <span className="text-xs font-medium text-red-400">{translations.diedTo}</span>
                 )}
             </div>
             <Select
@@ -430,7 +445,7 @@ function LoggerRowComponent({
                 onChange={(value) => updateNames('player_two', value)}
                 className='w-full max-w-32 text-xs'
             />
-            <span className="text-xs text-gray-500">from</span>
+            <span className="text-xs text-gray-500">{translations.from}</span>
             <Select
                 options={getNameOptions(guildIndex, log)}
                 selectedValue={guildIndex}
@@ -440,7 +455,7 @@ function LoggerRowComponent({
             <button
                 onClick={() => onDeleteLog(index)}
                 className="cursor-pointer ml-auto p-1 rounded hover:bg-red-500/20 text-gray-400 hover:text-red-400 border border-white/10 transition-colors opacity-0 group-hover:opacity-100 hover:border-red-400/20"
-                title="Delete entry"
+                title={translations.deleteEntry}
             >
                 <Icon icon={LuX} size="sm" />
             </button>
