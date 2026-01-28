@@ -1,5 +1,6 @@
 import { filesystem, os } from '@neutralinojs/lib';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LuSave, LuUpload, LuX } from 'react-icons/lu';
 import { List, type RowComponentProps } from 'react-window';
 import { open_save_location } from '../../logic/file';
@@ -23,9 +24,16 @@ interface RowProps {
     guildIndex: number;
     updateNames: (target: 'player_one' | 'player_two' | 'guild', value: number) => void;
     onDeleteLog: (index: number) => void;
+    translations: {
+        killed: string;
+        diedTo: string;
+        from: string;
+        deleteEntry: string;
+    };
 }
 
 function LogEditor({ logs, height = 155, loading = false, onDeleteLog }: LogEditorProps) {
+    const { t } = useTranslation();
     const [playerOneIndex, setPlayerOneIndex] = useState(0);
     const [playerTwoIndex, setPlayerTwoIndex] = useState(1);
     const [guildIndex, setGuildIndex] = useState(2);
@@ -85,7 +93,7 @@ function LogEditor({ logs, height = 155, loading = false, onDeleteLog }: LogEdit
         <div className="flex flex-col h-full w-full relative">
             {logs.length > 0 && (
                 <div className="text-center text-gray-400 text-xs mb-2">
-                    Adjust the Logs to: <span className="font-semibold text-gray-300">YourGuild-FamilyName</span> kills/died to <span className="font-semibold text-gray-300">Enemy-FamilyName</span> from <span className="font-semibold text-gray-300">Guild</span>
+                    {t('logger.formatHint')} <span className="font-semibold text-gray-300">YourGuild-FamilyName</span> {t('common.kills')}/{t('logger.diedTo')} <span className="font-semibold text-gray-300">Enemy-FamilyName</span> {t('logger.from')} <span className="font-semibold text-gray-300">Guild</span>
                 </div>
             )}
 
@@ -96,7 +104,7 @@ function LogEditor({ logs, height = 155, loading = false, onDeleteLog }: LogEdit
                     </div>
                 ) : logs.length === 0 && !loading ? (
                     <div className="flex justify-center items-center h-full">
-                        <p className="text-gray-400">Waiting for logs...</p>
+                        <p className="text-gray-400">{t('logger.waitingForLogs')}</p>
                     </div>
                 ) : (
                     <List
@@ -109,7 +117,13 @@ function LogEditor({ logs, height = 155, loading = false, onDeleteLog }: LogEdit
                             playerTwoIndex,
                             guildIndex,
                             updateNames,
-                            onDeleteLog: (index: number) => onDeleteLog?.(index)
+                            onDeleteLog: (index: number) => onDeleteLog?.(index),
+                            translations: {
+                                killed: t('logger.killed'),
+                                diedTo: t('logger.diedTo'),
+                                from: t('logger.from'),
+                                deleteEntry: t('logger.deleteEntry')
+                            }
                         }}
                     />
                 )}
@@ -124,7 +138,7 @@ function LogEditor({ logs, height = 155, loading = false, onDeleteLog }: LogEdit
                     color="primary"
                 >
                     <Icon icon={LuSave} size="sm" className="mr-2" />
-                    Save Logs
+                    {t('logger.saveLogs')}
                 </Button>
                 <Button
                     className="w-full"
@@ -134,7 +148,7 @@ function LogEditor({ logs, height = 155, loading = false, onDeleteLog }: LogEdit
                     color="gradient"
                 >
                     <Icon icon={LuUpload} size="sm" className="mr-2" />
-                    Upload to NodewarGG
+                    {t('logger.uploadToNodewarGG')}
                 </Button>
             </div>
         </div>
@@ -149,7 +163,8 @@ function RowComponent({
     playerTwoIndex,
     guildIndex,
     updateNames,
-    onDeleteLog
+    onDeleteLog,
+    translations
 }: RowComponentProps<RowProps>) {
     const log = logs[index];
     return (
@@ -163,9 +178,9 @@ function RowComponent({
             />
             <div className="flex justify-center items-center w-16">
                 {log.kill ? (
-                    <span className="text-xs font-medium text-green-400">killed</span>
+                    <span className="text-xs font-medium text-green-400">{translations.killed}</span>
                 ) : (
-                    <span className="text-xs font-medium text-red-400">died to</span>
+                    <span className="text-xs font-medium text-red-400">{translations.diedTo}</span>
                 )}
             </div>
             <Select
@@ -174,7 +189,7 @@ function RowComponent({
                 onChange={(value) => updateNames('player_two', value)}
                 className='w-full max-w-32 text-xs'
             />
-            <span className="text-xs text-gray-500">from</span>
+            <span className="text-xs text-gray-500">{translations.from}</span>
             <Select
                 options={log.names}
                 selectedValue={guildIndex}
@@ -184,7 +199,7 @@ function RowComponent({
             <button
                 onClick={() => onDeleteLog(index)}
                 className="cursor-pointer ml-auto p-1 rounded hover:bg-red-500/20 text-gray-400 hover:text-red-400 border border-white/10 transition-colors opacity-0 group-hover:opacity-100 hover:border-red-400/20"
-                title="Delete entry"
+                title={translations.deleteEntry}
             >
                 <Icon icon={LuX} size="sm" />
             </button>
