@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LuUsers } from 'react-icons/lu';
 import type { LogType } from '../create-config/config';
 import Icon from './Icon';
@@ -15,6 +16,7 @@ interface GuildData {
 }
 
 function GuildStats({ logs, guildIndex, playerIndex }: GuildStatsProps) {
+    const { t } = useTranslation();
     const [guilds, setGuilds] = useState<Map<string, GuildData>>(new Map());
 
     const calculateGuilds = () => {
@@ -60,7 +62,7 @@ function GuildStats({ logs, guildIndex, playerIndex }: GuildStatsProps) {
                 <div className="p-2 bg-linear-to-br from-yellow-500/20 to-orange-500/20 rounded-lg">
                     <Icon icon={LuUsers} size="sm" className="text-yellow-400" />
                 </div>
-                <h3 className="text-sm font-bold text-gray-400">Members per guilds</h3>
+                <h3 className="text-sm font-bold text-gray-400">{t('guildStats.title')}</h3>
             </div>
 
             <div className="flex-1 overflow-y-auto space-y-2 p-2 rounded-lg border border-white/10 bg-black/20">
