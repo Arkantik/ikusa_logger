@@ -212,7 +212,7 @@
         "saveLogs": "Sauvegarder les logs",
         "uploadToNodewarGG": "Télécharger sur NodewarGG",
         "killed": "a tué",
-        "diedTo": "est mort face à",
+        "diedTo": "est mort par",
         "from": "de",
         "deleteEntry": "Supprimer l'entrée"
     },
@@ -226,7 +226,7 @@
     },
     "common": {
         "killed": "a tué",
-        "diedTo": "est mort face à",
+        "diedTo": "est mort par",
         "from": "de",
         "kills": "éliminations"
     }
