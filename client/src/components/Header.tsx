@@ -1,8 +1,10 @@
 import { app, os, updater } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LuArrowLeft, LuDownload, LuMessageCircleQuestion } from 'react-icons/lu';
 import { Link, useLocation } from 'react-router-dom';
 import Icon from './ui/Icon';
+import LanguageSelector from './LanguageSelector';
 
 declare const NL_APPVERSION: string;
 
@@ -11,6 +13,7 @@ interface HeaderProps {
 }
 
 function Header({ onUpdateAvailable }: HeaderProps) {
+    const { t } = useTranslation();
     const location = useLocation();
     const showArrow = location.pathname !== '/';
     const version = NL_APPVERSION;
@@ -47,7 +50,7 @@ function Header({ onUpdateAvailable }: HeaderProps) {
             await app.exit();
         } catch (err) {
             console.error('Update failed:', err);
-            alert('Update failed. Please try again.\n\n' + ((err as Error).message || err));
+            alert(t('header.updateFailed') + '\n\n' + ((err as Error).message || err));
             setUpdating(false);
         }
     }
@@ -65,9 +68,9 @@ function Header({ onUpdateAvailable }: HeaderProps) {
                 )}
                 <div className="flex flex-col">
                     <span className="text-2xl font-bold text-cta">
-                        NodewarGG x Ikusa
+                        {t('header.appName')}
                     </span>
-                    <span className="text-xs text-gray-400">Version {version}</span>
+                    <span className="text-xs text-gray-400">{t('header.version', { version })}</span>
                 </div>
             </div>
 
@@ -77,16 +80,17 @@ function Header({ onUpdateAvailable }: HeaderProps) {
                         onClick={handleUpdate}
                         disabled={updating}
                         className="cursor-pointer flex items-center gap-2 px-4 py-2.5 bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium shadow-lg hover:shadow-xl glow-effect"
-                        title={`Update to v${newVersion}`}
+                        title={t('header.updateToVersion', { version: newVersion })}
                     >
                         <Icon icon={LuDownload} size="sm" />
-                        {updating ? 'Updating...' : 'Update Available'}
+                        {updating ? t('header.updating') : t('header.updateAvailable')}
                     </button>
                 )}
+                <LanguageSelector />
                 <Link
                     to="/docs"
                     className="p-2.5 rounded-xl transition-all duration-300 hover:bg-white/10 text-gray-300 hover:text-white"
-                    title="Help"
+                    title={t('header.help')}
                 >
                     <Icon icon={LuMessageCircleQuestion} />
                 </Link>
