@@ -432,7 +432,7 @@ function LoggerRowComponent({
                 onChange={(value) => updateNames('player_one', value)}
                 className='w-full max-w-32 text-xs'
             />
-            <div className="flex justify-center items-center w-16">
+            <div className="flex justify-center items-center w-20">
                 {isKill ? (
                     <span className="text-xs font-medium text-green-400">{translations.killed}</span>
                 ) : (
