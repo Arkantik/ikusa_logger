@@ -92,9 +92,10 @@ export function copy_to_clipboard(config: Config) {
 }
 
 export function hexToString(hex: string) {
-  let string = "";
+  // Decode as UTF-16-LE (each character is 2 bytes, little-endian)
+  const bytes = new Uint8Array(hex.length / 2);
   for (let i = 0; i < hex.length; i += 2) {
-    string += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
   }
-  return string;
+  return new TextDecoder("utf-16le").decode(bytes);
 }

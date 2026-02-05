@@ -1,3 +1,10 @@
+import sys
+import io
+
+# Force UTF-8 encoding for stdout/stderr on Windows to support Unicode characters
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+
 from src import config
 from src.options import status_check, open, sniff, record, update_config, analyze
 

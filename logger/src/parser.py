@@ -4,7 +4,7 @@ from scapy.all import wrpcap
 import os
 
 def dec(bytes):
-    message = str(bytes, "latin-1")
+    message = str(bytes, "utf-16-le", errors="replace")
     message = message.replace("\x00", "")
     return message
 
@@ -83,7 +83,7 @@ def package_handler(package, output, record=False):
             if not os.path.exists(directory):
                 os.makedirs(directory)
 
-            with open(output, "a") as file:
+            with open(output, "a", encoding="utf-8") as file:
                 try:
                     file.write(log + "\n")
                 except UnicodeEncodeError as error:

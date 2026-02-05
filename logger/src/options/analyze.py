@@ -7,33 +7,27 @@ from .. import config
 
 
 def dec(bytes):
-    message = str(bytes, "latin-1")
+    message = str(bytes, "utf-16-le", errors="replace")
     message = message.replace("\x00", "")
     return message
 
 
 def extract_string(hex, offset, length):
-    # check whether the string begins with a 0x00, if so, return -1
-    if hex[offset : offset + 2] == "00":
+    # check whether the string begins with a null terminator (0x0000 in UTF-16-LE)
+    if hex[offset : offset + 4] == "0000":
         return -1
 
-    # check whether the characters are always spaced by 1 byte (0x00), if not, return -1
-    test_offset = offset + 2
+    # Find end of UTF-16-LE string by looking for null terminator (0x0000)
     actual_length = length
-    while test_offset < offset + length - 2:
-        byte = hex[test_offset : test_offset + 2]
-        previous_byte = hex[test_offset - 2 : test_offset]
-
-        if previous_byte == "00":
-            actual_length = test_offset - offset
+    for i in range(offset, min(offset + length, len(hex) - 2), 4):
+        # Check for double null (UTF-16-LE null terminator)
+        if hex[i : i + 4] == "0000":
+            actual_length = i - offset
             break
-        if byte != "00":
-            return -1
-        test_offset += 4
 
     try:
         actual_length = min(len(hex) - offset, actual_length)
-        if length < 0:
+        if actual_length < 0:
             raise ValueError("Package too short")
 
         return dec(bytes.fromhex(hex[offset : offset + actual_length]))
@@ -46,7 +40,7 @@ last_payload = ""
 current_position = 0
 
 identifier_regex = r"[56][0-9a-f]0100[0-9a-f]{4}"
-name_regex = r"^[A-Z][a-zA-Z0-9_]{2,15}$"
+name_regex = r"^[\w]{3,16}$"  # \w matches Unicode letters, digits, and underscores
 
 
 def package_handler(package, output, ip_filter=True):
