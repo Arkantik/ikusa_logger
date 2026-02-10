@@ -3,12 +3,6 @@ from . import config
 from scapy.all import wrpcap
 import os
 
-def dec(bytes):
-    message = str(bytes, "latin-1")
-    message = message.replace("\x00", "")
-    return message
-
-
 def extract_string(hex, offset, length):
     if hex[offset:offset+2] == "00":
         return -1
@@ -17,8 +11,10 @@ def extract_string(hex, offset, length):
         if length < 0:
             raise ValueError('Package too short')
 
-        return dec(bytes.fromhex(hex[offset:offset+length]))
-    except ValueError as e:
+        raw = bytes.fromhex(hex[offset:offset+length])
+        text = raw.decode('utf-16-le')
+        return text.split('\x00')[0]
+    except (ValueError, UnicodeDecodeError) as e:
         print(e, flush=True)
         return -1
 
@@ -83,7 +79,7 @@ def package_handler(package, output, record=False):
             if not os.path.exists(directory):
                 os.makedirs(directory)
 
-            with open(output, "a") as file:
+            with open(output, "a", encoding="utf-8") as file:
                 try:
                     file.write(log + "\n")
                 except UnicodeEncodeError as error:

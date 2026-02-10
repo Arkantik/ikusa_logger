@@ -12,7 +12,7 @@ import StatCard from '../components/ui/StatCard';
 import { open_file } from '../logic/file';
 import { start_logger, type LoggerCallback } from '../logic/logger-wrapper';
 
-const LOG_REGEX = /\[(.+)\] (\w+) (died to|has killed|killed|was slain by) (\w+) (?:from|of|from the) (?:the )?(\w+|-1)(?: \((\w+),(\w+)\))?/;
+const LOG_REGEX = /\[(.+)\] ([\w\u0E01-\u0E5B]+) (died to|has killed|killed|was slain by) ([\w\u0E01-\u0E5B]+) (?:from|of|from the) (?:the )?([\w\u0E01-\u0E5B]+|-1)(?: \(([\w\u0E01-\u0E5B]+),([\w\u0E01-\u0E5B]+)\))?/;
 
 function OpenPage() {
     const { t } = useTranslation();

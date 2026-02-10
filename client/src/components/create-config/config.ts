@@ -93,8 +93,12 @@ export function copy_to_clipboard(config: Config) {
 
 export function hexToString(hex: string) {
   let string = "";
-  for (let i = 0; i < hex.length; i += 2) {
-    string += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+  for (let i = 0; i + 3 < hex.length; i += 4) {
+    const low = parseInt(hex.substr(i, 2), 16);
+    const high = parseInt(hex.substr(i + 2, 2), 16);
+    const charCode = (high << 8) | low;
+    if (charCode === 0) break;
+    string += String.fromCharCode(charCode);
   }
   return string;
 }

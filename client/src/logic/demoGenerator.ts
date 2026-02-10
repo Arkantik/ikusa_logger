@@ -30,6 +30,12 @@ const PLAYERS = [
   { guild: "AllianceX", family: "Fam-Diamond", character: "Char-Aurora" },
   { guild: "AllianceX", family: "Fam-Emerald", character: "Char-Blade" },
   { guild: "AllianceX", family: "Fam-Fox", character: "Char-Raven" },
+
+  // สายลม (Thai guild)
+  { guild: "สายลม", family: "กล้าหาญ", character: "นักรบเพลิง" },
+  { guild: "สายลม", family: "พายุสาย", character: "จอมเวทย์" },
+  { guild: "สายลม", family: "เหล็กกล้า", character: "นักล่ามังกร" },
+  { guild: "สายลม", family: "แสงจันทร์", character: "เงาดำมืด" },
 ];
 
 function getRandomItem<T>(array: T[]): T {
@@ -40,15 +46,18 @@ function getRandomPlayer() {
   return getRandomItem(PLAYERS);
 }
 
-function stringToHex(str: string, maxLength: number = 32): string {
+function stringToHex(str: string, maxLength: number = 16): string {
   let hex = "";
 
   for (let i = 0; i < str.length && i < maxLength; i++) {
     const charCode = str.charCodeAt(i);
-    hex += charCode.toString(16).padStart(2, "0");
+    const low = charCode & 0xFF;
+    const high = (charCode >> 8) & 0xFF;
+    hex += low.toString(16).padStart(2, "0");
+    hex += high.toString(16).padStart(2, "0");
   }
 
-  const targetLength = maxLength * 2;
+  const targetLength = maxLength * 4;
   while (hex.length < targetLength) {
     hex += "00";
   }

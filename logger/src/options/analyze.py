@@ -6,39 +6,30 @@ from time import localtime, strftime
 from .. import config
 
 
-def dec(bytes):
-    message = str(bytes, "latin-1")
-    message = message.replace("\x00", "")
-    return message
-
-
 def extract_string(hex, offset, length):
-    # check whether the string begins with a 0x00, if so, return -1
+    # check whether the string begins with a null byte
     if hex[offset : offset + 2] == "00":
         return -1
 
-    # check whether the characters are always spaced by 1 byte (0x00), if not, return -1
-    test_offset = offset + 2
+    # Find the end of the string by looking for null character (0x0000 in UTF-16LE)
     actual_length = length
-    while test_offset < offset + length - 2:
-        byte = hex[test_offset : test_offset + 2]
-        previous_byte = hex[test_offset - 2 : test_offset]
-
-        if previous_byte == "00":
-            actual_length = test_offset - offset
+    pos = offset
+    while pos + 3 < offset + length:
+        low = hex[pos : pos + 2]
+        high = hex[pos + 2 : pos + 4]
+        if low == "00" and high == "00":
+            actual_length = pos - offset
             break
-        if byte != "00":
-            return -1
-        test_offset += 4
+        pos += 4
 
     try:
         actual_length = min(len(hex) - offset, actual_length)
-        if length < 0:
+        if actual_length <= 0:
             raise ValueError("Package too short")
 
-        return dec(bytes.fromhex(hex[offset : offset + actual_length]))
-    except ValueError as e:
-        # print(e, flush=True)
+        raw = bytes.fromhex(hex[offset : offset + actual_length])
+        return raw.decode('utf-16-le')
+    except (ValueError, UnicodeDecodeError):
         return -1
 
 
@@ -46,7 +37,7 @@ last_payload = ""
 current_position = 0
 
 identifier_regex = r"[56][0-9a-f]0100[0-9a-f]{4}"
-name_regex = r"^[A-Z][a-zA-Z0-9_]{2,15}$"
+name_regex = r"^[A-Z\u0E01-\u0E5B][a-zA-Z0-9_\u0E01-\u0E5B]{2,15}$"
 
 
 def package_handler(package, output, ip_filter=True):
