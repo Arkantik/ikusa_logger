@@ -2,7 +2,7 @@ import { os } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaDiscord } from 'react-icons/fa';
-import { LuCheck, LuCircleAlert, LuFlaskConical, LuFolder, LuGithub, LuPlay, LuSettings, LuShield } from 'react-icons/lu';
+import { LuCheck, LuCircleAlert, LuFlaskConical, LuFolder, LuGithub, LuGlobe, LuPlay, LuSettings, LuShield } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
 import ActionCard from '../components/ui/ActionCard';
 import Icon from '../components/ui/Icon';
@@ -69,8 +69,13 @@ function HomePage() {
 
     const socialLinks = [
         {
+            icon: LuGlobe,
+            url: 'https://nodewar.gg',
+            title: t('home.social.nodewarggWebsite')
+        },
+        {
             icon: FaDiscord,
-            url: 'https://discord.gg/CUc38nKyDU',
+            url: 'https://discord.gg/yWYKYRzBt6',
             title: t('home.social.joinDiscord')
         },
         {
