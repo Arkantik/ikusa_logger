@@ -39,7 +39,8 @@
         },
         "social": {
             "joinDiscord": "Rejoindre Discord",
-            "viewOnGitHub": "Voir sur GitHub"
+            "viewOnGitHub": "Voir sur GitHub",
+            "nodewarggWebsite": "Visiter NodewarGG"
         },
         "footer": {
             "madeBy": "Créé par",
