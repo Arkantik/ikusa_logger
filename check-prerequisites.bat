@@ -74,9 +74,9 @@ echo.
 
 :: Check Npcap
 echo [4/4] Checking Npcap installer...
-if exist "dependencies\npcap-1.84.exe" (
+if exist "dependencies\npcap-1.87.exe" (
     echo [OK] Npcap installer found
-    for %%A in ("dependencies\npcap-1.84.exe") do (
+    for %%A in ("dependencies\npcap-1.87.exe") do (
         echo     Size: %%~zA bytes
     )
 ) else (

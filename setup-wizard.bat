@@ -189,8 +189,8 @@ if not exist "dist\bdo-combat-logger\bdo-combat-logger-win_x64.exe" (
 )
 
 rem === Verify Npcap ===
-if not exist "dependencies\npcap-1.84.exe" (
-    echo [ERROR] Missing dependencies\npcap-1.84.exe
+if not exist "dependencies\npcap-1.87.exe" (
+    echo [ERROR] Missing dependencies\npcap-1.87.exe
     pause
     cls
     goto menu

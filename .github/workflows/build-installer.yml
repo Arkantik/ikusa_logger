@@ -46,7 +46,7 @@ jobs:
 
       - name: Download Npcap installer
         run: |
-          Invoke-WebRequest -Uri "https://npcap.com/dist/npcap-1.84.exe" -OutFile "dependencies\npcap-1.84.exe"
+          Invoke-WebRequest -Uri "https://npcap.com/dist/npcap-1.87.exe" -OutFile "dependencies\npcap-1.87.exe"
         shell: powershell
 
       - name: Install Inno Setup
