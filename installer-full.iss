@@ -1,5 +1,5 @@
 #define MyAppName "BDO Combat Logger"
-#define MyAppVersion "1.13.2"
+#define MyAppVersion "1.13.3"
 #define MyAppPublisher "arkantik"
 #define MyAppURL "https://nodewar.gg/"
 #define MyAppExeName "bdo-combat-logger-win_x64.exe"
@@ -42,7 +42,7 @@ Source: ".\logger\icon\{#MyAppIcoName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".\dist\bdo-combat-logger\logger\*"; DestDir: "{app}\logger\"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 ; Include Npcap installer
-Source: ".\dependencies\npcap-1.84.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
+Source: ".\dependencies\npcap-1.87.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\{#MyAppIcoName}"
@@ -50,7 +50,7 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDi
 
 [Run]
 ; Install Npcap silently if not already installed
-Filename: "{tmp}\npcap-1.84.exe"; Parameters: "/S"; StatusMsg: "Installing Npcap driver..."; Flags: waituntilterminated; Check: NeedsNpcap
+Filename: "{tmp}\npcap-1.87.exe"; Parameters: "/S"; StatusMsg: "Installing Npcap driver..."; Flags: waituntilterminated; Check: NeedsNpcap
 
 ; Launch application
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent runascurrentuser

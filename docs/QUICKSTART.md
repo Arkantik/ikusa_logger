@@ -91,7 +91,7 @@ root_folder/
 ├── output/
 │   └── bdo-combat-installer-v1.10.0.exe
 ├── dependencies/
-│   └── npcap-1.84.exe
+│   └── npcap-1.87.exe
 └── setup-wizard.bat
 ```
 
@@ -136,7 +136,7 @@ When you distribute `bdo-combat-installer-v1.10.0.exe`, users:
 
 ### Npcap Download Fails?
 
-- Download manually: https://npcap.com/dist/npcap-1.84.exe
+- Download manually: https://npcap.com/dist/npcap-1.87.exe
 - Place in `dependencies/` folder
 - Continue with build
 
