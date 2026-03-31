@@ -1,5 +1,7 @@
 import { events, os } from "@neutralinojs/lib";
 
+declare const NL_OS: "Windows" | "Linux";
+
 function handle_process(evt: CustomEvent) {
   if (logger && logger.id == evt.detail.id) {
     switch (evt.detail.action) {
@@ -8,10 +10,7 @@ function handle_process(evt: CustomEvent) {
         callback?.(evt.detail.data.trim(), "running");
         break;
       case "stdErr":
-        alert(
-          "Something went wrong. Refer to the troubleshooting section in the documentation:\n\n" +
-            evt.detail.data
-        );
+        alert("Something went wrong. Refer to the troubleshooting section in the documentation:\n\n" + evt.detail.data);
         console.error(evt.detail.data);
         callback?.(evt.detail.data.trim(), "error");
         break;
@@ -64,8 +63,16 @@ export async function start_logger(clb: LoggerCallback, arg: keyof typeof arg_ma
 
   const extra_args = data ? " " + data : "";
   let logger_command = "logger\\logger ";
-  if (import.meta.env.DEV) {
-    logger_command = "logger\\dist\\logger\\logger ";
+
+  switch (NL_OS) {
+    case "Windows": {
+      logger_command = "logger\\logger ";
+      break;
+    }
+    case "Linux": {
+      logger_command = "./logger/logger ";
+      break;
+    }
   }
 
   console.log("Starting logger with command: " + logger_command + arg_mapping[arg] + extra_args);

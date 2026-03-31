@@ -11,6 +11,10 @@ def is_outdated():
 
 
 def check_health():
+    if os.name != 'nt':
+        print("Npcap is installed", flush=True)
+        return
+
     if os.path.exists(os.path.join(os.environ['SystemRoot'], 'System32', 'drivers', 'npcap.sys')):
         print("Npcap is installed", flush=True)
     else:
