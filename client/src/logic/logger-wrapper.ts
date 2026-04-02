@@ -54,7 +54,13 @@ export async function start_logger(clb: LoggerCallback, arg: keyof typeof arg_ma
     const kill_timeout = new Promise((resolve) => {
       setTimeout(() => resolve("Kill timeout"), 1000);
     });
-    const kill_promise = os.execCommand("taskkill /F /IM logger.exe ");
+
+    let kill_promise: Promise<any>;
+    if (NL_OS === "Windows") {
+      kill_promise = os.execCommand("taskkill /F /IM logger.exe");
+    } else {
+      kill_promise = os.execCommand("pkill -f logger/logger");
+    }
 
     await Promise.race([kill_promise, kill_timeout]);
   } catch (e) {

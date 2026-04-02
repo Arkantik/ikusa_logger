@@ -176,17 +176,16 @@ def start_sniff(output, all_interfaces=True, ip_filter=True):
         print("Reading Network...", flush=True)
         guidToNameDict = read_network_interfaces()
         intfList = get_if_list()
-        guidToNameDict = {e["guid"]: e["name"] for e in winList}
+
         namesAllowedList = [guidToNameDict.get(e) for e in intfList]
         namesAllowedList = list(filter(None, namesAllowedList))
         # print("Network Interfaces: ", namesAllowedList, flush=True)
+        
         sniff(
             filter="tcp",
             prn=lambda x: package_handler(x, output, ip_filter),
             store=0,
-            iface=namesAllowedList
-            if len(namesAllowedList) > 0 and all_interfaces
-            else None,
+            iface=namesAllowedList if len(namesAllowedList) > 0 and all_interfaces else None,
         )
     except Exception as e:
         print("Error while reading network.", flush=True)
