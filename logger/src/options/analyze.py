@@ -1,7 +1,7 @@
 import os
 import re
 from scapy.all import sniff, rdpcap, get_if_list
-from scapy.arch.windows import get_windows_if_list
+# from scapy.arch.windows import get_windows_if_list
 from time import localtime, strftime
 import sys
 
