@@ -34,15 +34,17 @@ cp -r logger/dist/logger/* dist/bdo-combat-logger/logger/ || error_exit "Failed 
 
 # Install Dependencies for the Frontend
 log "Installing frontend dependencies..."
-cd ui || error_exit "Missing UI directory"
+cd client || error_exit "Missing UI directory"
 npm install || error_exit "NPM install failed."
 
+#Install Neutralinojs locally
+npm install @neutralinojs/neu@11.3.1 --save-dev || error_exit "Failed to install Neutralino.js locally."
 
 # Compile the program
 log "Compiling the program..."
 cd .. || error_exit "Failed to return to parent directory."
 neu() {
-    ./ui/node_modules/.bin/neu "$@"
+    ./client/node_modules/.bin/neu "$@"
 }
 
 neu update || error_exit "Neutralino.js update failed."
