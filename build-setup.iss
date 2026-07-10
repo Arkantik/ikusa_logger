@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "BDO Combat Logger"
-#define MyAppVersion "1.13.3"
+#define MyAppVersion "1.13.4"
 #define MyAppPublisher "arkantik"
 #define MyAppURL "https://nodewar.gg/"
 #define MyAppExeName "bdo-combat-logger-win_x64.exe"

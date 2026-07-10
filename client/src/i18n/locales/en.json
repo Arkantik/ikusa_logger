@@ -10,6 +10,10 @@
         "changeLanguage": "Change Language"
     },
     "home": {
+        "deprecated": {
+            "line1": "A new and improved tool is here! Check out <0>the Nodewar.gg Tool</0>.",
+            "line2": "This version is now deprecated and will no longer receive updates or support, read the <0>announcement on Discord</0> for details."
+        },
         "systemStatus": {
             "title": "System Status",
             "subtitle": "Monitor your logger configuration"

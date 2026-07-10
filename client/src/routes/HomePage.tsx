@@ -1,8 +1,8 @@
 import { os } from '@neutralinojs/lib';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { FaDiscord } from 'react-icons/fa';
-import { LuCheck, LuCircleAlert, LuFlaskConical, LuFolder, LuGithub, LuGlobe, LuPlay, LuSettings, LuShield } from 'react-icons/lu';
+import { LuCheck, LuCircleAlert, LuFlaskConical, LuFolder, LuGithub, LuGlobe, LuPlay, LuSettings, LuShield, LuTriangleAlert } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
 import ActionCard from '../components/ui/ActionCard';
 import Icon from '../components/ui/Icon';
@@ -67,6 +67,9 @@ function HomePage() {
         }
     ];
 
+    const NEW_TOOL_URL = 'https://github.com/Arkantik/Nodewar.gg-tool/releases';
+    const DISCORD_URL = 'https://discord.gg/yWYKYRzBt6';
+
     const socialLinks = [
         {
             icon: LuGlobe,
@@ -92,6 +95,38 @@ function HomePage() {
 
             <div className="flex-1 flex items-center justify-center px-8 relative z-10">
                 <div className="w-full max-w-5xl">
+                    <div className="glass-card rounded-2xl p-5 mb-8 border border-orange-500/30 bg-orange-500/5">
+                        <div className="flex items-start gap-3">
+                            <Icon icon={LuTriangleAlert} className="text-orange-400 shrink-0 mt-0.5" size="md" />
+                            <div className="text-sm">
+                                <p className="font-semibold text-orange-300">
+                                    <Trans
+                                        i18nKey="home.deprecated.line1"
+                                        components={[
+                                            <button
+                                                type="button"
+                                                onClick={() => os.open(NEW_TOOL_URL)}
+                                                className="cursor-pointer text-orange-200 hover:text-white underline"
+                                            />
+                                        ]}
+                                    />
+                                </p>
+                                <p className="text-gray-300 mt-1">
+                                    <Trans
+                                        i18nKey="home.deprecated.line2"
+                                        components={[
+                                            <button
+                                                type="button"
+                                                onClick={() => os.open(DISCORD_URL)}
+                                                className="cursor-pointer text-orange-300 hover:text-orange-200 underline"
+                                            />
+                                        ]}
+                                    />
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="glass-card rounded-2xl p-8 mb-8 border border-white/10">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="p-3 bg-linear-to-br from-purple-500/20 to-pink-500/20 rounded-xl">
